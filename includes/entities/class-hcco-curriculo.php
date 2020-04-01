@@ -144,7 +144,7 @@ class Hcco_Curriculo extends Hcco_Entity {
 
     }
 
-    public function set_id( $id ) {
+    protected function set_id( $id ) {
 
         $this->set_prop( 'id', $id );
 
@@ -683,6 +683,12 @@ class Hcco_Curriculo extends Hcco_Entity {
         $morar_list = array( 'Sim', 'Não' );
         if ( in_array( $morar_fora , $morar_list ) )
             $this->set_prop( 'morar_fora', $morar_fora );
+
+    }
+
+    protected function set_criado_em( $criado_em ) {
+
+        $this->set_prop( 'criado_em', $criado_em );
 
     }
 

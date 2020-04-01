@@ -266,23 +266,23 @@
 /* 
  * Payment
  */
-.hcco-form-container .payment-methods {
+.payment-methods {
     width: 100%;
     max-width: 500px;
     border-right:1px solid var(--sixth-color);
     border-left:1px solid var(--sixth-color);
 }
 
-/* .hcco-form-container .payment-methods .payment-item {
+/* .payment-methods .payment-item {
     background-color: var(--sixth-color);
 } */
 
-.hcco-form-container .payment-methods .payment-item-header {
+.payment-methods .payment-item-header {
     border-bottom:1px solid var(--sixth-color);
     border-top:1px solid var(--sixth-color);
 }
 
-.hcco-form-container .payment-methods .payment-item-button {
+.payment-methods .payment-item-button {
     display: block;
     width: 100%;
     padding: 15px;
@@ -291,14 +291,14 @@
     font-weight: 600;
 }
 
-.hcco-form-container .payment-methods .payment-item-button:hover {
+.payment-methods .payment-item-button:hover {
     text-decoration: none;
 }
 
-.hcco-form-container .payment-methods .payment-item-content {
+.payment-methods .payment-item-content {
     padding: 20px;
 }
 
-.hcco-form-container .payment-methods .payment-item-content .form-group {
+.payment-methods .payment-item-content .form-group {
     margin-bottom: 10px;
 }

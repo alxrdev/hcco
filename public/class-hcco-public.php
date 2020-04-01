@@ -126,9 +126,25 @@ class Hcco_Public {
 	 * Função que exibe o formulario de cadastro de curriculo
 	 */
 	private function display_cadastro_de_curriculo() {
-		
+
+		$temp_pedido = new Hcco_Pedido();
 		$curriculo = new Hcco_Curriculo();
 		$error = false;
+
+		// verifica se existe o cookie
+		if ( isset( $_COOKIE['user_id_hash'] ) ) {
+			// busca o pedido
+			$temp_pedido->get_by_usuario_id( $_COOKIE['user_id_hash'] );
+
+			// se o status do pedido for diferente de pendente, exclui o cookie e redireciona para a mesma pagina
+			if ( $temp_pedido->get_status_pagamento() != 'pendente' ) {
+				setcookie( 'user_id_hash' );
+				wp_redirect( home_url( '/cadastro-de-curriculo' ) );
+				exit;
+			}
+
+			$curriculo = new Hcco_Curriculo( $temp_pedido->get_curriculo_id() );
+		}
 
 		// verifica se o formulario foi enviado
 		if ( isset( $_POST['cadastrar_curriculo_nonce'] ) && wp_verify_nonce( $_POST['cadastrar_curriculo_nonce'], 'cadastrar_curriculo' ) ) {
@@ -141,8 +157,8 @@ class Hcco_Public {
 				$error = true;
 			}
 
-			// se não ocorreu nehum erro
-			if ( $error == false ) {
+			// se não ocorreu nehum erro e está criando um novo curriculo
+			if ( $error == false && empty( $curriculo->get_id() ) ) {
 
 				// salva em um cookie uma key para identificar o 
 				// pedido e o curriculo no banco de dados
@@ -160,10 +176,17 @@ class Hcco_Public {
 				$pedido->set_status_pagamento( 'pendente' );
 				$pedido->save();
 
+			}
+
+			// se não ocorreu nehum erro e está atualizando um curriculo
+			if ( $error == false && ! empty( $curriculo->get_id() ) && ( $temp_pedido->get_curriculo_id() == $curriculo->get_id() ) ) {
+				$curriculo->save();
+			}
+
+			if ( $error == false ) {
 				// redireciona para a pagina de finalização do cadastro do curriculo
 				wp_redirect( home_url( '/finalizar-o-cadastro-do-curriculo' ) );
 				exit;
-
 			}
 
 		}
@@ -200,7 +223,17 @@ class Hcco_Public {
 			exit;
 		}
 
-		// verifica se o pedido está 
+		// verifica se o pedido está pendente
+		if ( $pedido->get_status_pagamento() != 'pendente' ) {
+			// redireciona para a pagina de cadastro de curriculo
+			wp_redirect( home_url( '/cadastro-de-curriculo' ) );
+			exit;
+		}
+
+		// verifica se o formulario de pagamento via mercado pago foi enviado
+
+		// busca o curriculo
+		$curriculo = new Hcco_Curriculo( $pedido->get_curriculo_id() );
 
 		// get page header
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/hcco-header.php';
