@@ -1,0 +1,18 @@
+{
+    "name": "alxrdev/hcco",
+    "description": "Plugin WordPress para cadastro de currículos.",
+    "homepage": "https://github.com/alxrdev/hcco",
+    "type": "wordpress-plugin",
+    "authors": [
+        {
+            "name": "Alex Rodrigues",
+            "email": "rodriguesalex793@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Holos\\Hcco\\": "src"
+        }
+    }
+}
