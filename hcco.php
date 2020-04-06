@@ -53,7 +53,7 @@ function activate_hcco() {
  * Code that runs when plugin is deactivated
  */
 function deactive_hcco() {
-	Holos\Hcco\Config\Hcco_Config::activate();
+	Holos\Hcco\Config\Hcco_Config::deactivate();
 }
 
 register_activation_hook( __FILE__, 'activate_hcco' );
