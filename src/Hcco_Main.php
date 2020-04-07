@@ -4,6 +4,7 @@ namespace Holos\Hcco;
 
 use Holos\Hcco\Hcco_Loader;
 use Holos\Hcco\Hcco_Front;
+use Holos\Hcco\Hcco_Admin;
 
 class Hcco_Main {
 
@@ -26,6 +27,7 @@ class Hcco_Main {
 
         // init hooks
         $this->define_front_hooks();
+        $this->define_admin_hooks();
 
     }
 
@@ -48,7 +50,14 @@ class Hcco_Main {
     /**
      * Define admin hooks
      */
-    private function define_admin_hooks() {}
+    private function define_admin_hooks() {
+
+        $admin = new Hcco_Admin( $this->plugin_name, $this->version );
+
+        //
+        $this->loader->add_action( $admin, 'admin_menu', 'register_menus' );
+
+    }
     
     /**
      * Run the plugin

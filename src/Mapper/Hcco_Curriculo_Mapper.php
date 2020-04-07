@@ -9,7 +9,12 @@ class Hcco_Curriculo_Mapper {
     /**
      * Table name in the database
      */
-    private static $table = 'hcco_curriculo';
+    private static $table_name = 'hcco_curriculo';
+
+    /**
+     * 
+     */
+    private static $ralation_table_name = 'hcco_pedidos';
 
     /**
      * Get an object by id
@@ -22,7 +27,7 @@ class Hcco_Curriculo_Mapper {
 
         global $wpdb;
 
-        $sql = $wpdb->prepare( "SELECT * FROM " . $wpdb->prefix . self::$table . " WHERE id = %d", $id );
+        $sql = $wpdb->prepare( "SELECT * FROM " . $wpdb->prefix . self::$table_name . " WHERE id = %d", $id );
         $result = $wpdb->get_row( $sql, ARRAY_A );
 
         return new Hcco_Curriculo( $result );
@@ -34,7 +39,7 @@ class Hcco_Curriculo_Mapper {
 
         global $wpdb;
 
-        $result = $wpdb->insert( $wpdb->prefix . self::$table, array(
+        $result = $wpdb->insert( $wpdb->prefix . self::$table_name, array(
             'nome'                              => $curriculo->get_nome(),
             'data_nascimento'                   => $curriculo->get_data_nascimento(),
             'sexo'                              => $curriculo->get_sexo(),
@@ -91,7 +96,7 @@ class Hcco_Curriculo_Mapper {
 
         global $wpdb;
 
-        $wpdb->update( $wpdb->prefix . self::$table, array(
+        $wpdb->update( $wpdb->prefix . self::$table_name, array(
             'nome'                              => $curriculo->get_nome(),
             'data_nascimento'                   => $curriculo->get_data_nascimento(),
             'sexo'                              => $curriculo->get_sexo(),
@@ -146,8 +151,62 @@ class Hcco_Curriculo_Mapper {
 
         global $wpdb;
 
-        $wpdb->delete( $wpdb->prefix . self::$table, array( 'id' => $id ) );
+        $wpdb->delete( $wpdb->prefix . self::$table_name, array( 'id' => $id ) );
         
+    }
+
+    /**
+     * Return all data.
+     * 
+     * @param string $search Search query.
+     * @param string $order_by Name of column to roder data.
+     * @param string $order Order method ( ASC, DESC ).
+     * @param int $per_page Rows per page.
+     * @param int $page_number Current page number.
+     * 
+     * @return mixed
+     */
+    public static function fetch_all_raw( $search = '', $order_by = '', $order = '', $per_page = 5, $page_number = 0 ) {
+
+        global $wpdb;
+
+        $sql = "
+            SELECT 
+                c.*, 
+                p.status_pagamento as status_pagamento
+            FROM 
+                " . $wpdb->prefix . self::$table_name . " AS c
+            INNER JOIN
+                " . $wpdb->prefix . self::$ralation_table_name . " AS p
+            ON
+                c.id = p.curriculo_id
+            ";
+
+        // verifica se está pesquisando
+        // if ( $search ) {
+        //     $sql .= " WHERE concat(nome, cargos_profissoes, curso_formacao) LIKE '%{$search}%' AND status_pagamento = 'pago'";
+        // } 
+        // else {
+        //     $sql .= " WHERE status_pagamento = 'pago'";
+        // }
+        if ( $search ) {
+            $sql .= " WHERE concat(nome, cargos_profissoes, curso_formacao) LIKE '%{$search}%'";
+        }
+
+        // se estiver filtrando
+        if ( ! empty( $order_by ) ) {
+            $sql .= ' ORDER BY ' . $order_by;
+            $sql .= ( ! empty( $order ) ) ? ' ' . $order : ' ASC';
+        }
+
+        $sql .= " LIMIT $per_page";
+
+        $sql .= ' OFFSET ' . ( $page_number - 1 ) * $per_page;
+
+        $result = $wpdb->get_results( $sql, 'ARRAY_A' );
+
+        return $result;
+
     }
 
 }
