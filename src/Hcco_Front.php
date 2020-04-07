@@ -6,6 +6,7 @@ use Holos\Hcco\Entity\Hcco_Curriculo;
 use Holos\Hcco\Entity\Hcco_Pedido;
 use Holos\Hcco\Mapper\Hcco_Curriculo_Mapper;
 use Holos\Hcco\Mapper\Hcco_Pedido_Mapper;
+use Holos\Hcco\Payment\Hcco_Mercado_Pago;
 
 class Hcco_Front {
 
@@ -75,7 +76,7 @@ class Hcco_Front {
 		// verifica se existe o cookie, se existir
 		// busca o pedido e o curriculo
 		if ( isset( $_COOKIE['user_id_hash'] ) ) {
-			[$pedido, $curriculo] = $this->get_pedido_and_curriculo();
+			[$pedido, $curriculo] = $this->get_pedido_e_curriculo();
 		}
 
 		// verifica se o formulario foi enviado
@@ -151,6 +152,10 @@ class Hcco_Front {
 	 */
 	public function page_finalizar_o_cadastro_do_curriculo() {
 
+		// variaveis de controle
+		$error = false;
+		$messages = [];
+
 		// verifica se existe o cookie
 		if ( ! isset( $_COOKIE['user_id_hash'] ) ) {
 			// redireciona para a pagina de cadastro de curriculo
@@ -159,29 +164,44 @@ class Hcco_Front {
 		}
 
 		// busca o pedido e o curriculo
-		[$pedido, $curriculo] = $this->get_pedido_and_curriculo();
+		[$pedido, $curriculo] = $this->get_pedido_e_curriculo();
 
 		// verifica se o formulario de pagamento via mercado pago foi enviado
-		// if ( isset( $_POST['pagar_mercado_pago_nonce'] ) && wp_verify_nonce( $_POST['pagar_mercado_pago_nonce'], 'pagar_mercado_pago' ) ) {
-		// 	// verifica se os dados necessários foram enviados
-		// 	if ( isset( $_POST['paymentMethodId'] ) && isset( $_POST['token'] ) ) {
-		// 		// pega os dados
-		// 		$payment_method_id = sanitize_text_field( $_POST['paymentMethodId'] );
-		// 		$token = sanitize_text_field( $_POST['token'] );
+		if ( isset( $_POST['pagar_mercado_pago_nonce'] ) && wp_verify_nonce( $_POST['pagar_mercado_pago_nonce'], 'pagar_mercado_pago' ) ) {
+			
+			$messages = $this->handle_pagamento_mp( $pedido, $curriculo );
 
-		// 		// processa o pagamento via mercado pago
-		// 		$this->processar_pagamento_mp( $pedido, $curriculo, $payment_method_id, $token );
-		// 	}
-		// }
+		}
 
-		$this->display_finalizar_o_cadastro_do_curriculo( $pedido, $curriculo );
+		$this->display_finalizar_o_cadastro_do_curriculo( $pedido, $curriculo, $error, $messages );
 
 	}
 
 	/**
 	 * 
 	 */
-	private function get_pedido_and_curriculo() {
+	private function handle_pagamento_mp( Hcco_Pedido $pedido, Hcco_Curriculo $curriculo ) {
+
+		// verifica se os dados necessários foram enviados
+		if ( ! isset( $_POST['paymentMethodId'] ) || ! isset( $_POST['token'] ) )
+			return array( 'messages' => 'Formulário de pagamento inválido, tente novamente.' );
+		
+		// pega os dados
+		$payment_method_id = sanitize_text_field( $_POST['paymentMethodId'] );
+		$token = sanitize_text_field( $_POST['token'] );
+
+		// processa o pagamento via mercado pago
+		$mp = new Hcco_Mercado_Pago();
+		$result = $mp->process_credit_card_payment( $pedido, $curriculo, $payment_method_id, $token );
+
+		return array( 'messages' => array( 'message1', 'message2' ) );
+
+	}
+
+	/**
+	 * 
+	 */
+	private function get_pedido_e_curriculo() {
 
 		// busca o pedido
 		$pedido = Hcco_Pedido_Mapper::get_by_usuario_id( $_COOKIE['user_id_hash'] );
@@ -235,7 +255,7 @@ class Hcco_Front {
 	/**
 	 * Method that display the finalizar cadastro do curriculo page
 	 */
-	private function display_finalizar_o_cadastro_do_curriculo( Hcco_Pedido $pedido, Hcco_Curriculo $curriculo ) {
+	private function display_finalizar_o_cadastro_do_curriculo( Hcco_Pedido $pedido, Hcco_Curriculo $curriculo, $error = false, $messages = null ) {
 
 		$this->display_header();
 		require_once HCCO_PATH . 'resources/public/templates/hcco-checkout.php';
