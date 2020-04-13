@@ -11,7 +11,7 @@ class Hcco_Mercado_Pago {
         \MercadoPago\SDK::setAccessToken( Hcco_Configuracoes_Mapper::get_mercado_pago_access_tokens()[1] );
 			
 		$payment = new \MercadoPago\Payment();
-		$payment->transaction_amount = $pedido->get_price();
+		$payment->transaction_amount = $pedido->get_preco();
 		$payment->token = $token;
 		$payment->description = "HOLOS Cadastro de Curriculo";
 		$payment->installments = 1;
