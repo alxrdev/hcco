@@ -67,5 +67,23 @@ class Hcco_Configuracoes_Mapper {
 
     }
 
+    /**
+     * Return mercado pago access tokens
+     *
+     * @global wpdb $wpdb Wordpress database connection
+     *
+     * @return mixed
+     */
+    public static function get_mercado_pago_access_tokens() {
+
+        $configuracoes = self::fetch();
+
+        if ( $configuracoes['mercado_pago_ambiente'] == 'SandBox' )
+            return array( $configuracoes['mercado_pago_sandbox_public_token'], $configuracoes['mercado_pago_sandbox_private_token'] );
+        
+        return array( $configuracoes['mercado_pago_production_public_token'], $configuracoes['mercado_pago_production_private_token'] );
+
+    }
+
 
 }
