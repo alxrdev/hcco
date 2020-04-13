@@ -21,8 +21,11 @@ class Hcco_Config {
 		$sql = "CREATE TABLE $hcco_configuracoes (
 			id int(11) auto_increment,
 			preco decimal(11,2) NOT NULL,
-			mercado_pago_sandbox_token varchar(255),
-			mercado_pago_production_token varchar(255),
+			mercado_pago_sandbox_public_token varchar(255),
+			mercado_pago_sandbox_private_token varchar(255),
+			mercado_pago_production_public_token varchar(255),
+			mercado_pago_production_private_token varchar(255),
+			mercado_pago_ambiente varchar(255)
 			PRIMARY KEY  (id)
 		) $charset_collate;
 		CREATE TABLE $hcco_curriculo (
