@@ -103,8 +103,11 @@ class Hcco_Menu_Configuracoes {
 
         // pega os parametros
         $configuracoes['preco'] = sanitize_text_field( $_POST['preco'] );
-        $configuracoes['mercado_pago_sandbox_token'] = sanitize_text_field( $_POST['mercado_pago_sandbox_token'] );
-        $configuracoes['mercado_pago_production_token'] = sanitize_text_field( $_POST['mercado_pago_production_token'] );
+        $configuracoes['mercado_pago_sandbox_public_token'] = sanitize_text_field( $_POST['mercado_pago_sandbox_public_token'] );
+        $configuracoes['mercado_pago_sandbox_private_token'] = sanitize_text_field( $_POST['mercado_pago_sandbox_private_token'] );
+        $configuracoes['mercado_pago_production_public_token'] = sanitize_text_field( $_POST['mercado_pago_production_public_token'] );
+        $configuracoes['mercado_pago_production_private_token'] = sanitize_text_field( $_POST['mercado_pago_production_private_token'] );
+        $configuracoes['mercado_pago_ambiente'] = sanitize_text_field( $_POST['mercado_pago_ambiente'] );
 
         // salva no banco
         $configuracoes = Hcco_Configuracoes_Mapper::save( $configuracoes );

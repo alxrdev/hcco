@@ -42,9 +42,12 @@ class Hcco_Configuracoes_Mapper {
         if ( isset( $configuracoes['id'] ) && ! empty( $configuracoes['id'] ) ) {
 
             $wpdb->update( $wpdb->prefix . self::$table_name, array(
-                'preco'                             => $configuracoes['preco'],
-                'mercado_pago_sandbox_token'        => $configuracoes['mercado_pago_sandbox_token'],
-                'mercado_pago_production_token'     => $configuracoes['mercado_pago_production_token']
+                'preco'                                     => $configuracoes['preco'],
+                'mercado_pago_sandbox_public_token'         => $configuracoes['mercado_pago_sandbox_public_token'],
+                'mercado_pago_sandbox_private_token'        => $configuracoes['mercado_pago_sandbox_private_token'],
+                'mercado_pago_production_public_token'      => $configuracoes['mercado_pago_production_public_token'],
+                'mercado_pago_production_private_token'     => $configuracoes['mercado_pago_production_private_token'],
+                'mercado_pago_ambiente'                     => $configuracoes['mercado_pago_ambiente']
             ), array( 'id' => 1 ) );
 
             return $configuracoes;
@@ -52,10 +55,12 @@ class Hcco_Configuracoes_Mapper {
         }
 
         $wpdb->insert( $wpdb->prefix . self::$table_name, array(
-            'id'                                => '1',
-            'preco'                             => $configuracoes['preco'],
-            'mercado_pago_sandbox_token'        => $configuracoes['mercado_pago_sandbox_token'],
-            'mercado_pago_production_token'     => $configuracoes['mercado_pago_production_token']
+            'preco'                                     => $configuracoes['preco'],
+            'mercado_pago_sandbox_public_token'         => $configuracoes['mercado_pago_sandbox_public_token'],
+            'mercado_pago_sandbox_private_token'        => $configuracoes['mercado_pago_sandbox_private_token'],
+            'mercado_pago_production_public_token'      => $configuracoes['mercado_pago_production_public_token'],
+            'mercado_pago_production_private_token'     => $configuracoes['mercado_pago_production_private_token'],
+            'mercado_pago_ambiente'                     => $configuracoes['mercado_pago_ambiente']
         ) );
 
         return $configuracoes;
