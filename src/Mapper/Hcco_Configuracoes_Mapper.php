@@ -92,7 +92,7 @@ class Hcco_Configuracoes_Mapper {
      *
      * @return mixed
      */
-    public static function get_price() {
+    public static function get_preco() {
 
         $configuracoes = self::fetch();
 
