@@ -3,6 +3,7 @@
 namespace Holos\Hcco;
 
 use Holos\Hcco\Admin\Menu\Hcco_Menu_Curriculo;
+use Holos\Hcco\Admin\Menu\Hcco_Menu_Configuracoes;
 
 class Hcco_Admin {
 
@@ -35,7 +36,16 @@ class Hcco_Admin {
 			array( $this, 'menu_curriculo' ),
 			'dashicons-schedule', 
 			3
-		);
+        );
+        
+        add_submenu_page(
+            'hcco',
+			__( 'Configurações', 'hcco' ), 
+			__( 'Configurações', 'hcco' ), 
+			'manage_options', 
+			'hcco_configuracoes', 
+			array( $this, 'menu_configuracoes' )
+        );
 
     }
     
@@ -45,6 +55,15 @@ class Hcco_Admin {
     public function menu_curriculo() {
 
         return $this->run_menu( new Hcco_Menu_Curriculo() );
+
+    }
+
+    /**
+     * 
+     */
+    public function menu_configuracoes() {
+
+        return $this->run_menu( new Hcco_Menu_Configuracoes() );
 
     }
 
