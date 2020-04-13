@@ -20,11 +20,20 @@ class Hcco_Configuracoes_Mapper {
 
         global $wpdb;
 
-        $sql = $wpdb->prepare( "SELECT * FROM " . $wpdb->prefix . self::$table_name );
+        $sql = $wpdb->prepare( "SELECT * FROM " . $wpdb->prefix . self::$table_name . ' WHERE id = 1 ' );
         $result = $wpdb->get_row( $sql, ARRAY_A );
 
         return $result;
 
     }
+
+    /**
+     * Save an object
+     *
+     * @global wpdb $wpdb Wordpress database connection
+     *
+     * @return mixed
+     */
+
 
 }

@@ -16,7 +16,7 @@ class Hcco_Menu_Configuracoes {
         // verifica se o formulario foi enviado
         if ( isset( $_POST['hcco_configuracoes_nonce'] ) && verify_nonce( $_POST['hcco_configuracoes_nonce'], 'hcco_configuracoes' ) ) {
 
-            $configuracoes = $this->handle_form();
+            $configuracoes = $this->handle_form( $configuracoes );
 
         }
 
