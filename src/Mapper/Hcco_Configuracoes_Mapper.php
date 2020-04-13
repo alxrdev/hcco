@@ -85,5 +85,20 @@ class Hcco_Configuracoes_Mapper {
 
     }
 
+    /**
+     * Return the curriculo price
+     *
+     * @global wpdb $wpdb Wordpress database connection
+     *
+     * @return mixed
+     */
+    public static function get_price() {
+
+        $configuracoes = self::fetch();
+
+        return $configuracoes['preco'];
+
+    }
+
 
 }

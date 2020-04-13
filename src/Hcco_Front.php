@@ -120,7 +120,7 @@ class Hcco_Front {
 			$pedido = new Hcco_Pedido();
 			$pedido->set_curriculo_id( $curriculo->get_id() );
 			$pedido->set_usuario_id( $user_id_hash );
-			$pedido->set_preco( '15.00' );
+			$pedido->set_preco( Hcco_Curriculo_Mapper::get_preco() );
 			$pedido->set_status_pagamento( 'pendente' );
 
 			// salva o pedido
