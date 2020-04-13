@@ -2,7 +2,7 @@
 
 namespace Holos\Hcco;
 
-use Holos\Hcco\Admin\Hcco_Curriculo_List_Table;
+use Holos\Hcco\Admin\Menu\Menu_Curriculo;
 
 class Hcco_Admin {
 
@@ -32,7 +32,7 @@ class Hcco_Admin {
 			__( 'Curriculos', 'hcco' ), 
 			'manage_options', 
 			'hcco', 
-			array( $this, 'page_curriculos' ),
+			array( $this, 'menu_curriculo' ),
 			'dashicons-schedule', 
 			3
 		);
@@ -42,28 +42,23 @@ class Hcco_Admin {
     /**
      * 
      */
-    public function page_curriculos() {
+    public function menu_curriculo() {
 
-        $curriculo_list_table = new Hcco_Curriculo_List_Table();
-        $curriculo_list_table->prepare_items();
+        return $this->run_menu( new Menu_Curriculo() );
 
-        ?>
-        <div class="wrap">
-            <h1>Todos os currículos</h1>
+    }
 
-            <div class="hcco-list-table">
-                <form action="" method="GET">
-                    <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
-                    <?php
+    /**
+     *  Method that execute a menu page
+     * 
+     * @param object $menu Menu object
+     */
+    private function run_menu( $menu ) {
 
-                    $curriculo_list_table->search_box( __( 'Buscar', 'hcco' ), 'hcco-buscar-curriculo' );
-                    $curriculo_list_table->display(); 
+        $method = ( isset( $_REQUEST['action'] ) ) ? sanitize_text_field( $_REQUEST['action'] ) : 'home';
 
-                    ?>
-                </form>
-            </div>
-        </div>
-        <?php
+        if ( method_exists( $menu, $method ) )
+            return call_user_func( [$menu, $method] );
 
     }
 

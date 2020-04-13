@@ -1,11 +1,10 @@
 <?php
 
-namespace Holos\Hcco\Admin;
+namespace Holos\Hcco\Admin\ListTable;
 
-use Holos\Hcco\Admin\Hcco_List_Table;
-use Holos\Hcco\Mapper\Hcco_Curriculo_Mapper;
+use Holos\Hcco\Admin\ListTable\Hcco_List_Table;
 
-class Hcco_Curriculo_List_Table extends Hcco_List_Table {
+class Hcco_Pedido_List_Table extends Hcco_List_Table {
 
     public function __construct() {
 
@@ -57,9 +56,9 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
         $table_columns = array(
             'cb'                    => '<input type="checkbox" />',
             'nome'                  => __( 'Nome', 'hcco' ),
+            'cargos_profissoes'     => __( 'Cargos / Profissões', 'hcco' ),
             'escolaridade'          => __( 'Escolaridade', 'hcco' ),
             'curso_formacao'        => __( 'Curso de Formação', 'hcco' ),
-            'cargos_profissoes'     => __( 'Cargos / Profissões', 'hcco' ),
             'criado_em'             => __( 'Criado em', 'hcco' )
         );
 
@@ -124,15 +123,28 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
      */
     public function fetch_table_data( $per_page, $page_number ) {
 
+        global $wpdb;
+
+        $sql = "SELECT * FROM {$wpdb->prefix}hcco_curriculo";
+
         // verifica se está pesquisando
-        $search = ( ! empty( $_REQUEST['s'] ) ) ? wp_unslash( trim( $_REQUEST['s'] ) ) : '';
+        if ( ! empty( $_REQUEST['s'] ) ) {
+            $search = wp_unslash( trim( $_REQUEST['s'] ) );
+            $sql .= " WHERE concat(nome, cargos_profissoes, curso_formacao) LIKE '%{$search}%'";
+        }
 
         // se estiver filtrando
-        $order_by = ( ! empty( $_REQUEST['orderby'] ) ) ? esc_sql( $_REQUEST['orderby'] ) : '';
-        $order = ( ! empty( $_REQUEST['order'] ) ) ? esc_sql( $_REQUEST['order'] ) : ' ASC';
+        if ( ! empty( $_REQUEST['orderby'] ) ) {
+            $sql .= ' ORDER BY ' . esc_sql( $_REQUEST['orderby'] );
+            $sql .= ! empty( $_REQUEST['order'] ) ? ' ' . esc_sql( $_REQUEST['order'] ) : ' ASC';
+        }
 
-        // busca os dados
-        $result = Hcco_Curriculo_Mapper::fetch_all_raw( $search, $order_by, $order, $per_page, $page_number );
+        $sql .= " LIMIT $per_page";
+
+        $sql .= ' OFFSET ' . ( $page_number - 1 ) * $per_page;
+
+
+        $result = $wpdb->get_results( $sql, 'ARRAY_A' );
 
         return $result;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Holos\Hcco\Admin;
+namespace Holos\Hcco\Admin\ListTable;
 
 if( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
