@@ -2,7 +2,7 @@
 
 namespace Holos\Hcco;
 
-use Holos\Hcco\Admin\Menu\Menu_Curriculo;
+use Holos\Hcco\Admin\Menu\Hcco_Menu_Curriculo;
 
 class Hcco_Admin {
 
@@ -44,7 +44,7 @@ class Hcco_Admin {
      */
     public function menu_curriculo() {
 
-        return $this->run_menu( new Menu_Curriculo() );
+        return $this->run_menu( new Hcco_Menu_Curriculo() );
 
     }
 
