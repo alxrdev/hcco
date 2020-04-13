@@ -9,7 +9,9 @@
             "email": "rodriguesalex793@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "mercadopago/dx-php": "2.0.0"
+    },
     "autoload": {
         "psr-4": {
             "Holos\\Hcco\\": "src"
