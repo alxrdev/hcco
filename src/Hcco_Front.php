@@ -45,7 +45,7 @@ class Hcco_Front {
 		wp_enqueue_script( 'jquery-validate', 'https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js', array( 'jquery' ), '1.19.1', false );
 		wp_enqueue_script( 'jquery-mask', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js', array( 'jquery' ), '1.14.16', false );
 		wp_enqueue_script( $this->plugin_name, HCCO_URL . 'resources/public/js/hcco-public.js', array( 'jquery' ), $this->version, false );
-		wp_localize_script( $this->plugin_name, 'hcco_ajax_object', array( 'mp_public_key' => Hcco_Configuracoes_Mapper::get_mercado_pago_access_tokens()[0] ) );
+		wp_localize_script( $this->plugin_name, 'hcco_ajax_object', array( 'mp_public_key' => Hcco_Configuracoes_Mapper::get_mercado_pago_access_tokens()['public_token'] ) );
 
 	}
 
