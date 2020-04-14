@@ -12,55 +12,58 @@ class Hcco_Configuracoes_Mapper {
     /**
      * Get an object
      *
-     * @global wpdb $wpdb Wordpress database connection
      *
      * @return mixed
      */
     public static function fetch() {
 
-        global $wpdb;
-
-        $result = $wpdb->get_row( "SELECT * FROM " . $wpdb->prefix . self::$table_name . ' WHERE id = 1', ARRAY_A );
-
-        return $result;
+        return get_option( 'hcco_configuracoes' );
 
     }
 
     /**
-     * Save an object
-     *
-     * @global wpdb $wpdb Wordpress database connection
-     *
-     * @return mixed
+     * Save configuracoes
      */
     public static function save( $configuracoes ) {
 
-        global $wpdb;
+        if ( count( $configuracoes ) < 1 ) 
+            add_option( 'hcco_configuracoes', $configuracoes );
+        else
+            update_option( 'hcco_configuracoes', $configuracoes );
 
-        // verifica se as configurações existem
-        if ( isset( $configuracoes['id'] ) && ! empty( $configuracoes['id'] ) ) {
+    }
 
-            $wpdb->update( $wpdb->prefix . self::$table_name, array(
-                'preco'                                     => $configuracoes['preco'],
-                'mercado_pago_sandbox_public_token'         => $configuracoes['mercado_pago_sandbox_public_token'],
-                'mercado_pago_sandbox_private_token'        => $configuracoes['mercado_pago_sandbox_private_token'],
-                'mercado_pago_production_public_token'      => $configuracoes['mercado_pago_production_public_token'],
-                'mercado_pago_production_private_token'     => $configuracoes['mercado_pago_production_private_token'],
-                'mercado_pago_ambiente'                     => $configuracoes['mercado_pago_ambiente']
-            ), array( 'id' => 1 ) );
+    /**
+     * Save curriculo preco
+     *
+     * @return mixed
+     */
+    public static function save_curriculo_preco( $preco ) {
 
-            return $configuracoes;
+        $configuracoes = self::fetch();
+        $configuracoes = array( 'curriculo' => ['preco' => $preco] );
+        
+        self::save( $configuracoes );
 
-        }
+        return $configuracoes;
 
-        $wpdb->insert( $wpdb->prefix . self::$table_name, array(
-            'preco'                                     => $configuracoes['preco'],
-            'mercado_pago_sandbox_public_token'         => $configuracoes['mercado_pago_sandbox_public_token'],
-            'mercado_pago_sandbox_private_token'        => $configuracoes['mercado_pago_sandbox_private_token'],
-            'mercado_pago_production_public_token'      => $configuracoes['mercado_pago_production_public_token'],
-            'mercado_pago_production_private_token'     => $configuracoes['mercado_pago_production_private_token'],
-            'mercado_pago_ambiente'                     => $configuracoes['mercado_pago_ambiente']
-        ) );
+    }
+
+    /**
+     * Save mercado pago configs
+     *
+     * @return mixed
+     */
+    public static function save_mercado_pago( $mercado_pago ) {
+
+        $configuracoes = self::fetch();
+        $configuracoes['mercado_pago']['sandbox']['public_token']       = $mercado_pago['mercado_pago_sandbox_public_token'];
+        $configuracoes['mercado_pago']['sandbox']['private_token']      = $mercado_pago['mercado_pago_sandbox_private_token'];
+        $configuracoes['mercado_pago']['production']['public_token']    = $mercado_pago['mercado_pago_production_public_token'];
+        $configuracoes['mercado_pago']['production']['private_token']   = $mercado_pago['mercado_pago_production_private_token'];
+        $configuracoes['mercado_pago']['ambiente']                      = $mercado_pago['mercado_pago_ambiente'];
+        
+        self::save( $configuracoes );
 
         return $configuracoes;
 
@@ -69,25 +72,20 @@ class Hcco_Configuracoes_Mapper {
     /**
      * Return mercado pago access tokens
      *
-     * @global wpdb $wpdb Wordpress database connection
      *
      * @return mixed
      */
     public static function get_mercado_pago_access_tokens() {
 
         $configuracoes = self::fetch();
-
-        if ( $configuracoes['mercado_pago_ambiente'] == 'SandBox' )
-            return array( $configuracoes['mercado_pago_sandbox_public_token'], $configuracoes['mercado_pago_sandbox_private_token'] );
         
-        return array( $configuracoes['mercado_pago_production_public_token'], $configuracoes['mercado_pago_production_private_token'] );
+        return $configuracoes['mercado_pago'][$configuracoes['mercado_pago']['ambiente']];
 
     }
 
     /**
      * Return the curriculo price
      *
-     * @global wpdb $wpdb Wordpress database connection
      *
      * @return mixed
      */
@@ -95,7 +93,7 @@ class Hcco_Configuracoes_Mapper {
 
         $configuracoes = self::fetch();
 
-        return $configuracoes['preco'];
+        return $configuracoes['curriculo']['preco'];
 
     }
 
