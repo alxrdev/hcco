@@ -171,6 +171,7 @@ class Hcco_Front {
 		if ( isset( $_POST['pagar_mercado_pago_nonce'] ) && wp_verify_nonce( $_POST['pagar_mercado_pago_nonce'], 'pagar_mercado_pago' ) ) {
 			
 			$messages = $this->handle_pagamento_mp( $pedido, $curriculo );
+			$error = true;
 
 		}
 
@@ -193,9 +194,17 @@ class Hcco_Front {
 
 		// processa o pagamento via mercado pago
 		$mp = new Hcco_Mercado_Pago();
-		$result = $mp->process_credit_card_payment( $pedido, $curriculo, $payment_method_id, $token );
+		$mp->process_credit_card_payment( $pedido, $curriculo, $payment_method_id, $token );
 
-		return array( 'messages' => array( 'message1', 'message2' ) );
+		// se houver erro
+		if ( $mp->has_error() )
+			return array( 'messages' => $mp->get_messages() );
+
+		// altera o status do pedido
+		// $pedido->set_status_pagamento( $mp->get_status_pt() );
+		// Hcco_Pedido_Mapper::update( $pedido );
+
+		// redireciona para a página de agradecimento
 
 	}
 
