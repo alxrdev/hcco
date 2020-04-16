@@ -77,7 +77,7 @@ class Hcco_Front {
 		// verifica se existe o cookie, se existir
 		// busca o pedido e o curriculo
 		if ( isset( $_COOKIE['user_id_hash'] ) ) {
-			[$pedido, $curriculo] = $this->get_pedido_e_curriculo();
+			[$pedido, $curriculo] = $this->get_pedido_e_curriculo( $_COOKIE['user_id_hash'] );
 		}
 
 		// verifica se o formulario foi enviado
@@ -165,7 +165,7 @@ class Hcco_Front {
 		}
 
 		// busca o pedido e o curriculo
-		[$pedido, $curriculo] = $this->get_pedido_e_curriculo();
+		[$pedido, $curriculo] = $this->get_pedido_e_curriculo( $_COOKIE['user_id_hash'] );
 
 		// verifica se o formulario de pagamento via mercado pago foi enviado
 		if ( isset( $_POST['pagar_mercado_pago_nonce'] ) && wp_verify_nonce( $_POST['pagar_mercado_pago_nonce'], 'pagar_mercado_pago' ) ) {
@@ -204,21 +204,21 @@ class Hcco_Front {
 		// $pedido->set_status_pagamento( $mp->get_status_pt() );
 		// Hcco_Pedido_Mapper::update( $pedido );
 
-		// redireciona para a página de agradecimento
+		// redireciona para a página de informações
 
 	}
 
 	/**
 	 * 
 	 */
-	private function get_pedido_e_curriculo() {
+	private function get_pedido_e_curriculo( $user_id_hash ) {
 
 		// busca o pedido
-		$pedido = Hcco_Pedido_Mapper::get_by_usuario_id( $_COOKIE['user_id_hash'] );
+		$pedido = Hcco_Pedido_Mapper::get_by_usuario_id( $user_id_hash );
 
 		// se o status do pedido for diferente de pendente ou se o pedido 
 		// não existir, exclui o cookie e redireciona para a mesma pagina
-		if ( empty( $pedido->get_id() ) || ( $pedido->get_status_pagamento() != 'pendente' ) ) {
+		if ( $this->validate_pedido( $pedido ) ) {
 
 			setcookie( 'user_id_hash' );
 			wp_redirect( home_url( '/cadastro-de-curriculo' ) );
@@ -230,6 +230,29 @@ class Hcco_Front {
 		$curriculo = Hcco_Curriculo_Mapper::fetch( $pedido->get_curriculo_id() );
 
 		return array( $pedido, $curriculo );
+
+	}
+
+	/**
+	 * Method that validate an pedido based in it's status
+	 * 
+	 * @param Hcco_Pedido $pedido Pedido
+	 * @return bool True or false
+	 */
+	private function validate_pedido( Hcco_Pedido $pedido ) {
+
+		if ( empty( $pedido->get_id() ) )
+			return false;
+		
+		$status = array(
+			'pendente',
+			'rejeitado'
+		);
+
+		if ( array_search( $pedido->get_status_pagamento(), $status ) )
+			return true;
+		
+		return false;
 
 	}
 
