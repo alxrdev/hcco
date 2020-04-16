@@ -134,8 +134,10 @@ class Hcco_Mercado_Pago {
 
 		$messages = [];
 
-		foreach ($errors as $error) {
-			array_push( $messages, $error->message );
+		foreach ( $errors->causes as $error ) {
+			// $error->code
+			// $error->description
+			array_push( $messages, $error->description );
 		}
 
 		$this->messages = $messages;
