@@ -77,27 +77,27 @@
                 <div class="col-lg-5">
                     <h3 class="mb-5">Escolha uma forma de pagamento</h3>
 
+                    <?php
+                    // se houver algum erro
+                    if ( $error == true ) :
+                        ?>
+                        <div class="alert alert-danger">
+                            <p style="font-size:0.75rem;">
+                                <?php
+                                foreach ( $messages as $message ) :
+
+                                    echo '<p>' . $message . '</p>';
+
+                                endforeach;
+                                ?>
+                            </p>
+                        </div>
+                        <?php
+                    endif;
+                    ?>
+
                     <div class="d-flex justify-content-center">
                         <div class="payment-methods mb-5" id="paymentMethods">
-
-                            <?php
-                            // se houver algum erro
-                            if ( $error == true ) :
-                                ?>
-                                <div class="alert alert-danger">
-                                    <p style="font-size:0.75rem;">
-                                        <?php
-                                        foreach ( $messages as $message ) :
-
-                                            echo '<p>' . $message . '</p>';
-
-                                        endforeach;
-                                        ?>
-                                    </p>
-                                </div>
-                                <?php
-                            endif;
-                            ?>
 
                             <!-- Cartão de Credito -->
                             <div class="payment-item">
