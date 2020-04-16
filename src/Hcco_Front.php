@@ -198,7 +198,7 @@ class Hcco_Front {
 
 		// se houver erro
 		if ( $mp->has_error() )
-			return array( 'messages' => $mp->get_messages() );
+			return $mp->get_messages();
 
 		// altera o status do pedido
 		// $pedido->set_status_pagamento( $mp->get_status_pt() );
