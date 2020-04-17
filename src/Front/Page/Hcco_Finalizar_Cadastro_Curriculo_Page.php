@@ -6,7 +6,7 @@ use Holos\Hcco\Front\Page\Hcco_Front_Page;
 use Holos\Hcco\Entity\Hcco_Curriculo;
 use Holos\Hcco\Entity\Hcco_Pedido;
 use Holos\Hcco\Mapper\Hcco_Pedido_Mapper;
-use Holo\Hcco\Payment\Hcco_Mercado_Pago;
+use Holos\Hcco\Payment\Hcco_Mercado_Pago;
 
 class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
 
