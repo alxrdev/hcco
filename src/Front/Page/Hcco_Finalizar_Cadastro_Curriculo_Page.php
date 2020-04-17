@@ -56,7 +56,7 @@ class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
 
 		// checks if the required data has been filled
 		if ( ! isset( $_POST['paymentMethodId'] ) || ! isset( $_POST['token'] ) )
-			return array( 'messages' => 'Formulário de pagamento inválido, tente novamente.' );
+			return array( 'Formulário de pagamento inválido, tente novamente.' );
 		
 		// get the data
 		$payment_method_id = sanitize_text_field( $_POST['paymentMethodId'] );
@@ -67,14 +67,17 @@ class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
 		$mp->process_credit_card_payment( $pedido, $curriculo, $payment_method_id, $token );
 
 		// if has an error
-		if ( $mp->has_error() )
+		if ( $mp->has_error() == true )
 			return $mp->get_messages();
 
 		// altera o status do pedido
-		// $pedido->set_status_pagamento( $mp->get_status_pt() );
-		// Hcco_Pedido_Mapper::update( $pedido );
+		$pedido->set_status_pagamento( $mp->get_status_pt() );
+		$pedido->set_payment_id( $mp->get_payment_id() );
+		Hcco_Pedido_Mapper::update( $pedido );
 
 		// redireciona para a página de informações
+		wp_redirect( home_url( '/cadastro-do-curriculo-finalizado' ) );
+		exit;
 
 	}
 
