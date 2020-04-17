@@ -120,7 +120,7 @@ class Hcco_Mercado_Pago {
 		$this->set_payment_id( $payment->id );
 		$this->set_status( $payment->status );
 		$this->set_status_details( $payment->status_details );
-		$this->set_error( $payment->error );
+		$this->set_error( $payment->status );
 		$this->set_messages( $payment->error );
 
 	}
@@ -246,11 +246,19 @@ class Hcco_Mercado_Pago {
 	 * 
 	 * @since 	1.0.0
 	 * @access 	private
-	 * @param	array	$error Payment status.
+	 * @param	string|null	$status Payment status.
 	 */
-	private function set_error( $error ) : void {
+	private function set_error( $status ) : void {
 
-		$this->error = ( $error == null || empty( $error ) ) ? false : true ;
+		$error_status = array(
+			'pending',
+			'refunded',
+			'charged_back',
+			'cancelled',
+			'rejected',
+		);
+
+		$this->error = ( $status == null || array_search( $status, $error_status ) ) ? true : false;
 
 	}
 
