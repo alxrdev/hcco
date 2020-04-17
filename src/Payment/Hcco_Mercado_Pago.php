@@ -3,22 +3,49 @@
 namespace Holos\Hcco\Payment;
 
 use Holos\Hcco\Mapper\Hcco_Configuracoes_Mapper;
+use Holos\Hcco\Entity\Hcco_Curriculo;
+use Holos\Hcco\Entity\Hcco_Pedido;
 
 class Hcco_Mercado_Pago {
 
-	//
+	/**
+	 * Propertie that stores the mercado pago access token.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 */
 	private $access_token;
 
-	//
+	/**
+	 * Propertie that stores the payment status.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 */
 	private $status;
 
-	// 
+	/**
+	 * Propertie that stores the payment status message details.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 */
 	private $status_details;
 
-	//
+	/**
+	 * Propertie that stores the payment error status.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 */
 	private $error;
 
-	//
+	/**
+	 * Propertie that stores the payment error messages.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 */
 	private $messages;
 
 	/**
@@ -33,7 +60,17 @@ class Hcco_Mercado_Pago {
 
 	}
 
-    public function process_credit_card_payment( $pedido, $curriculo, $payment_method_id, $token ) {
+	/**
+	 * Method that process a credit card payment.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 * @param	Hcco_Pedido		$pedido Pedido entity.
+	 * @param	Hcco_Curriculo	$curriculo Curriculo entity.
+	 * @param	int 			$payment_method_id The payment method id.
+	 * @param 	string			$token Generated token.
+	 */
+    public function process_credit_card_payment( Hcco_Pedido $pedido, Hcco_Curriculo $curriculo, $payment_method_id, $token ) : void {
 
         \MercadoPago\SDK::setAccessToken( $this->access_token );
 			
@@ -80,7 +117,11 @@ class Hcco_Mercado_Pago {
 	}
 	
 	/**
+	 * Method that return the payment status.
 	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 * @return	string|null	Payment status.
 	 */
 	public function get_status() {
 		
@@ -88,6 +129,13 @@ class Hcco_Mercado_Pago {
 
 	}
 
+	/**
+	 * Method that return the payment status in portugues.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 * @return	string|null	Payment status.
+	 */
 	public function get_status_pt() {
 
 		$status = array(
@@ -106,46 +154,92 @@ class Hcco_Mercado_Pago {
 
 	}
 
-	private function set_status( $status ) {
+	/**
+	 * Method that set the payment status.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 * @param	string	$status Payment status.
+	 */
+	private function set_status( $status ) : void {
 
 		$this->status = $status ?? 'error';
 
 	}
 
-	public function get_status_details() {
+	/**
+	 * Method that return the payment status message details.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 * @return	string|null	Payment status details.
+	 */
+	public function get_status_details() : string {
 		
 		return $this->status_details;
 
 	}
 
-	private function set_status_details( $status ) {
+	/**
+	 * Method that set the payment status message details.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 * @param	string	$status Payment status message details.
+	 */
+	private function set_status_details( $status ) : void {
 
 		$this->status_details = $status ?? 'error';
 
 	}
 
-	public function has_error() {
+	/**
+	 * Method that return the payment erro status.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 * @return	bool|null	Payment status.
+	 */
+	public function has_error() : bool {
 		
 		return $this->error;
 
 	}
 
-	private function set_error( $error ) {
+	/**
+	 * Method that set the payment erro status.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 * @param	string	$error Payment status.
+	 */
+	private function set_error( $error ) : void {
 
 		$this->error = ( $error == null || empty( $error ) ) ? false : true ;
 
 	}
 
-	public function get_messages() {
+	/**
+	 * Method that return the payment erro messages.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 * @return	array|null	Error messages.
+	 */
+	public function get_messages() : array {
 		
 		return $this->messages;
 
 	}
 
-	private function set_messages( $errors ) {
-
-		if ( $errors == null || empty( $errors ) )
-			return false;
+	/**
+	 * Method that set the payment erro messages.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 * @param	array	$errors Payment errors.
+	 */
+	private function set_messages( $errors ) : void {
 
 		$messages = [];
 
