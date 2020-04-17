@@ -2,11 +2,6 @@
 
 namespace Holos\Hcco;
 
-use Holos\Hcco\Entity\Hcco_Curriculo;
-use Holos\Hcco\Entity\Hcco_Pedido;
-use Holos\Hcco\Mapper\Hcco_Curriculo_Mapper;
-use Holos\Hcco\Mapper\Hcco_Pedido_Mapper;
-use Holos\Hcco\Payment\Hcco_Mercado_Pago;
 use Holos\Hcco\Mapper\Hcco_Configuracoes_Mapper;
 
 class Hcco_Front {
