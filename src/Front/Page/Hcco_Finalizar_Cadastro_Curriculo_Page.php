@@ -66,14 +66,14 @@ class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
 		$mp = new Hcco_Mercado_Pago();
 		$mp->process_credit_card_payment( $pedido, $curriculo, $payment_method_id, $token );
 
-		// if has an error
-		if ( $mp->has_error() == true )
-			return $mp->get_messages();
-
 		// altera o status do pedido
 		$pedido->set_status_pagamento( $mp->get_status_pt() );
 		$pedido->set_payment_id( $mp->get_payment_id() );
 		Hcco_Pedido_Mapper::update( $pedido );
+
+		// if has an error
+		if ( $mp->has_error() == true )
+			return $mp->get_messages();
 
 		// redireciona para a página de informações
 		wp_redirect( home_url( '/cadastro-do-curriculo-finalizado' ) );
