@@ -5,6 +5,7 @@ namespace Holos\Hcco;
 use Holos\Hcco\Hcco_Loader;
 use Holos\Hcco\Hcco_Front;
 use Holos\Hcco\Hcco_Admin;
+use Holos\Hcco\Hcco_Api;
 
 class Hcco_Main {
 
@@ -44,6 +45,7 @@ class Hcco_Main {
         $this->loader = $loader;
         $this->define_front_hooks();
         $this->define_admin_hooks();
+        $this->define_api_hooks();
 
     }
 
@@ -78,6 +80,21 @@ class Hcco_Main {
 
         // dashboard menus
         $this->loader->add_action( $admin, 'admin_menu', 'register_menus' );
+
+    }
+
+    /**
+     * Method that define api hooks.
+     * 
+     * @since   1.0.0
+     * @access  private
+     */
+    private function define_api_hooks() : void {
+
+        $api = new Hcco_Api( $this->plugin_name, $this->version );
+
+        // mercado pago controller
+        $this->loader->add_action( $api, 'rest_api_init', 'register_mercado_pago_controller' );
 
     }
     
