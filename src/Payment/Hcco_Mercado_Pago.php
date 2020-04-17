@@ -17,6 +17,14 @@ class Hcco_Mercado_Pago {
 	private $access_token;
 
 	/**
+	 * Propertie that stores the payment id.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 */
+	private $payment_id;
+
+	/**
 	 * Propertie that stores the payment status.
 	 * 
 	 * @since 	1.0.0
@@ -72,7 +80,7 @@ class Hcco_Mercado_Pago {
 	 */
     public function process_credit_card_payment( Hcco_Pedido $pedido, Hcco_Curriculo $curriculo, $payment_method_id, $token ) : void {
 
-        \MercadoPago\SDK::setAccessToken( $this->access_token );
+		\MercadoPago\SDK::setAccessToken( $this->access_token );
 			
 		$payment = new \MercadoPago\Payment();
 		$payment->transaction_amount = $pedido->get_preco();
@@ -109,10 +117,37 @@ class Hcco_Mercado_Pago {
 
 		$payment->save();
 
+		$this->set_payment_id( $payment->id );
 		$this->set_status( $payment->status );
 		$this->set_status_details( $payment->status_details );
 		$this->set_error( $payment->error );
 		$this->set_messages( $payment->error );
+
+	}
+
+	/**
+	 * Method that return the payment id.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 * @return	string|null	Payment status details.
+	 */
+	public function get_payment_id() : string {
+		
+		return $this->payment_id;
+
+	}
+
+	/**
+	 * Method that set the payment id.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 * @param	string	$payment_id Payment id.
+	 */
+	private function set_payment_id( $payment_id ) : void {
+
+		$this->payment_id = $payment_id;
 
 	}
 	
@@ -200,7 +235,7 @@ class Hcco_Mercado_Pago {
 	 * @access 	public
 	 * @return	bool|null	Payment status.
 	 */
-	public function has_error() : bool {
+	public function has_error() {
 		
 		return $this->error;
 
@@ -233,6 +268,50 @@ class Hcco_Mercado_Pago {
 	}
 
 	/**
+	 * Method that return an portugues erro message based in the status code.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 * @param	string 		$code Payment erro code.
+	 */
+	private function get_message_pt( $code ) {
+
+		$messages = array(
+			'2001' => 'Este pagamento já foi solicitado.',
+			'2002' => 'Formulario de pagamento inválido, tente novamente.',
+			'2006' => 'Formulario de pagamento inválido, tente novamente.',
+			'2009' => 'Formulario de pagamento inválido, tente novamente.',
+			'3000' => 'Preencha todos os campos e tente novamente.',
+			'3001' => 'Preencha todos os campos e tente novamente.',
+			'3003' => 'Formulario de pagamento inválido, tente novamente.',
+			'3011' => 'Formulario de pagamento inválido, tente novamente.',
+			'3010' => 'Cartão de crédito inválido, tete usar outro cartão.',
+			'3011' => 'Formulario de pagamento inválido, tente novamente.',
+			'3012' => 'Código de segurança inválido, tente novamente.',
+			'3013' => 'O Código de segurança é necessário, tente novamente.',
+			'3014' => 'Formulario de pagamento inválido, tente novamente.',
+			'3015' => 'O numero do cartão inválido, tente novamente.',
+			'3016' => 'O numero do cartão inválido, tente novamente.',
+			'3017' => 'O numero do cartão inválido, tente novamente.',
+			'3018' => 'O mês de validade é inválido, tente novamente.',
+			'3019' => 'O ano de validade é inválido, tente novamente.',
+			'3020' => 'Informe o nome no cartão, tente novamente.',
+			'3021' => 'Informe o numero do cartão, tente novamente.',
+			'3022' => 'Informe o seu CPF, tente novamente.',
+			'3023' => 'Informe o seu CPF, tente novamente.',
+			'3027' => 'Formulario de pagamento inválido, tente novamente.',
+			'3028' => 'Formulario de pagamento inválido, tente novamente.',
+			'3029' => 'O mês de validade é inválido, tente novamente.',
+			'3030' => 'O ano de validade é inválido, tente novamente.',
+			'4001' => 'Formulario de pagamento inválido, tente novamente.',
+			'4050' => 'Você deve informar um email válido, tente novamente.'
+		);
+
+		return $messages[$code] ?? 'Tivemos um erro interno, tente novamente.';
+
+	}
+
+	/**
 	 * Method that set the payment erro messages.
 	 * 
 	 * @since 	1.0.0
@@ -243,10 +322,10 @@ class Hcco_Mercado_Pago {
 
 		$messages = [];
 
-		foreach ( $errors->causes as $error ) {
-			// $error->code
-			// $error->description
-			array_push( $messages, $error->description );
+		if ( $errors != null || ! empty( $errors ) ) {
+			foreach ( $errors->causes as $error ) {
+				array_push( $messages, $this->get_message_pt( $error->code ) );
+			}
 		}
 
 		$this->messages = $messages;
