@@ -5,6 +5,7 @@ namespace Holos\Hcco\Front\Page;
 use Holos\Hcco\Front\Page\Hcco_Front_Page;
 use Holos\Hcco\Entity\Hcco_Curriculo;
 use Holos\Hcco\Entity\Hcco_Pedido;
+use Holos\Hcco\Mapper\Hcco_Configuracoes_Mapper;
 use Holos\Hcco\Mapper\Hcco_Curriculo_Mapper;
 use Holos\Hcco\Mapper\Hcco_Pedido_Mapper;
 
@@ -47,7 +48,7 @@ class Hcco_Cadastro_Curriculo_Page extends Hcco_Front_Page {
      * @param   Hcco_Pedido|null    $pedido Pedido entity
      * @return  Hcco_Pedido         Pedido entity
 	 */
-	private function handle_form( Hcco_Pedido $pedido = null ) : Hcco_Pedido {
+	private function handle_form( Hcco_Pedido $pedido = null ) : Hcco_Curriculo {
 			
 		// build a curriculo from form
 		$curriculo = new Hcco_Curriculo( $_POST );
@@ -64,13 +65,13 @@ class Hcco_Cadastro_Curriculo_Page extends Hcco_Front_Page {
 			setcookie( 'user_id_hash', $user_id_hash, strtotime( '+30 days' ), '/' );
 
 			// stores curriculo in database
-			$curriculo = Hcco_Curriculo_Mapper::crerate( $curriculo );
+			$curriculo = Hcco_Curriculo_Mapper::create( $curriculo );
 
 			// create the pedido
 			$pedido = new Hcco_Pedido();
 			$pedido->set_curriculo_id( $curriculo->get_id() );
 			$pedido->set_usuario_id( $user_id_hash );
-			$pedido->set_preco( Hcco_Curriculo_Mapper::get_preco() );
+			$pedido->set_preco( Hcco_Configuracoes_Mapper::get_preco() );
 			$pedido->set_status_pagamento( 'pendente' );
 
 			// stores pedido in database
