@@ -7,6 +7,9 @@ use Holos\Hcco\Mapper\Hcco_Configuracoes_Mapper;
 class Hcco_Mercado_Pago {
 
 	//
+	private $access_token;
+
+	//
 	private $status;
 
 	// 
@@ -18,9 +21,21 @@ class Hcco_Mercado_Pago {
 	//
 	private $messages;
 
+	/**
+	 * Contructor method.
+	 * 
+	 * @since 	1.0.0
+	 * @access	public
+	 */
+	public function __construct() {
+
+		$this->access_token = Hcco_Configuracoes_Mapper::get_mercado_pago_access_tokens()['private_token'];
+
+	}
+
     public function process_credit_card_payment( $pedido, $curriculo, $payment_method_id, $token ) {
 
-        \MercadoPago\SDK::setAccessToken( Hcco_Configuracoes_Mapper::get_mercado_pago_access_tokens()['private_token'] );
+        \MercadoPago\SDK::setAccessToken( $this->access_token );
 			
 		$payment = new \MercadoPago\Payment();
 		$payment->transaction_amount = $pedido->get_preco();
