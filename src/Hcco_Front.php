@@ -7,7 +7,7 @@ use Holos\Hcco\Mapper\Hcco_Configuracoes_Mapper;
 class Hcco_Front {
 
     /**
-	 * Propertie stores the plugin name.
+	 * Propertie that stores the plugin name.
 	 * 
 	 * @since 	1.0.0
 	 * @access 	private
@@ -15,7 +15,7 @@ class Hcco_Front {
     private $plugin_name;
     
     /**
-	 * Propertie stores the plugin version.
+	 * Propertie that stores the plugin version.
 	 * 
 	 * @since 	1.0.0
 	 * @access 	private
