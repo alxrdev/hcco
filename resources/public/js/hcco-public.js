@@ -268,9 +268,7 @@ function setPaymentMethodInfo(status, response) {
 
         // insere a bandeira do cartao no input
         document.querySelector("#creditCardPaymentInputIcon").setAttribute('src', response[0].secure_thumbnail);
-    } else {
-        alert("Ops! Cartão de Crédito Inválido.");
-    }
+	}
 }
 
 function sdkResponseHandler(status, response) {
