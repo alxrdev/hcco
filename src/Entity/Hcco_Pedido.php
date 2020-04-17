@@ -13,6 +13,7 @@ class Hcco_Pedido extends Hcco_Entity {
     private $curriculo_id  = '';
     private $usuario_id  = '';
     private $codigo_referencia = '';
+    private $payment_id = '';
     private $preco = '';
     private $status_pagamento = '';
     private $criado_em = '';
@@ -81,6 +82,18 @@ class Hcco_Pedido extends Hcco_Entity {
     protected function set_codigo_referencia( $codigo_referencia ) {
 
         $this->codigo_referencia = $codigo_referencia;
+    
+    }
+
+    public function get_payment_id() {
+
+        return $this->payment_id;
+    
+    }
+
+    public function set_payment_id( $payment_id ) {
+
+        $this->payment_id = $payment_id;
     
     }
 
