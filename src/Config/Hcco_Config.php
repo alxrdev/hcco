@@ -70,6 +70,7 @@ class Hcco_Config {
 			curriculo_id int(11) NOT NULL,
 			usuario_id varchar(255) NOT NULL,
 			codigo_referencia varchar(255) NOT NULL,
+			payment_id varchar(255),
 			preco decimal(11,2) NOT NULL,
 			status_pagamento varchar(255) NOT NULL,
 			criado_em datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
