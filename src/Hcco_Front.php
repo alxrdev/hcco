@@ -11,15 +11,30 @@ use Holos\Hcco\Mapper\Hcco_Configuracoes_Mapper;
 
 class Hcco_Front {
 
-    //
+    /**
+	 * Param the stores the plugin name.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 */
     private $plugin_name;
     
-    // 
+    /**
+	 * Param the stores the plugin version.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 */ 
     private $version;
 
     /**
-     * 
-     */
+	 * The class constructor.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 * @param 	string	$plugin_name The plugin name.
+	 * @param	string 	$version The plugin version.
+	 */
     public function __construct( $plugin_name, $version ) {
 
         $this->plugin_name = $plugin_name;
@@ -29,8 +44,11 @@ class Hcco_Front {
 
     /**
 	 * Register the stylesheets for the public-facing side of the site.
+	 * 
+	 * @since 	1.0.0
+	 * @access	public
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles() : void {
 
 		wp_enqueue_style( $this->plugin_name, HCCO_URL . 'resources/public/css/hcco-public.css', array(), $this->version, 'all' );
 
@@ -38,8 +56,11 @@ class Hcco_Front {
 
 	/**
 	 * Register the JavaScript for the public-facing side of the site.
+	 * 
+	 * @since 	1.0.0
+	 * @access	public
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts() : void {
 
 		wp_enqueue_script( 'jquery-steps', 'https://cdnjs.cloudflare.com/ajax/libs/jquery-steps/1.1.0/jquery.steps.min.js', array( 'jquery' ), '1.1.0', false );
 		wp_enqueue_script( 'jquery-validate', 'https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js', array( 'jquery' ), '1.19.1', false );
@@ -50,249 +71,44 @@ class Hcco_Front {
 	}
 
 	/**
+	 * Method that register what class and method to call, based on page url and return it.
 	 * 
+	 * @since 	1.0.0
+	 * @access	private
+	 * @param	string		$page Page namer.
+	 * @return 	array		Class and method to call.
+	 */
+	private function pages( $page ) : array {
+
+		$registred_pages = array(
+			'cadastro_de_curriculo' => ['Hcco_Cadastro_Curriculo_Page', 'home'],
+			'finalizar_o_cadastro_do_curriculo' => ['Hcco_Finalizar_Cadastro_Curriculo_Page', 'home']
+		);
+
+		return $registred_pages[$page];
+
+	}
+
+	/**
+	 * Inicial method that determine what method to call, based on page url.
+	 * 
+	 * @since 	1.0.0
+	 * @access	public
 	 */
 	public function hcco_content() {
 		
-		// pega o nome da página e determina o nome do método a ser chamado
-		$method_to_call = wp_parse_url( get_the_permalink() )['path'];
-		$method_to_call = trim( $method_to_call, '/' );
-		$method_to_call = 'page_' . str_replace( '-', '_', $method_to_call );
+		// get the page url path
+		$page_to_call = wp_parse_url( get_the_permalink() )['path'];
+		$page_to_call = trim( $page_to_call, '/' );
+		$page_to_call = str_replace( '-', '_', $page_to_call );
 
-		// execulta o método correspondente a página
-		if ( method_exists( $this, $method_to_call ) )
-			return call_user_func( array( $this, $method_to_call ) );
+		$page = $this->pages( $page_to_call );
 
-	}
-
-	/**
-	 * 
-	 */
-	private function page_cadastro_de_curriculo() {
-
-		$curriculo = new Hcco_Curriculo();
-		$pedido = null;
-		$error = false;
-
-		// verifica se existe o cookie, se existir
-		// busca o pedido e o curriculo
-		if ( isset( $_COOKIE['user_id_hash'] ) ) {
-			[$pedido, $curriculo] = $this->get_pedido_e_curriculo( $_COOKIE['user_id_hash'] );
+		// executes class and method
+		if ( $page != null ) {
+			$class = '\Holos\Hcco\Front\Page\\' . $page[0];
+			return call_user_func( array( new $class(), $page[1] ) );
 		}
-
-		// verifica se o formulario foi enviado
-		if ( isset( $_POST['cadastrar_curriculo_nonce'] ) && wp_verify_nonce( $_POST['cadastrar_curriculo_nonce'], 'cadastrar_curriculo' ) ) {
-			
-			// trata o formulário, e se houver algum error
-			$curriculo = $this->handle_cadastro_de_curriculo_form( $pedido );
-			$error = true;
-
-		}
-
-		$this->display_cadastro_curriculo( $curriculo, $error );
-
-	}
-
-	/**
-	 * 
-	 */
-	private function handle_cadastro_de_curriculo_form( Hcco_Pedido $pedido = null ) {
-			
-		// inicia o curriculo
-		$curriculo = new Hcco_Curriculo( $_POST );
-
-		// verifica se os dados foram preenchidos
-		if ( ! empty( $curriculo->get_no_filled_properties_list() ) )
-			return $curriculo;
-
-		// se está criando um novo curriculo
-		if ( $pedido == null ) {
-
-			// salva em um cookie uma key para identificar o 
-			// pedido e o curriculo no banco de dados
-			$user_id_hash = md5( $curriculo->get_nome() . current_time( 'd/m/yy h:m:s' ) );
-			setcookie( 'user_id_hash', $user_id_hash, strtotime( '+30 days' ), '/' );
-
-			// salva o curriculo no banco de dados
-			$curriculo = Hcco_Curriculo_Mapper::crerate( $curriculo );
-
-			// cria o pedido para realizar o checkout
-			$pedido = new Hcco_Pedido();
-			$pedido->set_curriculo_id( $curriculo->get_id() );
-			$pedido->set_usuario_id( $user_id_hash );
-			$pedido->set_preco( Hcco_Curriculo_Mapper::get_preco() );
-			$pedido->set_status_pagamento( 'pendente' );
-
-			// salva o pedido
-			$pedido = Hcco_Pedido_Mapper::create( $pedido );
-
-			// redireciona para a pagina de finalização do cadastro do curriculo
-			wp_redirect( home_url( '/finalizar-o-cadastro-do-curriculo' ) );
-			exit;
-
-		}
-
-		// se está atualizando um curriculo
-		if ( $pedido != null ) {
-
-			$curriculo->set_id( $pedido->get_curriculo_id() );
-			$curriculo = Hcco_Curriculo_Mapper::update( $curriculo );
-
-			// redireciona para a pagina de finalização do cadastro do curriculo
-			wp_redirect( home_url( '/finalizar-o-cadastro-do-curriculo' ) );
-			exit;
-
-		}
-
-		return $curriculo;
-
-	}
-
-	/**
-	 * 
-	 */
-	public function page_finalizar_o_cadastro_do_curriculo() {
-
-		// variaveis de controle
-		$error = false;
-		$messages = [];
-
-		// verifica se existe o cookie
-		if ( ! isset( $_COOKIE['user_id_hash'] ) ) {
-			// redireciona para a pagina de cadastro de curriculo
-			wp_redirect( home_url( '/cadastro-de-curriculo' ) );
-			exit;
-		}
-
-		// busca o pedido e o curriculo
-		[$pedido, $curriculo] = $this->get_pedido_e_curriculo( $_COOKIE['user_id_hash'] );
-
-		// verifica se o formulario de pagamento via mercado pago foi enviado
-		if ( isset( $_POST['pagar_mercado_pago_nonce'] ) && wp_verify_nonce( $_POST['pagar_mercado_pago_nonce'], 'pagar_mercado_pago' ) ) {
-			
-			$messages = $this->handle_pagamento_mp( $pedido, $curriculo );
-			$error = true;
-
-		}
-
-		$this->display_finalizar_o_cadastro_do_curriculo( $pedido, $curriculo, $error, $messages );
-
-	}
-
-	/**
-	 * 
-	 */
-	private function handle_pagamento_mp( Hcco_Pedido $pedido, Hcco_Curriculo $curriculo ) {
-
-		// verifica se os dados necessários foram enviados
-		if ( ! isset( $_POST['paymentMethodId'] ) || ! isset( $_POST['token'] ) )
-			return array( 'messages' => 'Formulário de pagamento inválido, tente novamente.' );
-		
-		// pega os dados
-		$payment_method_id = sanitize_text_field( $_POST['paymentMethodId'] );
-		$token = sanitize_text_field( $_POST['token'] );
-
-		// processa o pagamento via mercado pago
-		$mp = new Hcco_Mercado_Pago();
-		$mp->process_credit_card_payment( $pedido, $curriculo, $payment_method_id, $token );
-
-		// se houver erro
-		if ( $mp->has_error() )
-			return $mp->get_messages();
-
-		// altera o status do pedido
-		// $pedido->set_status_pagamento( $mp->get_status_pt() );
-		// Hcco_Pedido_Mapper::update( $pedido );
-
-		// redireciona para a página de informações
-
-	}
-
-	/**
-	 * 
-	 */
-	private function get_pedido_e_curriculo( $user_id_hash ) {
-
-		// busca o pedido
-		$pedido = Hcco_Pedido_Mapper::get_by_usuario_id( $user_id_hash );
-
-		// se o status do pedido for diferente de pendente ou se o pedido 
-		// não existir, exclui o cookie e redireciona para a mesma pagina
-		if ( $this->validate_pedido( $pedido ) ) {
-
-			setcookie( 'user_id_hash' );
-			wp_redirect( home_url( '/cadastro-de-curriculo' ) );
-			exit;
-
-		}
-
-		// busca o curriculo
-		$curriculo = Hcco_Curriculo_Mapper::fetch( $pedido->get_curriculo_id() );
-
-		return array( $pedido, $curriculo );
-
-	}
-
-	/**
-	 * Method that validate an pedido based in it's status
-	 * 
-	 * @param Hcco_Pedido $pedido Pedido
-	 * @return bool True or false
-	 */
-	private function validate_pedido( Hcco_Pedido $pedido ) {
-
-		if ( empty( $pedido->get_id() ) )
-			return false;
-		
-		$status = array(
-			'pendente',
-			'rejeitado'
-		);
-
-		if ( array_search( $pedido->get_status_pagamento(), $status ) )
-			return true;
-		
-		return false;
-
-	}
-
-	/**
-	 * Method that display de page header
-	 */
-	private function display_header() {
-
-		require_once HCCO_PATH . 'resources/public/templates/hcco-header.php';
-
-	}
-
-	/**
-	 * Method that display the page footer
-	 */
-	private function display_footer() {
-
-		require_once HCCO_PATH . 'resources/public/templates/hcco-footer.php';
-
-	}
-
-	/**
-	 * Method that display the cadastro de curriculo page
-	 */
-	private function display_cadastro_curriculo( Hcco_Curriculo $curriculo, $error = false ) {
-
-		$this->display_header();
-		require_once HCCO_PATH . 'resources/public/templates/hcco-formulario-cadastro.php';
-		$this->display_footer();
-
-	}
-
-	/**
-	 * Method that display the finalizar cadastro do curriculo page
-	 */
-	private function display_finalizar_o_cadastro_do_curriculo( Hcco_Pedido $pedido, Hcco_Curriculo $curriculo, $error = false, $messages = null ) {
-
-		$this->display_header();
-		require_once HCCO_PATH . 'resources/public/templates/hcco-checkout.php';
-		$this->display_footer();
 
 	}
     
