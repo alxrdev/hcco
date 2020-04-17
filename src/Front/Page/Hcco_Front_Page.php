@@ -26,7 +26,7 @@ class Hcco_Front_Page {
 			'rejeitado'
 		);
 
-		if ( array_search( $pedido->get_status_pagamento(), $status ) )
+		if ( array_search( $pedido->get_status_pagamento(), $status ) !== false )
 			return true;
 		
 		return false;
@@ -49,7 +49,7 @@ class Hcco_Front_Page {
 		// reset the cookie and redirect to the same page.
 		if ( ! $this->validate_pedido( $pedido ) ) {
 
-			setcookie( 'user_id_hash' );
+			unset( $_COOKIE['user_id_hash'] );
 			wp_redirect( home_url( '/cadastro-de-curriculo' ) );
 			exit;
 
