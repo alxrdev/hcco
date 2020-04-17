@@ -7,15 +7,30 @@ use Holos\Hcco\Admin\Menu\Hcco_Menu_Configuracoes;
 
 class Hcco_Admin {
 
-    //
+    /**
+	 * Propertie that stores the plugin name.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 */
     private $plugin_name;
     
-    // 
+    /**
+	 * Propertie that stores the plugin version.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 */ 
     private $version;
 
     /**
-     * 
-     */
+	 * The class constructor.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 * @param 	string	$plugin_name The plugin name.
+	 * @param	string 	$version The plugin version.
+	 */
     public function __construct( $plugin_name, $version ) {
 
         $this->plugin_name = $plugin_name;
@@ -24,9 +39,12 @@ class Hcco_Admin {
     }
 
     /**
-     * Method that register all menu items
+     * Method that register all menu items.
+     * 
+     * @since   1.0.0
+     * @access  public
      */
-    public function register_menus() {
+    public function register_menus() : void {
 
 		add_menu_page(
 			__( 'Curriculos', 'hcco' ), 
@@ -50,7 +68,11 @@ class Hcco_Admin {
     }
     
     /**
+     * Method that define what class shoud be executed for curriculo menu.
      * 
+     * @since   1.0.0
+     * @access  public
+     * @return  callable
      */
     public function menu_curriculo() {
 
@@ -59,7 +81,11 @@ class Hcco_Admin {
     }
 
     /**
+     * Method that define what class shoud be executed for configuracoes menu.
      * 
+     * @since   1.0.0
+     * @access  public
+     * @return  callable
      */
     public function menu_configuracoes() {
 
@@ -68,9 +94,10 @@ class Hcco_Admin {
     }
 
     /**
-     *  Method that execute a menu page
+     *  Method that executes a menu class.
      * 
-     * @param object $menu Menu object
+     * @since   1.0.0
+     * @param   object  $menu Menu object
      */
     private function run_menu( $menu ) {
 
