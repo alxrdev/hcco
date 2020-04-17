@@ -211,7 +211,7 @@ class Hcco_Mercado_Pago {
 	 * 
 	 * @since 	1.0.0
 	 * @access 	private
-	 * @param	string	$error Payment status.
+	 * @param	array	$error Payment status.
 	 */
 	private function set_error( $error ) : void {
 
