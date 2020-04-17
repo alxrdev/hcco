@@ -183,14 +183,11 @@ class Hcco_Curriculo_Mapper {
             ";
 
         // verifica se está pesquisando
-        // if ( $search ) {
-        //     $sql .= " WHERE concat(nome, cargos_profissoes, curso_formacao) LIKE '%{$search}%' AND status_pagamento = 'pago'";
-        // } 
-        // else {
-        //     $sql .= " WHERE status_pagamento = 'pago'";
-        // }
         if ( $search ) {
-            $sql .= " WHERE concat(nome, cargos_profissoes, curso_formacao) LIKE '%{$search}%'";
+            $sql .= " WHERE concat(nome, cargos_profissoes, curso_formacao) LIKE '%{$search}%' AND status_pagamento = 'aprovado'";
+        } 
+        else {
+            $sql .= " WHERE status_pagamento = 'aprovado'";
         }
 
         // se estiver filtrando
