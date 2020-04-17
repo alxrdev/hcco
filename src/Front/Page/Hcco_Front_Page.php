@@ -47,7 +47,7 @@ class Hcco_Front_Page {
 
 		// if pedido's status is not valid to see this page,
 		// reset the cookie and redirect to the same page.
-		if ( $this->validate_pedido( $pedido ) ) {
+		if ( ! $this->validate_pedido( $pedido ) ) {
 
 			setcookie( 'user_id_hash' );
 			wp_redirect( home_url( '/cadastro-de-curriculo' ) );
