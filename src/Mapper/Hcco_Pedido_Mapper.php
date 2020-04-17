@@ -72,6 +72,7 @@ class Hcco_Pedido_Mapper {
             'curriculo_id'          => $pedido->get_curriculo_id(),
             'usuario_id'            => $pedido->get_usuario_id(),
             'codigo_referencia'     => $pedido->get_codigo_referencia(),
+            'payment_id'            => $pedido->get_payment_id(),
             'preco'                 => $pedido->get_preco(),
             'status_pagamento'      => $pedido->get_status_pagamento()
         ) );
@@ -93,6 +94,7 @@ class Hcco_Pedido_Mapper {
             'curriculo_id'          => $pedido->get_curriculo_id(),
             'usuario_id'            => $pedido->get_usuario_id(),
             'codigo_referencia'     => $pedido->get_codigo_referencia(),
+            'payment_id'            => $pedido->get_payment_id(),
             'preco'                 => $pedido->get_preco(),
             'status_pagamento'      => $pedido->get_status_pagamento(),
             'atualizado_em'         => $pedido->get_atualizado_em()
