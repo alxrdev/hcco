@@ -251,14 +251,13 @@ class Hcco_Mercado_Pago {
 	private function set_error( $status ) : void {
 
 		$error_status = array(
-			'pending',
 			'refunded',
 			'charged_back',
 			'cancelled',
 			'rejected',
 		);
 
-		$this->error = ( $status == null || array_search( $status, $error_status ) ) ? true : false;
+		$this->error = ( $status == null || array_search( $status, $error_status ) !== false ) ? true : false;
 
 	}
 
@@ -315,7 +314,7 @@ class Hcco_Mercado_Pago {
 			'4050' => 'Você deve informar um email válido, tente novamente.'
 		);
 
-		return $messages[$code] ?? 'Tivemos um erro interno, tente novamente.';
+		return $messages[$code] ?? 'Formulario de pagamento inválido, tente novamente.';
 
 	}
 
@@ -334,6 +333,10 @@ class Hcco_Mercado_Pago {
 			foreach ( $errors->causes as $error ) {
 				array_push( $messages, $this->get_message_pt( $error->code ) );
 			}
+		} 
+		
+		if ( $errors == null || empty( $errors ) ) {
+			array_push( $messages, 'Ops! Verifique os dados do seu cartão, ou ligue para a sua operadora.' );
 		}
 
 		$this->messages = $messages;
