@@ -22,7 +22,7 @@ class Hcco_Main {
 	 * @since 	1.0.0
 	 * @access 	private
 	 */
-    private $version = '1.0.0';
+    private $version = '1';
 
     /**
 	 * Propertie that stores the hook's loader.
