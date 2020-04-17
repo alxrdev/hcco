@@ -115,7 +115,7 @@
                                         alt="Mercado Pago - Meios de pagamento" title="Mercado Pago - Meios de pagamento" 
                                         class="img-fluid w-100 mb-3" />
                                         
-                                        <form action="#" method="POST" id="creditCardPaymentForm">
+                                        <form action="" method="POST" id="creditCardPaymentForm">
                                             <?php wp_nonce_field( 'pagar_mercado_pago', 'pagar_mercado_pago_nonce' ); ?>
                                             <div class="form-group">
                                                 <label for="cardNumber">Numero do cartão</label>
