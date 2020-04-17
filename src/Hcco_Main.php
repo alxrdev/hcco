@@ -8,33 +8,52 @@ use Holos\Hcco\Hcco_Admin;
 
 class Hcco_Main {
 
-    //
+    /**
+	 * Propertie that stores the plugin name.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 */
     private $plugin_name = 'hcco';
     
-    //
+    /**
+	 * Propertie that stores the plugin version.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 */
     private $version = '1.0.0';
 
-    //
+    /**
+	 * Propertie that stores the hook's loader.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 */ 
     private $loader;
 
     /**
+     * Class constructor.
      * 
+     * @since   1.0.0
+     * @access  public
+     * @param   Hcco_Loader     $loader Hook's loader.
      */
     public function __construct( Hcco_Loader $loader ) {
 
-        // store the Loader object
         $this->loader = $loader;
-
-        // init hooks
         $this->define_front_hooks();
         $this->define_admin_hooks();
 
     }
 
     /**
-     * Define front hooks.
+     * Method that define all front side hooks.
+     * 
+     * @since   1.0.0
+     * @access  private
      */
-    private function define_front_hooks() {
+    private function define_front_hooks() : void {
 
         $front = new Hcco_Front( $this->plugin_name, $this->version );
 
@@ -48,21 +67,27 @@ class Hcco_Main {
     }
 
     /**
-     * Define admin hooks
+     * Method that define all admin hooks.
+     * 
+     * @since   1.0.0
+     * @access  private
      */
-    private function define_admin_hooks() {
+    private function define_admin_hooks() : void {
 
         $admin = new Hcco_Admin( $this->plugin_name, $this->version );
 
-        //
+        // dashboard menus
         $this->loader->add_action( $admin, 'admin_menu', 'register_menus' );
 
     }
     
     /**
-     * Run the plugin
+     * Method that run all hooks.
+     * 
+     * @since   1.0.0
+     * @access  public
      */
-    public function run() {
+    public function run() : void {
 
         $this->loader->run();
 
