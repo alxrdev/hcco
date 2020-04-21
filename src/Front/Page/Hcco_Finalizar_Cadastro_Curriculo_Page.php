@@ -67,7 +67,7 @@ class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
 		$mp->process_credit_card_payment( $pedido, $curriculo, $payment_method_id, $token );
 
 		// altera o status do pedido
-		$pedido->set_status_pagamento( $mp->get_status_pt() );
+		$pedido->set_status_pagamento( Hcco_Mercado_Pago::get_status_pt( $mp->get_status() ) );
 		$pedido->set_payment_id( $mp->get_payment_id() );
 		Hcco_Pedido_Mapper::update( $pedido );
 
