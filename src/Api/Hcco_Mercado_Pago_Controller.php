@@ -2,7 +2,12 @@
 
 namespace Holos\Hcco\Api;
 
-class Hcco_Mercado_Pago_Controller extends \WP_REST_Controller {
+use Holos\Hcco\Mapper\Hcco_Pedido_Mapper;
+use Holos\Hcco\Mapper\Hcco_Configuracoes_Mapper;
+use \WP_REST_Controller;
+use \WP_REST_Response;
+
+class Hcco_Mercado_Pago_Controller extends WP_REST_Controller {
 
     /**
 	 * Propertie that stores the plugin name.
@@ -45,15 +50,20 @@ class Hcco_Mercado_Pago_Controller extends \WP_REST_Controller {
      */
     public function register_routes() {
 
-        // api namespace and path
+        // api namespace and resource
         $namespace  = $this->plugin_name . '/v' . $this->version;
-        $path       = 'mp-notifications';
+        $resource   = 'mp-notifications';
 
-        register_rest_route( $namespace, '/' . $path, array(
+        register_rest_route( $namespace, '/' . $resource, array(
             array(
-                'methods'             => \WP_REST_Server::READABLE,
-                'callback'            => array( $this, 'get_items' ),
-                'permission_callback' => array( $this, 'get_items_permissions_check' )
+                'methods'             => 'GET',
+                'callback'            => array( $this, 'get' ),
+                'permission_callback' => array( $this, 'get_permissions_check' )
+            ),
+            array(
+                'methods'             => 'POST',
+                'callback'            => array( $this, 'post' ),
+                'permission_callback' => array( $this, 'post_permissions_check' )
             )
         ) );
 
@@ -62,17 +72,75 @@ class Hcco_Mercado_Pago_Controller extends \WP_REST_Controller {
     /**
      * 
      */
-    public function get_items( $request ) {
+    public function get( $request ) {
 
-        return new \WP_REST_Response( array( 'message' => 'Hello World Api Wordpress!' ), 200 );
+        return new WP_REST_Response( array( 'message' => 'Hello World Api Wordpress!' ), 200 );
 
     }
 
     /**
      * 
      */
-    public function get_items_permissions_check( $request ) {
+    public function get_permissions_check( $request ) {
+
         return true;
+
+    }
+
+    /**
+     * Handle the post request.
+     * 
+     * @since   1.0.0
+     * @access  private
+     * @param   object      $request Wordpress Rest Request.
+     * @return  object      Wordpres Rest Response.
+     */
+    public function post( $request ) {
+
+        \MercadoPago\SDK::setAccessToken( Hcco_Configuracoes_Mapper::get_mercado_pago_access_tokens()['private_token'] );
+
+        // get mercado pago sended data
+        $action = $request->get_param( 'action' );
+        $payment_id = $request->get_param( 'data' )['id'];
+
+        // checks if the notification is not payment.updated
+        if ( $action != 'payment.updated' )
+            return new WP_REST_Response( array( __( 'Ok', 'hcco' ) ), 200 );
+
+        // get the pedido
+        $pedido = Hcco_Pedido_Mapper::get_by_payment_id( $payment_id );
+
+        // check if the pedido exists
+        if ( empty( $pedido->get_id() ) )
+            return new WP_REST_Response( array( 'message' => __( 'Ops! Pedido não encontrado.', 'hcco' ) ), 400 );
+        
+        // get transaction status from mercado pago api
+        $payment = \MercadoPago\Payment::find_by_id( $payment_id );
+
+        // check if the payment exists
+        if ( $payment == null )
+            return new WP_REST_Response( array( 'message' => __( 'Ops! Pagamento não encontrado.', 'hcco' ) ), 400 );
+        
+        // update the pedido status pagamento
+        $pedido->set_status_pagamento( $payment->status );
+        $pedido = Hcco_Pedido_Mapper::update( $pedido );
+
+        return new WP_REST_Response( array( $payment ), 200 );
+
+    }
+
+    /**
+     * Method that checks permissions from post request
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @param   object  $request Wordpress Rest Request.
+     * @return  bool    True.
+     */
+    public function post_permissions_check( $request ) {
+
+        return true;
+
     }
 
 }
