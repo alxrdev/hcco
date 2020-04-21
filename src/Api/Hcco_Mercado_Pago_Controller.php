@@ -4,6 +4,7 @@ namespace Holos\Hcco\Api;
 
 use Holos\Hcco\Mapper\Hcco_Pedido_Mapper;
 use Holos\Hcco\Mapper\Hcco_Configuracoes_Mapper;
+use Holos\Hcco\Payment\Hcco_Mercado_Pago;
 use \WP_REST_Controller;
 use \WP_REST_Response;
 
@@ -121,11 +122,20 @@ class Hcco_Mercado_Pago_Controller extends WP_REST_Controller {
         if ( $payment == null )
             return new WP_REST_Response( array( 'message' => __( 'Ops! Pagamento não encontrado.', 'hcco' ) ), 400 );
         
+        // check if the status code is the same that are in the pedido
+        if ( Hcco_Mercado_Pago::get_status_pt( $payment->status ) == $pedido->get_status_pagamento() )
+            return new WP_REST_Response( array( 'Ok' ), 200 );
+        
         // update the pedido status pagamento
-        $pedido->set_status_pagamento( $payment->status );
+        $pedido->set_status_pagamento( Hcco_Mercado_Pago::get_status_pt( $payment->status ) );
         $pedido = Hcco_Pedido_Mapper::update( $pedido );
 
-        return new WP_REST_Response( array( $payment ), 200 );
+        // get the cliente email
+        $email = $payment->payer->email;
+
+        // send the email
+
+        return new WP_REST_Response( array( 'Ok' ), 200 );
 
     }
 
