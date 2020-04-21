@@ -6,7 +6,13 @@ use Holos\Hcco\Entity\Hcco_Pedido;
 
 class Hcco_Pedido_Mapper {
 
-    //
+    /**
+     * Parameter that stores the table name in the database
+     * 
+     * @since   1.0.0
+     * @access  private
+     * @var     string
+     */
     private static $table = 'hcco_pedidos';
 
     /**
@@ -57,6 +63,24 @@ class Hcco_Pedido_Mapper {
         global $wpdb;
 
         $sql = $wpdb->prepare( "SELECT * FROM " . $wpdb->prefix . self::$table . " WHERE codigo_referencia = %s", $cod );
+        $result = $wpdb->get_row( $sql, ARRAY_A );
+
+        return new Hcco_Pedido( $result );
+
+    }
+
+    /**
+     * Get an object by payment id
+     *
+     * @global wpdb $wpdb Wordpress database connection
+     *
+     * @param int $id The object id
+     */
+    public static function get_by_payment_id( $id ) {
+
+        global $wpdb;
+
+        $sql = $wpdb->prepare( "SELECT * FROM " . $wpdb->prefix . self::$table . " WHERE payment_id = %d", $id );
         $result = $wpdb->get_row( $sql, ARRAY_A );
 
         return new Hcco_Pedido( $result );
