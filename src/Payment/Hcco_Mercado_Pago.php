@@ -170,9 +170,9 @@ class Hcco_Mercado_Pago {
 	 * @since 	1.0.0
 	 * @access 	public
 	 * @param	string		$status The status name.
-	 * @return	string|null	Payment status.
+	 * @return	string		Payment status.
 	 */
-	public static function get_status_pt( string $status ) : ?string {
+	public static function get_status_pt( string $status ) : string {
 
 		$status_list = array(
 			'approved' 		=> 'aprovado',
@@ -186,7 +186,7 @@ class Hcco_Mercado_Pago {
 			'rejected' 		=> 'rejeitado'
 		);
 
-		return $status_list[$status];
+		return $status_list[$status] ?? 'pendente';
 
 	}
 
