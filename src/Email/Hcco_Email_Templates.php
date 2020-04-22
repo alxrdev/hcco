@@ -127,7 +127,7 @@ class Hcco_Email_Templates {
         $message .= '<span style="font-size: 25px;">Olá <strong>' . $nome . '</strong>, </span>';
         $message .= '</p>';
         $message .= '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
-        $message .= '<span style="font-size: 18px;"><strong>Infelizmente seu pagamento foi rejeitado</strong>, mas não fique triste, clique <a href="https://holoscdh.com.br/finalizar-o-cadastro-do-curriculo" title="Finalizar o cadastro do currículo">aqui</a> tente realizar o pagamento novamente.</span>';
+        $message .= '<span style="font-size: 18px;"><strong>Infelizmente seu pagamento foi rejeitado</strong>, mas não fique triste, clique <a href="https://holoscdh.com.br/finalizar-o-cadastro-do-curriculo" title="Finalizar o cadastro do currículo">aqui</a> e tente realizar o pagamento novamente.</span>';
         $message .= '</p>';
 
         $content .= self::get_content( $message );
