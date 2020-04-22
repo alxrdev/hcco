@@ -2,6 +2,7 @@
 
 namespace Holos\Hcco\Api;
 
+use Holos\Hcco\Email\Hcco_Email_Notification;
 use Holos\Hcco\Mapper\Hcco_Pedido_Mapper;
 use Holos\Hcco\Mapper\Hcco_Configuracoes_Mapper;
 use Holos\Hcco\Payment\Hcco_Mercado_Pago;
@@ -127,13 +128,19 @@ class Hcco_Mercado_Pago_Controller extends WP_REST_Controller {
             return new WP_REST_Response( array( 'Ok' ), 200 );
         
         // update the pedido status pagamento
-        $pedido->set_status_pagamento( Hcco_Mercado_Pago::get_status_pt( $payment->status ) );
+        $status = Hcco_Mercado_Pago::get_status_pt( $payment->status );
+        $pedido->set_status_pagamento( $status );
         $pedido = Hcco_Pedido_Mapper::update( $pedido );
 
-        // get the cliente email
-        $email = $payment->payer->email;
+        // get the cliente email and nome
+        // $email = $payment->payer->email;
+        // $nome = $payment->payer->first_name;
+        $email = 'rodriguesalex793@gmail.com';
+        $nome = 'Alex Rodrigues Moreira';
 
         // send the email
+        $email_notification = new Hcco_Email_Notification();
+        call_user_func_array( array( $email_notification, 'send_' . $status ), array( $email, $nome ) );
 
         return new WP_REST_Response( array( 'Ok' ), 200 );
 
