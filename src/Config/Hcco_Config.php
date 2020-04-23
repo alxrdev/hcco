@@ -12,7 +12,28 @@ class Hcco_Config {
      */
     public static function activate() : void {
 
-        global $wpdb;
+		// create all database table
+		self::create_tables();
+        
+    }
+
+    /**
+     * Method that run when the plugin is deactivated.
+	 * 
+	 * @since 	1.0.0
+	 * @access	public
+     */
+	public static function deactivate() : void {}
+	
+	/**
+	 * Method that create all database tables when the plugin is activated
+	 * 
+	 * @since 	1.0.0
+	 * @access 	private
+	 */
+	private static function create_tables() : void {
+
+		global $wpdb;
 		global $jal_db_version;
 
 		$hcco_curriculo = $wpdb->prefix . 'hcco_curriculo';
@@ -87,15 +108,7 @@ class Hcco_Config {
 		dbDelta( $sql );
 
         add_option( 'jal_db_version', $jal_db_version );
-        
-    }
-
-    /**
-     * Method that run when the plugin is deactivated.
-	 * 
-	 * @since 	1.0.0
-	 * @access	public
-     */
-    public static function deactivate() : void {}
+		
+	}
 
 }
