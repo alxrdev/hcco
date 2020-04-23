@@ -102,11 +102,11 @@ class Hcco_Mercado_Pago_Controller extends WP_REST_Controller {
         \MercadoPago\SDK::setAccessToken( Hcco_Configuracoes_Mapper::get_mercado_pago_access_tokens()['private_token'] );
 
         // get mercado pago sended data
-        $action = $request->get_param( 'action' );
+        $type = $request->get_param( 'type' );
         $payment_id = $request->get_param( 'data' )['id'];
 
         // checks if the notification is not payment.updated
-        if ( $action != 'payment.updated' )
+        if ( $type != 'payment' )
             return new WP_REST_Response( array( __( 'Ok', 'hcco' ) ), 200 );
 
         // get the pedido
