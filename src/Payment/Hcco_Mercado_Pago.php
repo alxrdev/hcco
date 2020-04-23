@@ -113,7 +113,7 @@ class Hcco_Mercado_Pago {
 		// 	),
 		// 	"email" => $curriculo->get_email()
         // );
-        // $payment->notification_url = '';
+        $payment->notification_url = get_home_url() . '/wp-json/hcco/v1/mp-notifications';
 
 		$payment->save();
 
