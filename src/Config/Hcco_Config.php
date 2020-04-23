@@ -5,9 +5,12 @@ namespace Holos\Hcco\Config;
 class Hcco_Config {
 
     /**
-     * 
+     * Method that run when the plugin is activated.
+	 * 
+	 * @since 	1.0.0
+	 * @access	public
      */
-    public static function activate() {
+    public static function activate() : void {
 
         global $wpdb;
 		global $jal_db_version;
@@ -88,8 +91,11 @@ class Hcco_Config {
     }
 
     /**
-     * 
+     * Method that run when the plugin is deactivated.
+	 * 
+	 * @since 	1.0.0
+	 * @access	public
      */
-    public static function deactivate() {}
+    public static function deactivate() : void {}
 
 }
