@@ -263,61 +263,74 @@
 /* 
  * Payment
  */
-.payment-methods {
+.hcco-payment-section {
     width: 100%;
     max-width: 500px;
-    border-right:1px solid var(--sixth-color);
-    border-left:1px solid var(--sixth-color);
+    padding: 20px;
+    background: rgba(0,0,0,0.01);
 }
 
-/* .payment-methods .payment-item {
-    background-color: var(--sixth-color);
-} */
-
-.payment-methods .payment-item-header {
-    border-bottom:1px solid var(--sixth-color);
-    border-top:1px solid var(--sixth-color);
+.hcco-payment-tabs {
+    margin-bottom: 30px;
 }
 
-.payment-methods .payment-item-button {
-    display: block;
+.hcco-payment-tabs .nav-link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    min-height: 65px;
+    font-size: 0.80rem;
+    color: #737278;
+    border: 1px solid #737278;
+}
+
+.hcco-payment-tabs .nav-link svg,
+.hcco-payment-tabs .nav-link i,
+.hcco-payment-tabs .nav-link img {
+    width: 100%;
+    max-width: 30px;
+    margin-right: 10px;
+    font-size: 1.5rem;
+}
+
+.hcco-payment-tabs .nav-link { margin-right: 10px; }
+.hcco-payment-tabs .nav-link:nth-last-of-type() { margin-right: 0; }
+
+.hcco-payment-tabs .nav-link.active {
+    background-color: transparent!important;
+    color: #f58635!important;
+    border: 2px solid #f58635;
+}
+
+.hcco-payment-method-content {
     width: 100%;
     padding: 15px;
-    text-align: left;
-    color: var(--fifth-color);
-    font-weight: 600;
+    background-color: #fff;
 }
 
-.payment-methods .payment-item-button:hover {
-    text-decoration: none;
-}
-
-.payment-methods .payment-item-content {
-    padding: 20px;
-}
-
-.payment-methods .payment-item-content .form-group {
+.hcco-payment-method-content .form-group {
     margin-bottom: 10px;
 }
 
-.payment-methods label {
+.hcco-payment-method-content label {
     font-size: 0.85rem;
     font-weight: 600;
     display: block;
 }
 
-.payment-methods label.error {
+.hcco-payment-method-content label.error {
     font-size: 0.75rem;
     color: tomato;
     display: block;
     width: 100%;
 }
 
-.payment-methods input::placeholder {
+.hcco-payment-method-content input::placeholder {
     color: rgba(0,0,0,0.4);
 }
 
-.payment-methods #creditCardPaymentForm .input-group-append {
+#hcco-payment-cc #creditCardPaymentForm .input-group-append {
     align-items: center;
     border: 1px solid #ced4da;
     border-top-right-radius: 5px;
@@ -325,6 +338,12 @@
     padding: 0 5px;
 }
 
-.payment-methods #creditCardPaymentInputIcon {
+#hcco-payment-cc #creditCardPaymentInputIcon {
     max-width: 30px;
+}
+
+@media (max-width: 575px) {
+    .hcco-payment-section .nav { display: block; }
+    .hcco-payment-tabs .nav-link { margin-bottom: 10px; }
+    .hcco-payment-tabs .nav-link:nth-last-of-type() { margin-bottom: 0; }
 }
