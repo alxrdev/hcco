@@ -261,8 +261,18 @@
 
 
 /* 
- * Payment
+ * Checkout Page
  */
+.hcco-review-section {
+    padding: 30px;
+    background: rgba(0,0,0,0.01);
+}
+
+.hcco-review-section table th {
+    font-weight: 600;
+    color: var(--fifth-color);
+}
+
 .hcco-payment-section {
     width: 100%;
     max-width: 500px;
@@ -314,9 +324,11 @@
 }
 
 .hcco-payment-method-content label {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 600;
+    color: #737278;
     display: block;
+    text-transform: uppercase;
 }
 
 .hcco-payment-method-content label.error {
