@@ -130,6 +130,7 @@ class Hcco_Mercado_Pago_Controller extends WP_REST_Controller {
         // update the pedido status pagamento
         $status = Hcco_Mercado_Pago::get_status_pt( $payment->status );
         $pedido->set_status_pagamento( $status );
+        $pedido->set_atualizado_em( current_time( 'yy/m/d h:m:s' ) );
         $pedido = Hcco_Pedido_Mapper::update( $pedido );
 
         // get the cliente email and nome
