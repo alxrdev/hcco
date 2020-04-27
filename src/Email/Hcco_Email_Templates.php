@@ -140,4 +140,202 @@ class Hcco_Email_Templates {
 
     }
 
+    /**
+     * Method that return the html content of pedido pendente.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @param   string  $nome The customer name.
+     * @return  string  The html content.
+     */
+    public static function get_pendente_template( string $nome ) : string {
+
+        $content = self::get_header();
+
+        $message = '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
+        $message .= '<span style="font-size: 25px;">Olá <strong>' . $nome . '</strong>, </span>';
+        $message .= '</p>';
+        $message .= '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
+        $message .= '<span style="font-size: 18px;"><strong>Estamos aguardando o pagamento do seu currículo, clique <a href="https://holoscdh.com.br/finalizar-o-cadastro-do-curriculo" title="Finalizar o cadastro do currículo">aqui</a> para realizar o pagamento, caso já o tenha realizado, desconsidere este email.</span>';
+        $message .= '</p>';
+
+        $content .= self::get_content( $message );
+        $content .= self::get_footer();
+
+        return $content;
+
+    }
+
+    /**
+     * Method that return the html content of pedido em_mediacao and em_processo.
+     * 
+     * @since   1.0.0
+     * @access  private
+     * @param   string  $nome The customer name.
+     * @return  string  The html content.
+     */
+    private static function get_em_mediacao_and_em_processo_template( string $nome ) : string {
+
+        $content = self::get_header();
+
+        $message = '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
+        $message .= '<span style="font-size: 25px;">Olá <strong>' . $nome . '</strong>, </span>';
+        $message .= '</p>';
+        $message .= '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
+        $message .= '<span style="font-size: 18px;"><strong>Estamos aguardando a confirmação do pagamento do seu currículo, assim que a recebermos, te enviaremos um email de confirmação.</span>';
+        $message .= '</p>';
+
+        $content .= self::get_content( $message );
+        $content .= self::get_footer();
+
+        return $content;
+
+    }
+
+    /**
+     * Method that return the html content of pedido em_mediacao.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @param   string  $nome The customer name.
+     * @return  string  The html content.
+     */
+    public static function get_em_mediacao_template( string $nome ) : string {
+
+        $content = self::get_header();
+
+        $message = self::get_em_mediacao_and_em_processo_template( $nome );
+
+        $content .= self::get_content( $message );
+        $content .= self::get_footer();
+
+        return $content;
+
+    }
+
+    /**
+     * Method that return the html content of pedido em_processo.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @param   string  $nome The customer name.
+     * @return  string  The html content.
+     */
+    public static function get_em_processo_template( string $nome ) : string {
+
+        $content = self::get_header();
+
+        $message = self::get_em_mediacao_and_em_processo_template( $nome );
+
+        $content .= self::get_content( $message );
+        $content .= self::get_footer();
+
+        return $content;
+
+    }
+
+    /**
+     * Method that return the html content of pedido autorizado.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @param   string  $nome The customer name.
+     * @return  string  The html content.
+     */
+    public static function get_autorizado_template( string $nome ) : string {
+
+        $content = self::get_header();
+
+        $message = '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
+        $message .= '<span style="font-size: 25px;">Olá <strong>' . $nome . '</strong>, </span>';
+        $message .= '</p>';
+        $message .= '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
+        $message .= '<span style="font-size: 18px;"><strong>O pagamento do seu currículo foi <b>autorizado</b>, porém estamos aguardando a confirmação do pagamento, assim que a recebermos, te enviaremos um email de confirmação.</span>';
+        $message .= '</p>';
+
+        $content .= self::get_content( $message );
+        $content .= self::get_footer();
+
+        return $content;
+
+    }
+
+    /**
+     * Method that return the html content of pedido devolvido.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @param   string  $nome The customer name.
+     * @return  string  The html content.
+     */
+    public static function get_devolvido_template( string $nome ) : string {
+
+        $content = self::get_header();
+
+        $message = '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
+        $message .= '<span style="font-size: 25px;">Olá <strong>' . $nome . '</strong>, </span>';
+        $message .= '</p>';
+        $message .= '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
+        $message .= '<span style="font-size: 18px;"><strong>O pagamento do seu currículo já foi devolvido.</span>';
+        $message .= '</p>';
+
+        $content .= self::get_content( $message );
+        $content .= self::get_footer();
+
+        return $content;
+
+    }
+
+    /**
+     * Method that return the html content of pedido estornado.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @param   string  $nome The customer name.
+     * @return  string  The html content.
+     */
+    public static function get_estornado_template( string $nome ) : string {
+
+        $content = self::get_header();
+
+        $message = '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
+        $message .= '<span style="font-size: 25px;">Olá <strong>' . $nome . '</strong>, </span>';
+        $message .= '</p>';
+        $message .= '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
+        $message .= '<span style="font-size: 18px;"><strong>O pagamento do seu currículo já foi estornado.</span>';
+        $message .= '</p>';
+
+        $content .= self::get_content( $message );
+        $content .= self::get_footer();
+
+        return $content;
+
+    }
+
+    /**
+     * Method that return the html content of pedido cancelado.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @param   string  $nome The customer name.
+     * @return  string  The html content.
+     */
+    public static function get_cancelado_template( string $nome ) : string {
+
+        $content = self::get_header();
+
+        $message = '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
+        $message .= '<span style="font-size: 25px;">Olá <strong>' . $nome . '</strong>, </span>';
+        $message .= '</p>';
+        $message .= '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
+        $message .= '<span style="font-size: 18px;"><strong>O pagamento do seu currículo já foi cancelado.</span>';
+        $message .= '</p>';
+
+        $content .= self::get_content( $message );
+        $content .= self::get_footer();
+
+        return $content;
+
+    }
+
 }
