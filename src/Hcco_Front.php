@@ -77,7 +77,8 @@ class Hcco_Front {
 
 		$registred_pages = array(
 			'cadastro_de_curriculo' => ['Hcco_Cadastro_Curriculo_Page', 'home'],
-			'finalizar_o_cadastro_do_curriculo' => ['Hcco_Finalizar_Cadastro_Curriculo_Page', 'home']
+			'finalizar_o_cadastro_do_curriculo' => ['Hcco_Finalizar_Cadastro_Curriculo_Page', 'home'],
+			'cadastro_do_curriculo_finalizado' => ['Hcco_Cadastro_Curriculo_Finalizado_Page', 'home']
 		);
 
 		return $registred_pages[$page];
