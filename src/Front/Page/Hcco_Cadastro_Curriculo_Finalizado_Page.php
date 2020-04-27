@@ -36,7 +36,11 @@ class Hcco_Cadastro_Curriculo_Finalizado_Page extends Hcco_Front_Page {
 
 		}
 
-        $this->display_content( $curriculo->get_nome(), $pedido->get_status_pagamento(), $this->get_message( $pedido->get_status_pagamento() ) );
+        $this->display_content( 
+            $curriculo->get_nome(),
+            $this->get_payment_status( $pedido->get_status_pagamento() ), 
+            $this->get_message( $pedido->get_status_pagamento() ) 
+        );
 
     }
 
@@ -63,6 +67,32 @@ class Hcco_Cadastro_Curriculo_Finalizado_Page extends Hcco_Front_Page {
         );
 
         return $messages[$status] ?? '';
+
+    }
+
+    /**
+     * Method that return an cliente ui pedido payment status.
+     * 
+     * @since   1.0.0
+     * @access  private
+     * @param   string      $status Pedido payment status.
+     * @return  string      The payment status.
+     */
+    private function get_payment_status( string $status ) : string {
+
+        $payment_status = array(
+            'aprovado'      => 'Aprovado',
+            'rejeitado'     => 'Rejeitado',
+            'pendente'      => 'Pendente',
+            'em_mediacao'   => 'Em Mediação',
+            'em_processo'   => 'Em processo',
+            'autorizado'    => 'Autorizado',
+            'devolvido'     => 'Devolvido',
+            'estornado'     => 'Estornado',
+            'cancelado'     => 'Cancelado'
+        );
+
+        return $payment_status[$status] ?? '';
 
     }
 
