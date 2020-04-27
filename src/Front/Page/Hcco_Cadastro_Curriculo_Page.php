@@ -73,6 +73,7 @@ class Hcco_Cadastro_Curriculo_Page extends Hcco_Front_Page {
 			$pedido->set_usuario_id( $user_id_hash );
 			$pedido->set_preco( Hcco_Configuracoes_Mapper::get_preco() );
 			$pedido->set_status_pagamento( 'pendente' );
+			$pedido->gerar_codigo_referencia();
 
 			// stores pedido in database
 			$pedido = Hcco_Pedido_Mapper::create( $pedido );
