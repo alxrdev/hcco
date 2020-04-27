@@ -22,10 +22,8 @@ class Hcco_Pedido extends Hcco_Entity {
     /**
      * Método que gera o código de referencia do pedido
      * utilizando o nome do cliente e datetime no método md5
-     *
-     * @param string $nome Nome do cliente
      */
-    private function gerar_codigo_referencia() {
+    public function gerar_codigo_referencia() {
 
         $this->set_codigo_referencia( 'HOLOS_' . md5( current_time( 'd/m/yy h:m:s' ) . rand( 0, 100 ) ) );
 
