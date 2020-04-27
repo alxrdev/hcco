@@ -90,7 +90,7 @@ class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
 		);
 
 		// redireciona para a página de informações
-		wp_redirect( home_url( '/cadastro-do-curriculo-finalizado' ) );
+		wp_redirect( home_url( '/cadastro-do-curriculo-finalizado?ref_id=' . $pedido->get_codigo_referencia() ) );
 		exit;
 
 	}
