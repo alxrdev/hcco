@@ -104,7 +104,7 @@ class Hcco_Email_Templates {
         $message .= '<span style="font-size: 25px;">Olá <strong>' . $nome . '</strong>, </span>';
         $message .= '</p>';
         $message .= '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
-        $message .= '<span style="font-size: 18px;"><strong>Recebemos o pagamento do seu currículo</strong>, agora ele se encontra em nosso banco de dados, fique atento ao seu telefone, pois assim que abrirem vagas com o seu perfil, ligaremos para você.</span>';
+        $message .= '<span style="font-size: 18px;">Recebemos o pagamento do seu currículo, agora ele se encontra em nosso banco de dados, fique atento ao seu telefone, pois assim que abrirem vagas com o seu perfil, ligaremos para você.</span>';
         $message .= '</p>';
 
         $content .= self::get_content( $message );
@@ -130,7 +130,7 @@ class Hcco_Email_Templates {
         $message .= '<span style="font-size: 25px;">Olá <strong>' . $nome . '</strong>, </span>';
         $message .= '</p>';
         $message .= '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
-        $message .= '<span style="font-size: 18px;"><strong>Infelizmente seu pagamento foi rejeitado</strong>, mas não fique triste, clique <a href="https://holoscdh.com.br/finalizar-o-cadastro-do-curriculo" title="Finalizar o cadastro do currículo">aqui</a> e tente realizar o pagamento novamente.</span>';
+        $message .= '<span style="font-size: 18px;">Infelizmente seu pagamento foi rejeitado, mas não fique triste, clique <a href="https://holoscdh.com.br/finalizar-o-cadastro-do-curriculo" title="Finalizar o cadastro do currículo">aqui</a> e tente realizar o pagamento novamente.</span>';
         $message .= '</p>';
 
         $content .= self::get_content( $message );
@@ -156,7 +156,7 @@ class Hcco_Email_Templates {
         $message .= '<span style="font-size: 25px;">Olá <strong>' . $nome . '</strong>, </span>';
         $message .= '</p>';
         $message .= '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
-        $message .= '<span style="font-size: 18px;"><strong>Estamos aguardando o pagamento do seu currículo, clique <a href="https://holoscdh.com.br/finalizar-o-cadastro-do-curriculo" title="Finalizar o cadastro do currículo">aqui</a> para realizar o pagamento, caso já o tenha realizado, desconsidere este email.</span>';
+        $message .= '<span style="font-size: 18px;">Estamos aguardando o pagamento do seu currículo, clique <a href="https://holoscdh.com.br/finalizar-o-cadastro-do-curriculo" title="Finalizar o cadastro do currículo">aqui</a> para realizar o pagamento, caso já o tenha realizado, desconsidere este email.</span>';
         $message .= '</p>';
 
         $content .= self::get_content( $message );
@@ -182,7 +182,7 @@ class Hcco_Email_Templates {
         $message .= '<span style="font-size: 25px;">Olá <strong>' . $nome . '</strong>, </span>';
         $message .= '</p>';
         $message .= '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
-        $message .= '<span style="font-size: 18px;"><strong>Estamos aguardando a confirmação do pagamento do seu currículo, assim que a recebermos, te enviaremos um email de confirmação.</span>';
+        $message .= '<span style="font-size: 18px;">Estamos aguardando a confirmação do pagamento do seu currículo, assim que a recebermos, te enviaremos um email de confirmação.</span>';
         $message .= '</p>';
 
         $content .= self::get_content( $message );
@@ -250,7 +250,7 @@ class Hcco_Email_Templates {
         $message .= '<span style="font-size: 25px;">Olá <strong>' . $nome . '</strong>, </span>';
         $message .= '</p>';
         $message .= '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
-        $message .= '<span style="font-size: 18px;"><strong>O pagamento do seu currículo foi <b>autorizado</b>, porém estamos aguardando a confirmação do pagamento, assim que a recebermos, te enviaremos um email de confirmação.</span>';
+        $message .= '<span style="font-size: 18px;">O pagamento do seu currículo foi autorizado, porém estamos aguardando a confirmação do pagamento, assim que a recebermos, te enviaremos um email de confirmação.</span>';
         $message .= '</p>';
 
         $content .= self::get_content( $message );
@@ -276,7 +276,7 @@ class Hcco_Email_Templates {
         $message .= '<span style="font-size: 25px;">Olá <strong>' . $nome . '</strong>, </span>';
         $message .= '</p>';
         $message .= '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
-        $message .= '<span style="font-size: 18px;"><strong>O pagamento do seu currículo já foi devolvido.</span>';
+        $message .= '<span style="font-size: 18px;">O pagamento do seu currículo já foi devolvido.</span>';
         $message .= '</p>';
 
         $content .= self::get_content( $message );
@@ -302,7 +302,7 @@ class Hcco_Email_Templates {
         $message .= '<span style="font-size: 25px;">Olá <strong>' . $nome . '</strong>, </span>';
         $message .= '</p>';
         $message .= '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
-        $message .= '<span style="font-size: 18px;"><strong>O pagamento do seu currículo já foi estornado.</span>';
+        $message .= '<span style="font-size: 18px;">O pagamento do seu currículo já foi estornado.</span>';
         $message .= '</p>';
 
         $content .= self::get_content( $message );
@@ -328,7 +328,7 @@ class Hcco_Email_Templates {
         $message .= '<span style="font-size: 25px;">Olá <strong>' . $nome . '</strong>, </span>';
         $message .= '</p>';
         $message .= '<p style="text-align: left; line-height: 1.8; word-break: break-word; font-size: 18px; mso-line-height-alt: 32px; margin: 0;">';
-        $message .= '<span style="font-size: 18px;"><strong>O pagamento do seu currículo já foi cancelado.</span>';
+        $message .= '<span style="font-size: 18px;">O pagamento do seu currículo já foi cancelado.</span>';
         $message .= '</p>';
 
         $content .= self::get_content( $message );
