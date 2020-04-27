@@ -85,34 +85,23 @@ class Hcco_Mercado_Pago {
 		$payment = new \MercadoPago\Payment();
 		$payment->transaction_amount = $pedido->get_preco();
 		$payment->token = $token;
-		$payment->description = "CDC";
-		// $payment->description = "HOLOS Cadastro de Curriculo";
+		$payment->description = "HOLOS Cadastro de Curriculo";
 		$payment->installments = 1;
         $payment->payment_method_id = $payment_method_id;
-		// $payment->external_reference = $pedido->get_codigo_referencia();
-		$payment->external_reference = md5('éissoaimeubroder');
+		$payment->external_reference = $pedido->get_codigo_referencia();
 		$payment->payer = array(
-			"first_name" => 'Seu João',
+			"first_name" => $curriculo->get_nome(),
 			"address" => array( 
-				"zip_code" => '29968000', 
-				"street_name" => 'a',
-				"street_number" => '2',
+				"zip_code" => $curriculo->get_cep(),
+				"street_name" => $curriculo->get_endereco(),
+				"street_number" => $curriculo->get_numero(),
+			),
+			"phone" => array(
+				"area_code" => '0' . substr( str_replace( " ", "", $curriculo->get_telefone_1() ), 0, 2),
+				"number" => substr( str_replace( " ", "", $curriculo->get_telefone_1() ), 2)
 			),
 			"email" => "test_user_80507629@testuser.com"
         );
-		// $payment->payer = array(
-		// 	"first_name" => $curriculo->get_nome(),
-		// 	"address" => array( 
-		// 		"zip_code" => $curriculo->get_cep(), 
-		// 		"street_name" => $curriculo->get_endereco(),
-		// 		"street_number" => $curriculo->get_numero(),
-		// 	),
-		// 	"phone" => array(
-		// 		"area_code" => substr( str_replace( " ", "", $curriculo->get_telefone_1() ), 0, 2),
-		// 		"number" => substr( str_replace( " ", "", $curriculo->get_telefone_1() ), 2)
-		// 	),
-		// 	"email" => $curriculo->get_email()
-        // );
         $payment->notification_url = get_home_url() . '/wp-json/hcco/v1/mp-notifications';
 
 		$payment->save();
