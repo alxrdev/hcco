@@ -49,7 +49,7 @@ class Hcco_Front_Page {
 		// reset the cookie and redirect to the same page.
 		if ( ! $this->validate_pedido( $pedido ) ) {
 
-			unset( $_COOKIE['user_id_hash'] );
+			setcookie( 'user_id_hash', '', time() - 3600, '/' );
 			wp_redirect( home_url( '/cadastro-de-curriculo' ) );
 			exit;
 
