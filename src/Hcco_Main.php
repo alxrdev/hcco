@@ -81,6 +81,9 @@ class Hcco_Main {
         // Scripts
         $this->loader->add_action( $admin, 'admin_enqueue_scripts', 'enqueue_scripts' );
 
+        // Ajax
+        $this->loader->add_action( $admin, 'wp_ajax_delete_curriculo', 'delete_curriculo' );
+
         // Dashboard menus
         $this->loader->add_action( $admin, 'admin_menu', 'register_menus' );
 
