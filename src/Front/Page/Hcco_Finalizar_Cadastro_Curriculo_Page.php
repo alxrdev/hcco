@@ -67,15 +67,16 @@ class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
 		$mp = new Hcco_Mercado_Pago();
 		$mp->process_credit_card_payment( $pedido, $curriculo, $payment_method_id, $token );
 
+		// if has an error
+		if ( $mp->has_error() == true )
+			return $mp->get_messages();
+
 		// change the pedido payment status
 		$status = Hcco_Mercado_Pago::get_status_pt( $mp->get_status() );
 		$pedido->set_status_pagamento( $status );
 		$pedido->set_payment_id( $mp->get_payment_id() );
+		$pedido->set_atualizado_em( current_time( 'yy/m/d h:m:s' ) );
 		Hcco_Pedido_Mapper::update( $pedido );
-
-		// if has an error
-		if ( $mp->has_error() == true )
-			return $mp->get_messages();
 		
 		// send an email notification message
 		call_user_func_array( 
