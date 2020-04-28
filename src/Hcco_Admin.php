@@ -41,6 +41,26 @@ class Hcco_Admin {
     }
 
     /**
+	 * Register the JavaScript for the admin dashboard of the site.
+	 * 
+	 * @since 	1.0.0
+	 * @access	public
+	 */
+	public function enqueue_scripts() : void {
+
+		wp_enqueue_script( $this->plugin_name, HCCO_URL . 'resources/admin/js/hcco-admin.js', array(), $this->version, false );
+		wp_localize_script( 
+            $this->plugin_name, 
+            'hcco_ajax_object', 
+            array( 
+                'ajax_url' => admin_url( 'admin-ajax.php' ),
+                'delete_curriculo_action' => 'delete_curriculo'
+            ) 
+        );
+
+	}
+
+    /**
      * Method that register all menu items.
      * 
      * @since   1.0.0
