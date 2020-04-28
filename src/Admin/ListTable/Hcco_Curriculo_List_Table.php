@@ -207,11 +207,9 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
                 $curriculo['id']
             ),
             'delete' => sprintf(
-                '<a href="?page=%s&action=%s&curriculo=%s&_wpnonce=%s">' . __( 'Apagar', 'hcco' ) . '</a>',  
-                $_REQUEST['page'], 
-                'delete', 
-                $curriculo['id'],
-                wp_create_nonce( 'delete_curriculo' . $curriculo['id'] )
+                '<a href="javascript:void(0)" onClick="hcco_delete_curriculo(\'%s\',%s)">' . __( 'Apagar', 'hcco' ) . '</a>',
+                wp_create_nonce( 'delete_curriculo' . $curriculo['id'] ), 
+                $curriculo['id']
             ),
             'view' => sprintf(
                 '<a href="?page=%s&action=%s&curriculo=%s">' . __( 'Ver', 'hcco' ) . '</a>',  

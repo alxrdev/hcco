@@ -251,4 +251,28 @@ class Hcco_Menu_Curriculo {
 
     }
 
+    /**
+     * Method that receive an ajax request and delete an curriculo.
+     * 
+     * @since   1.0.0
+     * @access  public
+     */
+    public function delete_curriculo() {
+
+        // get the parameters
+        $nonce = $_REQUEST['_wpnonce'] ?? '';
+        $id = sanitize_text_field( $_REQUEST['curriculo_id'] ?? '' );
+
+        // verify the nonce
+        if ( ! wp_nonce_verify( $nonce, 'delete_curriculo' . $id ) )
+            wp_die();
+        
+        // delete the curriculo
+        // Hcco_Curriculo_Mapper::delete( $id );
+
+        echo 'Ok';
+        wp_die();
+
+    }
+
 }
