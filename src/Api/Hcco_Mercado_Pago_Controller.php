@@ -134,10 +134,8 @@ class Hcco_Mercado_Pago_Controller extends WP_REST_Controller {
         $pedido = Hcco_Pedido_Mapper::update( $pedido );
 
         // get the cliente email and nome
-        // $email = $payment->payer->email;
-        // $nome = $payment->payer->first_name;
-        $email = 'rodriguesalex793@gmail.com';
-        $nome = 'Alex Rodrigues Moreira';
+        $email = $payment->payer->email;
+        $nome = $payment->payer->first_name;
 
         // send the email
         $email_notification = new Hcco_Email_Notification();
