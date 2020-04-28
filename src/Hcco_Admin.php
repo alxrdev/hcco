@@ -12,6 +12,7 @@ class Hcco_Admin {
 	 * 
 	 * @since 	1.0.0
 	 * @access 	private
+     * @var     string The plugin name.
 	 */
     private $plugin_name;
     
@@ -20,6 +21,7 @@ class Hcco_Admin {
 	 * 
 	 * @since 	1.0.0
 	 * @access 	private
+     * @var     string The plugin version.
 	 */ 
     private $version;
 
@@ -72,11 +74,10 @@ class Hcco_Admin {
      * 
      * @since   1.0.0
      * @access  public
-     * @return  callable
      */
-    public function menu_curriculo() {
+    public function menu_curriculo() : void {
 
-        return $this->run_menu( new Hcco_Menu_Curriculo() );
+        $this->run_menu( new Hcco_Menu_Curriculo() );
 
     }
 
@@ -85,11 +86,10 @@ class Hcco_Admin {
      * 
      * @since   1.0.0
      * @access  public
-     * @return  callable
      */
-    public function menu_configuracoes() {
+    public function menu_configuracoes() : void {
 
-        return $this->run_menu( new Hcco_Menu_Configuracoes() );
+        $this->run_menu( new Hcco_Menu_Configuracoes() );
 
     }
 
@@ -104,7 +104,7 @@ class Hcco_Admin {
         $method = ( isset( $_REQUEST['action'] ) ) ? sanitize_text_field( $_REQUEST['action'] ) : 'home';
 
         if ( method_exists( $menu, $method ) )
-            return call_user_func( [$menu, $method] );
+            call_user_func( [$menu, $method] );
 
     }
 
