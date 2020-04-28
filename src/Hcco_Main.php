@@ -78,7 +78,10 @@ class Hcco_Main {
 
         $admin = new Hcco_Admin( $this->plugin_name, $this->version );
 
-        // dashboard menus
+        // Scripts
+        $this->loader->add_action( $admin, 'admin_enqueue_scripts', 'enqueue_scripts' );
+
+        // Dashboard menus
         $this->loader->add_action( $admin, 'admin_menu', 'register_menus' );
 
     }
