@@ -206,4 +206,32 @@ class Hcco_Curriculo_Mapper {
 
     }
 
+    /**
+     * Get the curriculo's count for admin list
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @return  array   Count
+     */
+    public static function get_count() {
+
+        global $wpdb;
+
+        $sql = "
+            SELECT 
+                COUNT(c.id)
+            FROM 
+                " . $wpdb->prefix . self::$table_name . " AS c
+            INNER JOIN
+                " . $wpdb->prefix . self::$ralation_table_name . " AS p
+            ON
+                c.id = p.curriculo_id
+            WHERE 
+                p.status_pagamento = 'aprovado'
+        ";
+
+        return $wpdb->get_var( $sql );
+
+    }
+
 }
