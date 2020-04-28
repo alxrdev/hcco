@@ -81,29 +81,41 @@ class Hcco_Mercado_Pago {
     public function process_credit_card_payment( Hcco_Pedido $pedido, Hcco_Curriculo $curriculo, $payment_method_id, $token ) : void {
 
 		\MercadoPago\SDK::setAccessToken( $this->access_token );
-			
+		
+		// Payment
 		$payment = new \MercadoPago\Payment();
-		$payment->transaction_amount = $pedido->get_preco();
-		$payment->token = $token;
-		$payment->description = "HOLOS Cadastro de Curriculo";
-		$payment->installments = 1;
-        $payment->payment_method_id = $payment_method_id;
-		$payment->external_reference = $pedido->get_codigo_referencia();
-		$payment->payer = array(
-			"first_name" => $curriculo->get_nome(),
-			"address" => array( 
-				"zip_code" => $curriculo->get_cep(),
-				"street_name" => $curriculo->get_endereco(),
-				"street_number" => $curriculo->get_numero(),
-			),
-			"phone" => array(
-				"area_code" => '0' . substr( str_replace( " ", "", $curriculo->get_telefone_1() ), 0, 2),
-				"number" => substr( str_replace( " ", "", $curriculo->get_telefone_1() ), 2)
-			),
-			"email" => "test_user_80507629@testuser.com"
-        );
-        $payment->notification_url = get_home_url() . '/wp-json/hcco/v1/mp-notifications';
+		$payment->transaction_amount 	= $pedido->get_preco();
+		$payment->token 				= $token;
+		$payment->description 			= "HOLOS Cadastro de Curriculo";
+		$payment->installments 			= 1;
+        $payment->payment_method_id 	= $payment_method_id;
+		$payment->external_reference 	= $pedido->get_codigo_referencia();
+		$payment->notification_url 		= get_home_url() . '/wp-json/hcco/v1/mp-notifications';
 
+		// Item
+		$item = new \MercadoPago\Item();
+		$item->id 			= $pedido->get_id();
+		$item->title 		= "Cadastro de Curríclo";
+		$item->quantity 	= 1;
+		$item->currency_id 	= "BRL";
+		$item->unit_price 	= $pedido->get_preco();
+
+		// Payer
+		$payer = new \MercadoPago\Payer();
+		$payer->first_name 		= $curriculo->get_nome();
+		$payer->email 			= "test_user_80507629@testuser.com";
+		$payer->address 		= array( 
+			"zip_code" 			=> $curriculo->get_cep(),
+			"street_name" 		=> $curriculo->get_endereco(),
+			"street_number" 	=> $curriculo->get_numero(),
+		);
+		// $payer->phone 			= array(
+		// 	"area_code" 		=> '0' . substr( str_replace( " ", "", $curriculo->get_telefone_1() ), 0, 2),
+		// 	"number" 			=> substr( str_replace( " ", "", $curriculo->get_telefone_1() ), 2)
+		// );
+
+		// $payment->items = array( $item );
+		$payment->payer = $payer;
 		$payment->save();
 
 		$this->set_payment_id( $payment->id );
