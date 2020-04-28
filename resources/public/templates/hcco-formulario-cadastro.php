@@ -117,12 +117,12 @@
                                 <div class="form-group">
                                     <label for="empregado" class="d-block">Esta empregado? <span>*</span></label>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="empregado" id="naoEmpregado" value="Não" <?php echo ( $curriculo->get_empregado() == 'Não' ) ? 'checked' : ''; ?>>
-                                        <label class="form-check-label" for="naoEmpregado">Não</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="empregado" id="empregado" value="Sim" <?php echo ( $curriculo->get_empregado() == 'Sim' ) ? 'checked' : ''; ?>>
                                         <label class="form-check-label" for="empregado">Sim</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="empregado" id="naoEmpregado" value="Não" <?php echo ( $curriculo->get_empregado() == 'Não' ) ? 'checked' : ''; ?>>
+                                        <label class="form-check-label" for="naoEmpregado">Não</label>
                                     </div>
                                 </div>
                             </div>
@@ -217,6 +217,7 @@
                         <div class="form-group">
                             <label for="email">Email <span>*</span></label>
                             <input type="email" class="form-control" id="email" name="email" required value="<?php echo $curriculo->get_email(); ?>" />
+                            <small id="emailHelp" class="form-text text-muted">Insira um email válido, pois usaremos para fazer contato.</small>
                         </div>
                         <div class="form-group">
                             <label for="">Redes Sociais</label>
@@ -290,6 +291,7 @@
                                     <div class="form-group">
                                         <label for="data_saida_empresa_1">Data de saida</label>
                                         <input type="date" class="form-control" id="data_saida_empresa_1" name="data_saida_empresa_1" value="<?php echo $curriculo->get_data_saida_empresa_1(); ?>" />
+                                        <small id="data_saida_empresa_1_help" class="form-text text-muted">Caso seja seu emprego atual, favor deixar em branco.</small>
                                     </div>
                                 </div>
                             </div>
