@@ -144,12 +144,8 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
      * @return null|string
      */
     public static function record_count() {
-
-        global $wpdb;
     
-        $sql = "SELECT COUNT(*) FROM {$wpdb->prefix}hcco_curriculo";
-    
-        return $wpdb->get_var( $sql );
+        return Hcco_Curriculo_Mapper::get_count();
 
     }
 
