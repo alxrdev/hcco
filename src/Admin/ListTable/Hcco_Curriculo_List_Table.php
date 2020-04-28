@@ -237,4 +237,13 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
 
     }
 
+    /**
+     * 
+     */
+    protected function column_cargos_profissoes( $curriculo ) {
+
+        return substr( $curriculo['cargos_profissoes'], 0, 50 ) . '...';
+
+    }
+
 }
