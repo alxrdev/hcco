@@ -3,7 +3,9 @@
 namespace Holos\Hcco\Admin\Menu;
 
 use Holos\Hcco\Admin\ListTable\Hcco_Curriculo_List_Table;
+use Holos\Hcco\Entity\Hcco_Pedido;
 use Holos\Hcco\Mapper\Hcco_Curriculo_Mapper;
+use Holos\Hcco\Mapper\Hcco_Pedido_Mapper;
 
 class Hcco_Menu_Curriculo {
 
@@ -271,6 +273,7 @@ class Hcco_Menu_Curriculo {
         
         // delete the curriculo
         Hcco_Curriculo_Mapper::delete( $id );
+        Hcco_Pedido_Mapper::delete( Hcco_Pedido_Mapper::get_by_curriculo_id( $id )->get_id() );
 
         wp_send_json_success( 'Curriculo ' . $id . ' deleted' );
         wp_die();
