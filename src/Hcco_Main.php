@@ -2,6 +2,7 @@
 
 namespace Holos\Hcco;
 
+use Holos\Hcco\Admin\Menu\Hcco_Menu_Curriculo;
 use Holos\Hcco\Hcco_Loader;
 use Holos\Hcco\Hcco_Front;
 use Holos\Hcco\Hcco_Admin;
@@ -82,7 +83,7 @@ class Hcco_Main {
         $this->loader->add_action( $admin, 'admin_enqueue_scripts', 'enqueue_scripts' );
 
         // Ajax
-        $this->loader->add_action( $admin, 'wp_ajax_delete_curriculo', 'delete_curriculo' );
+        $this->loader->add_action( new Hcco_Menu_Curriculo(), 'wp_ajax_delete_curriculo', 'delete_curriculo' );
 
         // Dashboard menus
         $this->loader->add_action( $admin, 'admin_menu', 'register_menus' );
