@@ -102,19 +102,6 @@ class Hcco_Admin {
     }
 
     /**
-     * Method that call the ajax action to delete a curriculo.
-     * 
-     * @since   1.0.0
-     * @access  public
-     */
-    public function wp_ajax_delete_curriculo() {
-
-        $menu = new Hcco_Menu_Curriculo();
-        $menu->delete_curriculo();
-
-    }
-
-    /**
      * Method that define what class shoud be executed for configuracoes menu.
      * 
      * @since   1.0.0
