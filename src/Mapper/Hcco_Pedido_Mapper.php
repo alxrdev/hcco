@@ -34,6 +34,24 @@ class Hcco_Pedido_Mapper {
     }
 
     /**
+     * Get an object by curriculo id
+     *
+     * @global wpdb $wpdb Wordpress database connection
+     *
+     * @param string $id The object id
+     */
+    public static function get_by_curriculo_id( $id ) {
+
+        global $wpdb;
+        
+        $sql = $wpdb->prepare( "SELECT * FROM " . $wpdb->prefix . self::$table . " WHERE curriculo_id = %s", $id );
+        $result = $wpdb->get_row( $sql, ARRAY_A );
+
+        return new Hcco_Pedido( $result );
+
+    }
+
+    /**
      * Get an object by usuario id
      *
      * @global wpdb $wpdb Wordpress database connection
