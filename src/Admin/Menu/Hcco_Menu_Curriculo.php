@@ -260,17 +260,19 @@ class Hcco_Menu_Curriculo {
     public function delete_curriculo() {
 
         // get the parameters
-        $nonce = $_REQUEST['_wpnonce'] ?? '';
-        $id = sanitize_text_field( $_REQUEST['curriculo_id'] ?? '' );
+        $nonce = $_POST['_wpnonce'] ?? '';
+        $id = sanitize_text_field( $_POST['curriculo_id'] ?? '' );
 
         // verify the nonce
-        if ( ! wp_nonce_verify( $nonce, 'delete_curriculo' . $id ) )
+        if ( ! wp_verify_nonce( $nonce, 'delete_curriculo' . $id ) ) {
+            wp_send_json_error( 'Bad Request' );
             wp_die();
+        }
         
         // delete the curriculo
-        // Hcco_Curriculo_Mapper::delete( $id );
+        Hcco_Curriculo_Mapper::delete( $id );
 
-        echo 'Ok';
+        wp_send_json_success( 'Curriculo ' . $id . ' deleted' );
         wp_die();
 
     }
