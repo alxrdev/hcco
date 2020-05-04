@@ -7,6 +7,10 @@ const hcco_remove_curriculo_from_list = id => {
 
 // function that delete a curriculo
 const hcco_delete_curriculo = (nonce, id) => {
+    if (!document.confirm('Você realmente deseja remover este currículo?')) {
+        return false
+    }
+
     httpRequest = new XMLHttpRequest()
     httpRequest.onreadystatechange = () => {
         if ( httpRequest.readyState === XMLHttpRequest.DONE && httpRequest.status === 200 ) {
