@@ -370,11 +370,11 @@
                     <fieldset>
                         <p class="mb-3">Atenção, campos marcados com <span>*</span>, são obrigatórios.</p>
                         <div class="form-group">
-                            <label for="cargos_profissoes">Cargos/Profissões <span>*</span></label>
+                            <label for="cargos_profissoes">Cargos/Profissões pretendidas <span>*</span></label>
                             <textarea name="cargos_profissoes" id="cargos_profissoes" cols="5" rows="3" class="form-control" placeholder="separe os cargos ou prifissões com uma ','." required><?php echo $curriculo->get_cargos_profissoes(); ?></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="ramos_de_atividade">Ramos de atividade <span>*</span></label>
+                            <label for="ramos_de_atividade">Ramos de atividade pretendidas <span>*</span></label>
                             <textarea name="ramos_de_atividade" id="ramos_de_atividade" cols="5" rows="3" class="form-control" placeholder="separe os ramos de atividade com uma ','." required><?php echo $curriculo->get_ramos_de_atividade(); ?></textarea>
                         </div>
                         <div class="form-group">

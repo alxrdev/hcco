@@ -109,7 +109,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="hcco-payment-picpay-tab" data-toggle="pill" href="#hcco-payment-picpay" role="tab" aria-controls="hcco-payment-picpay" aria-selected="false">
-                                        <i class="fab fa-paypal"></i> <span>PicPay</span>
+                                        <img src="<?php echo HCCO_URL ?>/resources/public/img/picpay-icon.svg" alt="icon picpay"> <span>PicPay</span>
                                     </a>
                                 </li>
                             </ul>
@@ -126,7 +126,7 @@
                                         <!-- MP Script -->
                                         <script src="https://www.mercadopago.com/v2/security.js" view="hcco_checkout"></script>
                                         <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
-                                        <img src="https://imgmp.mlstatic.com/org-img/MLB/MP/BANNERS/tipo2_468X60.jpg?v=1" 
+                                        <img src="<?php echo HCCO_URL . '/resources/public/img/banner-mp.jpg' ?>"
                                         alt="Mercado Pago - Meios de pagamento" title="Mercado Pago - Meios de pagamento" 
                                         class="img-fluid w-100 mb-3" />
                                         
