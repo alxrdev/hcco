@@ -110,7 +110,7 @@ class Hcco_Curriculo extends Hcco_Entity {
 
     public function set_sexo( $sexo ) {
 
-        $sexo_list = array( 'masculino', 'feminino' );
+        $sexo_list = array( 'Masculino', 'Feminino' );
         if ( in_array( $sexo , $sexo_list ) )
             $this->sexo = $sexo;
 
