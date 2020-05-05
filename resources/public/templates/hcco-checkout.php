@@ -104,7 +104,7 @@
                             <ul class="nav nav-pills" id="hcco-payment-tabs-list" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="hcco-payment-cc-tab" data-toggle="pill" href="#hcco-payment-cc" role="tab" aria-controls="hcco-payment-cc" aria-selected="true">
-                                        <i class="far fa-credit-card"></i> <span>Cartão de crédito</span>
+                                        <img src="<?php echo HCCO_URL ?>/resources/public/img/credit-card.svg" alt="icon credit card"> <span>Cartão de crédito</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -188,7 +188,18 @@
                                 <!-- PicPay -->
                                 <div class="tab-pane fade" id="hcco-payment-picpay" role="tabpanel" aria-labelledby="hcco-payment-picpay-tab">
                                     <div class="hcco-payment-method-content">
-                                        <p>PicPay</p>
+                                        <img src="<?php echo HCCO_URL; ?>/resources/public/img/banner-picpay.svg" alt="Banner PicPay">
+                                        <h4>Pague com PicPay, direto do seu celular.</h4>
+                                        <p>Ao clicar em pagar, você será redirecionado para a página do PicPay e um código será exibido. Para pagar, basta escanear o código com seu PicPay.</p>
+                                        
+                                        <form action="" method="POST" id="picPayPaymentForm">
+                                            <?php wp_nonce_field( 'pagar_picpay', 'pagar_picpay_nonce' ); ?>
+                                            <div class="form-group">
+                                                <label for="picPayCpf">CPF</label>
+                                                <input type="text" name="picPayCpf" id="picPayCpf" class="form-control" placeholder="000.000.000-00" maxlength="14" required="true">
+                                            </div>
+                                            <button class="btn btn-lg d-block w-100 hcco-picpay-button"><i class="fas fa-lock"></i> Pagar R$ <?php echo $pedido->get_preco(); ?></button>
+                                        </form>
                                     </div>
                                 </div>
                                 <!-- PicPay -->

@@ -290,7 +290,9 @@
     align-items: center;
     padding: 10px;
     min-height: 65px;
-    font-size: 0.80rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
     color: #737278;
     border: 1px solid #737278;
 }
@@ -306,6 +308,10 @@
 
 .hcco-payment-tabs .nav-link { margin-right: 10px; }
 .hcco-payment-tabs .nav-link:nth-last-of-type() { margin-right: 0; }
+
+.hcco-payment-section .nav { display: block; }
+.hcco-payment-tabs .nav-link { margin-bottom: 10px; }
+.hcco-payment-tabs .nav-link:nth-last-of-type() { margin-bottom: 0; }
 
 .hcco-payment-tabs .nav-link.active {
     background-color: transparent!important;
@@ -332,7 +338,8 @@
 }
 
 .hcco-payment-method-content label.error {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
+    text-transform: initial;
     color: tomato;
     display: block;
     width: 100%;
@@ -354,8 +361,18 @@
     max-width: 30px;
 }
 
-@media (max-width: 575px) {
-    .hcco-payment-section .nav { display: block; }
-    .hcco-payment-tabs .nav-link { margin-bottom: 10px; }
-    .hcco-payment-tabs .nav-link:nth-last-of-type() { margin-bottom: 0; }
+#hcco-payment-picpay img {
+    width: 200px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+#hcco-payment-picpay form {
+    margin-top: 15px;
+}
+
+#hcco-payment-picpay .hcco-picpay-button {
+    background-color: #21c25e;
+    color: #fff;
+    margin-top: 15px;
 }

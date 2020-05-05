@@ -289,3 +289,10 @@ function sdkResponseHandler(status, response) {
         form.submit();
     }
 }
+
+
+
+/**
+ * Checkout PicPay form
+ */
+jQuery('#picPayCpf').mask('000.000.000-00');
