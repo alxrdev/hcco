@@ -21,9 +21,12 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
     }
 
     /**
-     * All the data manipulation goes here
+     * All the data manipulation goes here.
+     * 
+     * @since   1.0.0
+     * @access  public
      */
-    public function prepare_items() {
+    public function prepare_items() : void {
 
         //used by WordPress to build and fetch the _column_headers property
         // $this->_column_headers = $this->get_column_info();
@@ -50,9 +53,13 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
     }
 
     /**
-     * Table columns name
+     * Map database table columns, to the list table.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @return  array       $table_columns Array with the name os the columns.
      */
-    public function get_columns() {
+    public function get_columns() : array {
 
         $table_columns = array(
             'cb'                    => '<input type="checkbox" />',
@@ -68,20 +75,26 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
     }
 
     /**
-     * Column defaults is used to identify the individual column method
+     * Column defaults is used to identify the individual column method.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @return  string      The column name.
      */
-    public function column_default( $item, $column_name ) {
+    public function column_default( $item, $column_name ) : string {
 
         return $item[$column_name];
 
     }
 
     /**
-     * Columns to make sortable.
+     * Columns that will be sortable.
      *
-     * @return array
+     * @since   1.0.0
+     * @access  public
+     * @return  array  The array with columns that will be sortable.
      */
-    public function get_sortable_columns() {
+    public function get_sortable_columns() : array {
 
         $sortable_columns = array(
             'nome'      => array( 'nome', true ),
@@ -93,11 +106,12 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
     }
 
     /**
-     * Method for name column
+     * Method for column name.
      *
-     * @param array $item an array of DB data
-     *
-     * @return string
+     * @since   1.0.0
+     * @access  public
+     * @param   array   $item an array of DB data
+     * @return  string  The column content.
      */
     protected function column_name( $item ) {
 
@@ -115,14 +129,15 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
     }
 
     /**
-     * Retrieve curriculo's data from the database
+     * Retrieve curriculo's data from the database.
      * 
-     * @param int $per_page
-     * @param int $page_number
-     * 
-     * @return mixed
+     * @since   1.0.0
+     * @access  public
+     * @param   int         $per_page The number of items per page.
+     * @param   int         $page_number The currente page count.
+     * @return array|null   Array with items from database.
      */
-    public function fetch_table_data( $per_page, $page_number ) {
+    public function fetch_table_data( $per_page, $page_number ) :?array {
 
         // verifica se está pesquisando
         $search = ( ! empty( $_REQUEST['s'] ) ) ? wp_unslash( trim( $_REQUEST['s'] ) ) : '';
@@ -141,7 +156,9 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
     /**
      * Returns the count of records in the database.
      *
-     * @return null|string
+     * @since   1.0.0
+     * @access  public
+     * @return  string|null
      */
     public static function record_count() {
     
@@ -150,26 +167,13 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
     }
 
     /**
-     * Get value for checkbox column.
+     * Returns an associative array containing the bulk action.
      *
-     * @param object $item  A row's data.
-     * @return string Text to be placed inside the column <td>.
+     * @since   1.0.0
+     * @access  public
+     * @return  array
      */
-    protected function column_cb( $item ) {
-
-        return sprintf(		
-            '<label class="screen-reader-text" for="curriculo_' . $item['id'] . '">' . sprintf( __( 'Select %s' ), $item['nome'] ) . '</label>'
-            . "<input type='checkbox' name='curriculos[]' id='curriculo_{$item['id']}' value='{$item['id']}' />"					
-        );
-
-    }
-
-    /**
-     * Returns an associative array containing the bulk action
-     *
-     * @return array
-     */
-    public function get_bulk_actions() {
+    public function get_bulk_actions() :array {
 
         /*
         * on hitting apply in bulk actions the url paramas are set as
@@ -187,6 +191,9 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
 
     /**
      * Message to display when no itens found.
+     * 
+     * @since   1.0.0
+     * @access  public
      */
     public function no_items() {
 
@@ -195,9 +202,50 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
     }
 
     /**
+     * Return the status filter.
      * 
+     * @since   1.0.0
+     * @access  public
+     * @return  array       The list of filters.
      */
-    protected function column_nome( $curriculo ) {
+    public function get_views() : array {
+        
+        $status_links = array(
+            'aprovado' => '<a href="#">Aprovados</a>',
+            'pendente' => '<a href="#">Pendentes</a>',
+            'rejeitado' => '<a href="#">Rejeitados</a>',
+            'em_processo' => '<a href="#">Em processo</a>'
+        );
+
+        return $status_links;
+    }
+
+    /**
+     * Get value for checkbox column.
+     *
+     * @since   1.0.0
+     * @access  public
+     * @param   object      $item  A row's data.
+     * @return  string      Text to be placed inside the column <td>.
+     */
+    protected function column_cb( $item ) {
+
+        return sprintf(		
+            '<label class="screen-reader-text" for="curriculo_' . $item['id'] . '">' . sprintf( __( 'Select %s' ), $item['nome'] ) . '</label>'
+            . "<input type='checkbox' name='curriculos[]' id='curriculo_{$item['id']}' value='{$item['id']}' />"					
+        );
+
+    }
+
+    /**
+     * Returns the content from column name.
+     * 
+     * @since   1.0.0
+     * @access  protected
+     * @param   object      The curriculo entity.
+     * @return  string      The column content.
+     */
+    protected function column_nome( $curriculo ) : string {
 
         $actions = array(
             'edit' => sprintf(
@@ -232,7 +280,12 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
     }
 
     /**
+     * Returns the content from column cargos_profissoes.
      * 
+     * @since   1.0.0
+     * @access  protected
+     * @param   object      The curriculo entity.
+     * @return  string      The column content.
      */
     protected function column_cargos_profissoes( $curriculo ) {
 
