@@ -13,6 +13,7 @@ class Hcco_Mercado_Pago {
 	 * 
 	 * @since 	1.0.0
 	 * @access 	private
+	 * @var 	string		The mercado pago private access token.
 	 */
 	private $access_token;
 
@@ -21,6 +22,7 @@ class Hcco_Mercado_Pago {
 	 * 
 	 * @since 	1.0.0
 	 * @access 	private
+	 * @var 	string		The payment id.
 	 */
 	private $payment_id;
 
@@ -29,6 +31,7 @@ class Hcco_Mercado_Pago {
 	 * 
 	 * @since 	1.0.0
 	 * @access 	private
+	 * @var 	string		The payment status.
 	 */
 	private $status;
 
@@ -37,6 +40,7 @@ class Hcco_Mercado_Pago {
 	 * 
 	 * @since 	1.0.0
 	 * @access 	private
+	 * @var 	string		The payment status details.
 	 */
 	private $status_details;
 
@@ -45,6 +49,7 @@ class Hcco_Mercado_Pago {
 	 * 
 	 * @since 	1.0.0
 	 * @access 	private
+	 * @var		bool		The payment error status.
 	 */
 	private $error;
 
@@ -53,6 +58,7 @@ class Hcco_Mercado_Pago {
 	 * 
 	 * @since 	1.0.0
 	 * @access 	private
+	 * @var 	bool 		The payment error messages.
 	 */
 	private $messages;
 
