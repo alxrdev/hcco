@@ -8,6 +8,7 @@ use Holos\Hcco\Entity\Hcco_Pedido;
 use Holos\Hcco\Mapper\Hcco_Pedido_Mapper;
 use Holos\Hcco\Payment\Hcco_Mercado_Pago;
 use Holos\Hcco\Email\Hcco_Email_Notification;
+use Holos\Hcco\Payment\Hcco_PicPay;
 
 class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
 
@@ -115,15 +116,23 @@ class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
 	 */
 	private function handle_picpay_payment( Hcco_Pedido $pedido, Hcco_Curriculo $curriculo ) : array {
 
+		// get the data
+		$cpf = sanitize_text_field( $_POST['picPayCpf'] ?? '' );
+
 		// checks if the cpf field has been filled
-		if ( ! isset( $_POST['picPayCpf'] ) )
+		if ( empty( $cpf ) )
 			return array( 'Você deve informar o seu CPF.' );
 		
 		// refresh the pedido reference code
 		$pedido->gerar_codigo_referencia();
+
+		// proccess the payment
+		$picpay = new Hcco_PicPay();
+		$picpay->process_payment( $pedido, $curriculo, $cpf );
+
 		// $pedido = Hcco_Pedido_Mapper::update( $pedido );
 
-		return array();
+		return array( 'Estamos processando o pagamento' );
 
 	}
 
