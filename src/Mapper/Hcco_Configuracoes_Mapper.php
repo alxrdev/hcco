@@ -65,6 +65,23 @@ class Hcco_Configuracoes_Mapper {
     }
 
     /**
+     * Save picpay configs
+     *
+     * @return mixed
+     */
+    public static function save_picpay( $picpay ) {
+
+        $configuracoes = self::fetch();
+        $configuracoes['picpay']['x_picpay_token']  = $picpay['x_picpay_token'];
+        $configuracoes['picpay']['x_seller_token']  = $picpay['x_seller_token'];
+        
+        self::save( $configuracoes );
+
+        return $configuracoes;
+
+    }
+
+    /**
      * Return mercado pago access tokens
      *
      *
@@ -75,6 +92,20 @@ class Hcco_Configuracoes_Mapper {
         $configuracoes = self::fetch();
         
         return $configuracoes['mercado_pago'][$configuracoes['mercado_pago']['ambiente']];
+
+    }
+
+    /**
+     * Return picpay access tokens
+     *
+     *
+     * @return mixed
+     */
+    public static function get_picpay_access_tokens() {
+
+        $configuracoes = self::fetch();
+        
+        return $configuracoes['picpay'];
 
     }
 
@@ -91,6 +122,5 @@ class Hcco_Configuracoes_Mapper {
         return $configuracoes['curriculo']['preco'];
 
     }
-
 
 }
