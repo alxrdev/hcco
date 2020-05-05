@@ -40,6 +40,14 @@ class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
 
 		}
 
+		// check if the picpay payment form has been sent
+		if ( isset( $_POST['pagar_picpay_nonce'] ) && wp_verify_nonce( $_POST['pagar_picpay_nonce'], 'pagar_picpay' ) ) {
+			
+			$messages = $this->handle_picpay_payment( $pedido, $curriculo );
+			$error = true;
+
+		}
+
         $this->display_finalizar_o_cadastro_do_curriculo( $pedido, $curriculo, $error, $messages );
         
     }
@@ -93,6 +101,29 @@ class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
 		// redireciona para a página de informações
 		wp_redirect( home_url( '/cadastro-do-curriculo-finalizado?ref_code=' . $pedido->get_codigo_referencia() ) );
 		exit;
+
+	}
+
+	/**
+	 * Method that handle picpay payment form.
+     * 
+     * @since   1.0.0
+     * @access  private
+     * @param   Hcco_Pedido     $pedido Pedido entity.
+     * @param   Hcco_Curriculo  $curriculo Curriculo entity.
+     * @return  array           Error messages.
+	 */
+	private function handle_picpay_payment( Hcco_Pedido $pedido, Hcco_Curriculo $curriculo ) : array {
+
+		// checks if the cpf field has been filled
+		if ( ! isset( $_POST['picPayCpf'] ) )
+			return array( 'Você deve informar o seu CPF.' );
+		
+		// refresh the pedido reference code
+		$pedido->gerar_codigo_referencia();
+		// $pedido = Hcco_Pedido_Mapper::update( $pedido );
+
+		return array();
 
 	}
 
