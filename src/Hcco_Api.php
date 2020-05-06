@@ -3,6 +3,7 @@
 namespace Holos\Hcco;
 
 use Holos\Hcco\Api\Hcco_Mercado_Pago_Controller;
+use Holos\Hcco\Api\Hcco_PicPay_Controller;
 
 class Hcco_Api {
 
@@ -46,6 +47,19 @@ class Hcco_Api {
     public function register_mercado_pago_controller() : void {
 
         $controller = new Hcco_Mercado_Pago_Controller( $this->plugin_name, $this->version );
+        $controller->register_routes();
+
+    }
+
+    /**
+     * Method that register the PicPay Controller.
+     * 
+     * @since   1.0.0
+     * @access  public
+     */
+    public function register_picpay_controller() : void {
+
+        $controller = new Hcco_PicPay_Controller( $this->plugin_name, $this->version );
         $controller->register_routes();
 
     }

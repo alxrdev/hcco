@@ -103,6 +103,9 @@ class Hcco_Main {
         // mercado pago controller
         $this->loader->add_action( $api, 'rest_api_init', 'register_mercado_pago_controller' );
 
+        // picpay controller
+        $this->loader->add_action( $api, 'rest_api_init', 'register_picpay_controller' );
+
     }
     
     /**
