@@ -5,7 +5,6 @@ namespace Holos\Hcco\Api;
 use Holos\Hcco\Email\Hcco_Email_Notification;
 use Holos\Hcco\Mapper\Hcco_Pedido_Mapper;
 use Holos\Hcco\Mapper\Hcco_Configuracoes_Mapper;
-use Holos\Hcco\Mapper\Hcco_Curriculo_Mapper;
 use Holos\Hcco\Payment\Hcco_Mercado_Pago;
 use \WP_REST_Controller;
 use \WP_REST_Response;
@@ -136,8 +135,7 @@ class Hcco_Mercado_Pago_Controller extends WP_REST_Controller {
 
         // get the cliente email and nome
         $nome = $payment->payer->first_name;
-        // $email = $payment->payer->email;
-        $email = Hcco_Curriculo_Mapper::fetch( $pedido->get_curriculo_id() )->get_email();
+        $email = $payment->payer->email;
 
         // send the email
         $email_notification = new Hcco_Email_Notification();

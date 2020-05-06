@@ -106,29 +106,6 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
     }
 
     /**
-     * Method for column name.
-     *
-     * @since   1.0.0
-     * @access  public
-     * @param   array   $item an array of DB data
-     * @return  string  The column content.
-     */
-    protected function column_name( $item ) {
-
-        // create a nonce
-        $delete_nonce = wp_create_nonce( 'sp_delete_customer' );
-    
-        $title = '<strong>' . $item['name'] . '</strong>';
-    
-        $actions = [
-            'delete' => sprintf( '<a href="?page=%s&action=%s&customer=%s&_wpnonce=%s">Delete</a>', esc_attr( $_REQUEST['page'] ), 'delete', absint( $item['ID'] ), $delete_nonce )
-        ];
-    
-        return $title . $this->row_actions( $actions );
-
-    }
-
-    /**
      * Retrieve curriculo's data from the database.
      * 
      * @since   1.0.0
@@ -199,25 +176,6 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
 
         _e( 'Nehum currículo foi encontrado', 'hcco' );
 
-    }
-
-    /**
-     * Return the status filter.
-     * 
-     * @since   1.0.0
-     * @access  public
-     * @return  array       The list of filters.
-     */
-    public function get_views() : array {
-        
-        $status_links = array(
-            'aprovado' => '<a href="#">Aprovados</a>',
-            'pendente' => '<a href="#">Pendentes</a>',
-            'rejeitado' => '<a href="#">Rejeitados</a>',
-            'em_processo' => '<a href="#">Em processo</a>'
-        );
-
-        return $status_links;
     }
 
     /**

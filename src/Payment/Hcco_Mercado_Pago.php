@@ -109,7 +109,7 @@ class Hcco_Mercado_Pago {
 		// Payer
 		$payer = new \MercadoPago\Payer();
 		$payer->first_name 		= $curriculo->get_nome();
-		$payer->email 			= "test_user_80507629@testuser.com";
+		$payer->email 			= $curriculo->get_email();
 		$payer->address 		= array( 
 			"zip_code" 			=> $curriculo->get_cep(),
 			"street_name" 		=> $curriculo->get_endereco(),
