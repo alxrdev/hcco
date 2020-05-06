@@ -125,14 +125,18 @@ class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
 		
 		// refresh the pedido reference code
 		$pedido->gerar_codigo_referencia();
+		$pedido = Hcco_Pedido_Mapper::update( $pedido );
 
 		// proccess the payment
 		$picpay = new Hcco_PicPay();
 		$picpay->process_payment( $pedido, $curriculo, $cpf );
 
-		// $pedido = Hcco_Pedido_Mapper::update( $pedido );
-
-		return array( 'Estamos processando o pagamento' );
+		if ( $picpay->has_error() )
+			return array( $picpay->get_error_message() );
+		
+		// redirect to the picpay payment url
+		wp_redirect( $picpay->get_payment_url() );
+		exit;
 
 	}
 
