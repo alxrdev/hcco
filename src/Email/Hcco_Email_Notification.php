@@ -54,4 +54,109 @@ class Hcco_Email_Notification {
 
     }
 
+    /**
+     * Method that sends an message when the status is pendente.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @param   string      $nome The customer's name.
+     * @param   string      $email The customer's email.
+     */
+    public function send_pendente( string $email, string $nome ) : void {
+
+        $message = Hcco_Email_Templates::get_pendente_template( $nome );
+        $this->send( $email, 'Pagamento Pendente', $message );
+
+    }
+
+    /**
+     * Method that sends an message when the status is em mediacao.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @param   string      $nome The customer's name.
+     * @param   string      $email The customer's email.
+     */
+    public function send_em_mediacao( string $email, string $nome ) : void {
+
+        $message = Hcco_Email_Templates::get_em_mediacao_template( $nome );
+        $this->send( $email, 'Pagamento em Mediacao', $message );
+
+    }
+
+    /**
+     * Method that sends an message when the status is em processo.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @param   string      $nome The customer's name.
+     * @param   string      $email The customer's email.
+     */
+    public function send_em_processo( string $email, string $nome ) : void {
+
+        $message = Hcco_Email_Templates::get_em_processo_template( $nome );
+        $this->send( $email, 'Pagamento em Processo', $message );
+
+    }
+
+    /**
+     * Method that sends an message when the status is autorizado.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @param   string      $nome The customer's name.
+     * @param   string      $email The customer's email.
+     */
+    public function send_autorizado( string $email, string $nome ) : void {
+
+        $message = Hcco_Email_Templates::get_autorizado_template( $nome );
+        $this->send( $email, 'Pagamento Autorizado', $message );
+
+    }
+
+    /**
+     * Method that sends an message when the status is devolvido.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @param   string      $nome The customer's name.
+     * @param   string      $email The customer's email.
+     */
+    public function send_devolvido( string $email, string $nome ) : void {
+
+        $message = Hcco_Email_Templates::get_devolvido_template( $nome );
+        $this->send( $email, 'Pagamento Devolvido', $message );
+
+    }
+
+    /**
+     * Method that sends an message when the status is estornado.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @param   string      $nome The customer's name.
+     * @param   string      $email The customer's email.
+     */
+    public function send_estornado( string $email, string $nome ) : void {
+
+        $message = Hcco_Email_Templates::get_estornado_template( $nome );
+        $this->send( $email, 'Pagamento Estornado', $message );
+
+    }
+
+    /**
+     * Method that sends an message when the status is cancelado.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @param   string      $nome The customer's name.
+     * @param   string      $email The customer's email.
+     */
+    public function send_cancelado( string $email, string $nome ) : void {
+
+        $message = Hcco_Email_Templates::get_cancelado_template( $nome );
+        $this->send( $email, 'Pagamento Cancelado', $message );
+
+    }
+
 }
