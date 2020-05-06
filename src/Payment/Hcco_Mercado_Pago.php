@@ -98,29 +98,24 @@ class Hcco_Mercado_Pago {
 		$payment->external_reference 	= $pedido->get_codigo_referencia();
 		$payment->notification_url 		= get_home_url() . '/wp-json/hcco/v1/mp-notifications';
 
-		// Item
-		$item = new \MercadoPago\Item();
-		$item->id 			= $pedido->get_id();
-		$item->title 		= "Cadastro de Curríclo";
-		$item->quantity 	= 1;
-		$item->currency_id 	= "BRL";
-		$item->unit_price 	= $pedido->get_preco();
-
+		// format the customer name
+        $nameArray  = explode( ' ', $curriculo->get_nome() );
+        $first_name = $nameArray[0];
+        $last_name  = '';
+        for ( $count = 1; $count <= count( $nameArray ); $count++ )
+			$last_name .= $nameArray[$count] . ' ';
+			
 		// Payer
 		$payer = new \MercadoPago\Payer();
-		$payer->first_name 		= $curriculo->get_nome();
+		$payer->first_name 		= $first_name;
+		$payer->last_name 		= $last_name;
 		$payer->email 			= $curriculo->get_email();
 		$payer->address 		= array( 
 			"zip_code" 			=> $curriculo->get_cep(),
 			"street_name" 		=> $curriculo->get_endereco(),
 			"street_number" 	=> $curriculo->get_numero(),
 		);
-		// $payer->phone 			= array(
-		// 	"area_code" 		=> '0' . substr( str_replace( " ", "", $curriculo->get_telefone_1() ), 0, 2),
-		// 	"number" 			=> substr( str_replace( " ", "", $curriculo->get_telefone_1() ), 2)
-		// );
 
-		// $payment->items = array( $item );
 		$payment->payer = $payer;
 		$payment->save();
 
