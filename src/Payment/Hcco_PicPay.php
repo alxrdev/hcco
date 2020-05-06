@@ -205,4 +205,28 @@ class Hcco_PicPay {
 
 	}
 
+	/**
+	 * Method that return the payment status in portugues.
+	 * 
+	 * @since 	1.0.0
+	 * @access 	public
+	 * @param	string		$status The status name.
+	 * @return	string		Payment status.
+	 */
+	public static function get_status_pt( string $status ) : string {
+
+		$status_list = array(
+			'paid' 			=> 'aprovado',
+			'completed' 	=> 'aprovado',
+			'expired' 		=> 'rejeitado',
+			'analysis' 		=> 'em_processo',
+			'created' 		=> 'pendente',
+			'refunded' 		=> 'devolvido',
+			'chargeback' 	=> 'estornado'
+		);
+
+		return $status_list[$status] ?? 'pendente';
+
+	}
+
 }
