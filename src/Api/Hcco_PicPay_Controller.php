@@ -21,7 +21,7 @@ class Hcco_PicPay_Controller extends WP_REST_Controller {
 	 * 
 	 * @since 	1.0.0
 	 * @access 	private
-     * @param   string  The plugin name.
+     * @var   string  The plugin name.
 	 */
     private $plugin_name;
     
@@ -30,7 +30,7 @@ class Hcco_PicPay_Controller extends WP_REST_Controller {
 	 * 
 	 * @since 	1.0.0
 	 * @access 	private
-     * @param   string  The plugin version.
+     * @var   string  The plugin version.
 	 */ 
     private $version;
 
