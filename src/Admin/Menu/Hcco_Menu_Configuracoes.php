@@ -153,8 +153,8 @@ class Hcco_Menu_Configuracoes {
                     <th scope="row">Ambiente</th>
                     <td>
                         <select name="mercado_pago_ambiente" id="mercado_pago_ambiente">
-                            <option value="sandbox" <?php echo ($configuracoes['mercado_pago_ambiente'] == 'sandbox') ? 'selected' : ''; ?>>Sandbox</option>
-                            <option value="production" <?php echo ($configuracoes['mercado_pago_ambiente'] == 'production') ? 'selected' : ''; ?>>Production</option>
+                            <option value="sandbox" <?php echo ($configuracoes['mercado_pago']['ambiente'] == 'sandbox') ? 'selected' : ''; ?>>Sandbox</option>
+                            <option value="production" <?php echo ($configuracoes['mercado_pago']['ambiente'] == 'production') ? 'selected' : ''; ?>>Production</option>
                         </select>
                     </td>
                 </tr>
