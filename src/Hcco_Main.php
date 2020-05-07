@@ -11,27 +11,30 @@ use Holos\Hcco\Hcco_Api;
 class Hcco_Main {
 
     /**
-	 * Propertie that stores the plugin name.
-	 * 
-	 * @since 	1.0.0
-	 * @access 	private
-	 */
+     * Propertie that stores the plugin name.
+     * 
+     * @since 	1.0.0
+     * @access 	private
+     * @var     string      The plugin name.
+     */
     private $plugin_name = 'hcco';
     
     /**
-	 * Propertie that stores the plugin version.
-	 * 
-	 * @since 	1.0.0
-	 * @access 	private
-	 */
+     * Propertie that stores the plugin version.
+     * 
+     * @since 	1.0.0
+     * @access 	private
+     * @var     string      The plugin version.
+     */
     private $version = '1';
 
     /**
-	 * Propertie that stores the hook's loader.
-	 * 
-	 * @since 	1.0.0
-	 * @access 	private
-	 */ 
+     * Propertie that stores the hook's loader.
+     * 
+     * @since 	1.0.0
+     * @access 	private
+     * @var     Hcco_Loader     Object that stores and loads all wp hooks
+     */ 
     private $loader;
 
     /**
