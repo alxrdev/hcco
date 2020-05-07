@@ -3,7 +3,6 @@
 namespace Holos\Hcco\Admin\Menu;
 
 use Holos\Hcco\Admin\ListTable\Hcco_Curriculo_List_Table;
-use Holos\Hcco\Entity\Hcco_Pedido;
 use Holos\Hcco\Mapper\Hcco_Curriculo_Mapper;
 use Holos\Hcco\Mapper\Hcco_Pedido_Mapper;
 
@@ -11,6 +10,9 @@ class Hcco_Menu_Curriculo {
 
     /**
      * Display Home Page
+     * 
+     * @since   1.0.0
+     * @access  public
      */
     public function home() {
 
@@ -39,6 +41,9 @@ class Hcco_Menu_Curriculo {
 
     /**
      * Display a individual curriculo
+     * 
+     * @since   1.0.0
+     * @access  public
      */
     public function view() {
 
