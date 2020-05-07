@@ -52,11 +52,11 @@
                                 <div class="form-group">
                                     <label for="sexo" class="d-block">Sexo <span>*</span></label>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="sexo" id="sexoMasculino" value="Masculino" <?php echo ( $curriculo->get_sexo() == 'masculino' ) ? 'checked' : ''; ?>>
+                                        <input class="form-check-input" type="radio" name="sexo" id="sexoMasculino" value="Masculino" <?php echo ( $curriculo->get_sexo() == 'Masculino' ) ? 'checked' : ''; ?>>
                                         <label class="form-check-label" for="sexoMasculino">Masculino</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="sexo" id="sexoFeminino" value="Feminino" <?php echo ( $curriculo->get_sexo() == 'feminino' ) ? 'checked' : ''; ?>>
+                                        <input class="form-check-input" type="radio" name="sexo" id="sexoFeminino" value="Feminino" <?php echo ( $curriculo->get_sexo() == 'Feminino' ) ? 'checked' : ''; ?>>
                                         <label class="form-check-label" for="sexoFeminino">Feminino</label>
                                     </div>
                                 </div>

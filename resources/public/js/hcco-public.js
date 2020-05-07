@@ -1,13 +1,9 @@
-
-
-
-
-
 /**
- * Cadastro do curriculo
+ * Formulario de cadastro do curriculo
  */
-let form = jQuery(".wizard-vertical");
+const form = jQuery(".wizard-vertical")
 
+// validação do formulario
 form.validate({
     errorPlacement: function errorPlacement(error, element) {
         element.before(error);
@@ -70,6 +66,7 @@ form.validate({
     },
 });
 
+// jquery form steps
 form.steps({
 	headerTag: "h3",
 	bodyTag: "fieldset",
@@ -94,205 +91,142 @@ form.steps({
 		// send the form
 		event.target.submit();
 	}
-});
-	
+});	
 
-// mask
-jQuery('#cep').mask('00000-000');
-jQuery('#estado').mask('AA');
-jQuery('#telefone_1').mask('00 00000 0000');
-jQuery('#telefone_2').mask('00 00000 0000');
+// mascaras
+jQuery('#cep').mask('00000-000')
+jQuery('#estado').mask('AA')
+jQuery('#telefone_1').mask('00 00000 0000')
+jQuery('#telefone_2').mask('00 00000 0000')
 
-// address
-jQuery("input[name=cep]").blur(function(){
-	let cep = jQuery(this).val().replace(/[^0-9]/, '');
-	if(cep){
-		let url = 'https://viacep.com.br/ws/'+ cep +'/json/?callback=?';
-		jQuery.ajax({
-			url: url,
-			dataType: 'json',
-			crossDomain: true,
-			contentType: "application/json",
-			success : function(json){
-				if (! json.error) {
-					jQuery("#endereco").val("");
-					jQuery("#bairro").val("");
-					jQuery("#cidade").val("");
-					jQuery("#estado").val("");
+// busca o endereço pelo cep
+const hcco_set_address = data => {
+	document.querySelector("#endereco").value = data.logradouro
+	document.querySelector("#bairro").value = data.bairro
+	document.querySelector("#cidade").value = data.localidade
+	document.querySelector("#estado").value = data.uf
+}
 
-					jQuery("#endereco").val(json.logradouro);
-					jQuery("#bairro").val(json.bairro);
-					jQuery("#cidade").val(json.localidade);
-					jQuery("#estado").val(json.uf);
-				}
-			}
-		});
+document.querySelector('#cep').addEventListener('blur', (e) => {
+	const cep = e.target.value.replace(/[^0-9]/, '')
+
+	if (cep == '') return false
+
+	httpRequest = new XMLHttpRequest()
+	httpRequest.onreadystatechange = () => {
+		if (httpRequest.readyState === XMLHttpRequest.DONE && httpRequest.status === 200) {
+			const data = JSON.parse(httpRequest.responseText)
+			if (!data.erro) hcco_set_address(data)
+		}
 	}
-});
 
-
-
-
-
-
+	httpRequest.open('GET', `https://viacep.com.br/ws/${cep}/json/`)
+    httpRequest.setRequestHeader('Content-type', 'application/json')
+    httpRequest.send()
+})
 
 /**
  * Checkout MP Form
  */
-jQuery('#cardNumber').mask('0000 0000 0000 0000 000');
-jQuery('#docNumber').mask('000 000 000 00');
-jQuery('#cardExpirationMonth').mask('AA');
-jQuery('#cardExpirationYear').mask('AAAA');
-jQuery('#securityCode').mask('0000');
+jQuery('#cardNumber').mask('0000 0000 0000 0000 000')
+jQuery('#docNumber').mask('000 000 000 00')
+jQuery('#cardExpirationMonth').mask('AA')
+jQuery('#cardExpirationYear').mask('AAAA')
+jQuery('#securityCode').mask('0000')
 
-jQuery('#creditCardPaymentForm').validate({
-    errorPlacement: function errorPlacement(error, element) {
-        element.before(error);
-    },
-    onfocusout: function(element) {
-        jQuery(element).valid();
-    },
-    submitHandler: function(form) {
-    	// remove todos os atributos name do form
-    	jQuery("#creditCardPaymentForm input[type=text]").removeAttr('name');
+window.Mercadopago.setPublishableKey(hcco_ajax_object.mp_public_key)
 
-    	// inicia o processo do MP
-    	window.Mercadopago.createToken(jQuery("#creditCardPaymentForm"), sdkResponseHandler);
-    }
-});
-jQuery('#cardNumber').rules('add', {
-	required: true,
-	minlength: 14,
-	maxlength: 23,
-	messages: {
-		required: "Por favor, insira um cartão válido",
-		minlength: "Mínimo 12 dígitos"
-	}
-});
-jQuery('#cardholderName').rules('add', {
-	required: true,
-	minlength: 1,
-	messages: {
-		required: "Por favor, insira o nome escrito no cartão"
-	}
-});
-jQuery('#docNumber').rules('add', {
-	required: true,
-	minlength: 14,
-	maxlength: 14,
-	messages: {
-		required: "Por favor, insira o numero do seu CPF",
-		minlength: "Mínimo 11 digitos"
-	}
-});
-jQuery('#cardExpirationMonth').rules('add', {
-	required: true,
-	minlength: 2,
-	maxlength: 2,
-	messages: {
-		required: "Por favor, insira o mês do cartão",
-		minlength: "Mínimo 2 digitos"
-	}
-});
-jQuery('#cardExpirationYear').rules('add', {
-	required: true,
-	minlength: 4,
-	maxlength: 4,
-	messages: {
-		required: "Por favor, insira o ano do cartão",
-		minlength: "Mínimo 4 digitos"
-	}
-});
-jQuery('#securityCode').rules('add', {
-	required: true,
-	minlength: 3,
-	maxlength: 4,
-	messages: {
-		required: "Por favor, insira o código do cartão",
-		minlength: "Mínimo 3 digitos"
-	}
-});
+document.querySelector('#creditCardPaymentForm').addEventListener('submit', (e) => {
+	e.preventDefault()
 
+	window.Mercadopago.createToken(
+		e.target,
+		sdkResponseHandler
+	)
+})
 
-/**
- * MP Codes
- */
-window.Mercadopago.setPublishableKey(hcco_ajax_object.mp_public_key);
-
-// window.Mercadopago.getIdentificationTypes();
-
-document.querySelector('#cardNumber').addEventListener('keyup', guessingPaymentMethod);
-document.querySelector('#cardNumber').addEventListener('change', guessingPaymentMethod);
+document.querySelector('#cardNumber').addEventListener('keyup', guessingPaymentMethod)
+document.querySelector('#cardNumber').addEventListener('change', guessingPaymentMethod)
 
 function getBin() {
-	const cardnumber = document.querySelector("#cardNumber").value;
-	return cardnumber.replace(/[ .-]/g, '').slice(0, 6);
+	const cardnumber = document.querySelector("#cardNumber").value
+	return cardnumber.replace(/[ .-]/g, '').slice(0, 6)
 }
 
 function guessingPaymentMethod(event) {
-    let bin = getBin();
+    let bin = getBin()
 
     if (event.type == "keyup") {
         if (bin.length >= 6) {
             window.Mercadopago.getPaymentMethod({
                 "bin": bin
-            }, setPaymentMethodInfo);
+            }, setPaymentMethodInfo)
         }
     } else {
         setTimeout(function() {
             if (bin.length >= 6) {
                 window.Mercadopago.getPaymentMethod({
                     "bin": bin
-                }, setPaymentMethodInfo);
+                }, setPaymentMethodInfo)
             }
-        }, 100);
+        }, 100)
     }
 }
 
 function setPaymentMethodInfo(status, response) {
+
+	// get carNumber error label
+	const label = document.querySelector('#cardNumberError')
+
     if (status == 200) {
+		// remove error message
+		label.innerText = ''
+
     	// pega o input
-        let paymentMethodElement = document.querySelector('input[name=paymentMethodId]');
+        let paymentMethodElement = document.querySelector('input[name=paymentMethodId]')
 
         // verifica se input existe e insere o id nele
         if (paymentMethodElement) {
-            paymentMethodElement.value = response[0].id;
+            paymentMethodElement.value = response[0].id
         } else {
 			// cria o input e insere no form
-			let input = document.createElement("input");
-			input.setAttribute("type", "hidden");
-			input.setAttribute("name", "paymentMethodId");
-			input.setAttribute("value", response[0].id);
-            document.querySelector('#creditCardPaymentForm').append(input);
+			let input = document.createElement("input")
+			input.setAttribute("type", "hidden")
+			input.setAttribute("name", "paymentMethodId")
+			input.setAttribute("value", response[0].id)
+            document.querySelector('#creditCardPaymentForm').append(input)
         }
 
         // insere a bandeira do cartao no input
-        document.querySelector("#creditCardPaymentInputIcon").setAttribute('src', response[0].secure_thumbnail);
+        document.querySelector("#creditCardPaymentInputIcon").setAttribute('src', response[0].secure_thumbnail)
+	}
+
+	if (status == 400) {
+		// insert error message
+		label.innerText = 'Cartão inválido'
 	}
 }
 
 function sdkResponseHandler(status, response) {
-    if (status != 200 && status != 201) {
-        alert("Ops! verifique os dados preenchidos e tente novamente.");
-    }else{
+	if (status == 200 || status == 201) {
     	// cria o input para o token do cartão gerado
-		let token = document.createElement("input");
-		token.setAttribute("type", "hidden");
-		token.setAttribute("name", "token");
-        token.setAttribute("value", response.id);
+		let token = document.createElement("input")
+		token.setAttribute("type", "hidden")
+		token.setAttribute("name", "token")
+        token.setAttribute("value", response.id)
 
         // insere o input no form
-		let form = document.querySelector('#creditCardPaymentForm');
-		form.append(token);
+		let form = document.querySelector('#creditCardPaymentForm')
+		form.append(token)
 
-        // envia o formulario
-        form.submit();
-    }
+		// envia o formulario
+        form.submit()
+	} else {
+		alert('Ops! Verifique os dados do seu cartão e tente novamente.')
+	}
 }
-
-
 
 /**
  * Checkout PicPay form
  */
-jQuery('#picPayCpf').mask('000.000.000-00');
+jQuery('#picPayCpf').mask('000.000.000-00')
