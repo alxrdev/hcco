@@ -5,21 +5,26 @@ namespace Holos\Hcco\Mapper;
 class Hcco_Configuracoes_Mapper {
 
     /**
-     * Get an object
+     * Return an array with all plugin settings from database.
      *
-     *
-     * @return mixed
+     * @since   1.0.0
+     * @access  public
+     * @return  array   All plugin settings.
      */
-    public static function fetch() {
+    public static function fetch() : array {
 
         return get_option( 'hcco_configuracoes' );
 
     }
 
     /**
-     * Save configuracoes
+     * Stores the plugin settings in the database.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @param   array       Plugin settings.
      */
-    public static function save( $configuracoes ) {
+    public static function save( array $configuracoes ) : void {
 
         if ( count( $configuracoes ) < 1 ) 
             add_option( 'hcco_configuracoes', $configuracoes );
@@ -29,11 +34,14 @@ class Hcco_Configuracoes_Mapper {
     }
 
     /**
-     * Save curriculo preco
+     * Stores the currículo price.
      *
-     * @return mixed
+     * @since   1.0.0
+     * @access  public
+     * @param   string      $preco The curriculo price.
+     * @return  array       Plugin settings.
      */
-    public static function save_curriculo_preco( $preco ) {
+    public static function save_curriculo_preco( string $preco ) : array {
 
         $configuracoes = self::fetch();
         $configuracoes = array( 'curriculo' => ['preco' => $preco] );
@@ -45,11 +53,14 @@ class Hcco_Configuracoes_Mapper {
     }
 
     /**
-     * Save mercado pago configs
+     * Stores the mercado pago settings
      *
-     * @return mixed
+     * @since   1.0.0
+     * @access  public
+     * @param   array       $mercado_pago The mercado pago settings.
+     * @return  array       Plugin settings.
      */
-    public static function save_mercado_pago( $mercado_pago ) {
+    public static function save_mercado_pago( $mercado_pago ) : array {
 
         $configuracoes = self::fetch();
         $configuracoes['mercado_pago']['sandbox']['public_token']       = $mercado_pago['mercado_pago_sandbox_public_token'];
@@ -65,11 +76,14 @@ class Hcco_Configuracoes_Mapper {
     }
 
     /**
-     * Save picpay configs
+     * Stores the picpay settings.
      *
-     * @return mixed
+     * @since   1.0.0
+     * @access  public
+     * @param   array       $picpay The picpay settings.
+     * @return  array       Plugin settings.
      */
-    public static function save_picpay( $picpay ) {
+    public static function save_picpay( $picpay ) : array {
 
         $configuracoes = self::fetch();
         $configuracoes['picpay']['x_picpay_token']  = $picpay['x_picpay_token'];
@@ -82,12 +96,13 @@ class Hcco_Configuracoes_Mapper {
     }
 
     /**
-     * Return mercado pago access tokens
-     *
-     *
-     * @return mixed
+     * Returns the mercado pago access tokens based in the environment, sandbox or production.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @return  array       Array with mercado pago access tokens.
      */
-    public static function get_mercado_pago_access_tokens() {
+    public static function get_mercado_pago_access_tokens() : array {
 
         $configuracoes = self::fetch();
         
@@ -96,12 +111,13 @@ class Hcco_Configuracoes_Mapper {
     }
 
     /**
-     * Return picpay access tokens
+     * Return the picpay access tokens.
      *
-     *
-     * @return mixed
+     * @since   1.0.0
+     * @access  public
+     * @return  array       Array with picpay access tokens.
      */
-    public static function get_picpay_access_tokens() {
+    public static function get_picpay_access_tokens() : array {
 
         $configuracoes = self::fetch();
         
@@ -110,12 +126,13 @@ class Hcco_Configuracoes_Mapper {
     }
 
     /**
-     * Return the curriculo price
+     * Returns the curriculo price.
      *
-     *
-     * @return mixed
+     * @since   1.0.0
+     * @access  public
+     * @return  string      Curriculo price.
      */
-    public static function get_preco() {
+    public static function get_preco() : string {
 
         $configuracoes = self::fetch();
 
