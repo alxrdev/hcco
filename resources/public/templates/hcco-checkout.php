@@ -124,7 +124,7 @@
                                 <div class="tab-pane fade show active" id="hcco-payment-cc" role="tabpanel" aria-labelledby="hcco-payment-cc-tab">
                                     <div class="hcco-payment-method-content">
                                         <!-- MP Script -->
-                                        <script src="https://www.mercadopago.com/v2/security.js" view="hcco_checkout"></script>
+                                        <script src="https://www.mercadopago.com/v2/security.js" view="checkout"></script>
                                         <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
                                         <img src="<?php echo HCCO_URL . '/resources/public/img/banner-mp.jpg' ?>"
                                         alt="Mercado Pago - Meios de pagamento" title="Mercado Pago - Meios de pagamento" 
