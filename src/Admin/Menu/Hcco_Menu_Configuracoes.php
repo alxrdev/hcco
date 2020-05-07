@@ -15,21 +15,21 @@ class Hcco_Menu_Configuracoes {
     public function home() : void {
 
         $active_tab = ( ! empty( $_GET['active_tab'] ) ? sanitize_text_field( $_GET['active_tab'] ) : 'curriculo' );
-		$method_to_call = $active_tab . '_tab';
+        $method_to_call = $active_tab . '_tab';
 
         ?>
         <div class="wrap">
             <h1>Configurações</h1>
 
             <div class="nav-tab-wrapper">
-				<a 
+                <a 
                     class="nav-tab 
                     <?php echo $active_tab === 'curriculo' ? 'nav-tab-active' : ''; ?>" 
                     href="<?php echo esc_url( '?page=hcco_configuracoes&active_tab=curriculo' ); ?>"
                 >
                     <?php _e( 'Currículo', 'hcco' ); ?>
                 </a>
-				<a 
+                <a 
                     class="nav-tab 
                     <?php echo $active_tab === 'mercado_pago' ? 'nav-tab-active' : ''; ?>" 
                     href="<?php echo esc_url( '?page=hcco_configuracoes&active_tab=mercado_pago' ); ?>"
@@ -43,15 +43,15 @@ class Hcco_Menu_Configuracoes {
                 >
                     <?php _e( 'PicPay', 'hcco' ); ?>
                 </a>
-			</div>
-			<div class="tabs-content">
-				<?php
-					if ( method_exists( $this, $method_to_call ) )
-						call_user_func( array( $this, $method_to_call ) );
-					else
-						echo '<h1>' . __( 'Página não encontrada.', 'hfio' ) . '</h1>';
-				?>
-			</div>
+            </div>
+            <div class="tabs-content">
+                <?php
+                    if ( method_exists( $this, $method_to_call ) )
+                        call_user_func( array( $this, $method_to_call ) );
+                    else
+                        echo '<h1>' . __( 'Página não encontrada.', 'hfio' ) . '</h1>';
+                ?>
+            </div>
         </div>
         <?php
 
