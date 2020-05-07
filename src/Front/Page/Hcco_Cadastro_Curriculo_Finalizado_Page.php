@@ -29,6 +29,12 @@ class Hcco_Cadastro_Curriculo_Finalizado_Page extends Hcco_Front_Page {
         $pedido = Hcco_Pedido_Mapper::get_by_codigo_referencia( $ref_code );
         $curriculo = Hcco_Curriculo_Mapper::fetch( $pedido->get_curriculo_id() );
 
+        // checks if the pedido exists
+        if ( empty( $pedido->get_id() ) ) {
+            wp_redirect( home_url( '/cadastro-de-curriculo' ) );
+            exit;
+        }
+
         // reset the cookie.
         if ( ! $this->validate_pedido( $pedido ) ) {
 
