@@ -7,23 +7,33 @@ use Holos\Hcco\Entity\Hcco_Curriculo;
 class Hcco_Curriculo_Mapper {
 
     /**
-     * Table name in the database
+     * Stores the database table name.
+     * 
+     * @since   1.0.0
+     * @access  private
+     * @var     string      The table name.
      */
     private static $table_name = 'hcco_curriculo';
 
     /**
+     * Stores the relation database table name.
      * 
+     * @since   1.0.0
+     * @access  private
+     * @var     string      The relation table name.
      */
     private static $ralation_table_name = 'hcco_pedidos';
 
     /**
-     * Get an object by id
+     * Returns a curriculo by id.
      *
-     * @global wpdb $wpdb Wordpress database connection
-     *
-     * @param int $id The object id
+     * @since   1.0.0
+     * @access  public
+     * @global  wpdb             $wpdb Wordpress database connection.
+     * @param   int|string       $id The curriculo id.
+     * @return  Hcco_Curriculo   The curriculo from database.
      */
-    public static function fetch( $id ) {
+    public static function fetch( $id ) : Hcco_Curriculo {
 
         global $wpdb;
 
@@ -34,8 +44,16 @@ class Hcco_Curriculo_Mapper {
 
     }
 
-    //
-    public static function create( Hcco_Curriculo $curriculo ) {
+    /**
+     * Stores a curriculo in the database.
+     *
+     * @since   1.0.0
+     * @access  public
+     * @global  wpdb             $wpdb Wordpress database connection.
+     * @param   Hcco_Curriculo   $curriculo The curriculo entity.
+     * @return  Hcco_Curriculo   The curriculo from database.
+     */
+    public static function create( Hcco_Curriculo $curriculo ) : Hcco_Curriculo {
 
         global $wpdb;
 
@@ -91,8 +109,16 @@ class Hcco_Curriculo_Mapper {
 
     }
 
-    //
-    public static function update( Hcco_Curriculo $curriculo ) {
+    /**
+     * Update a curriculo in the database.
+     *
+     * @since   1.0.0
+     * @access  public
+     * @global  wpdb             $wpdb Wordpress database connection.
+     * @param   Hcco_Curriculo   $curriculo The curriculo entity.
+     * @return  Hcco_Curriculo   The curriculo from database.
+     */
+    public static function update( Hcco_Curriculo $curriculo ) : Hcco_Curriculo {
 
         global $wpdb;
 
@@ -146,8 +172,15 @@ class Hcco_Curriculo_Mapper {
         
     }
 
-    //
-    public static function delete( $id ) {
+    /**
+     * Delete a curriculo by id.
+     *
+     * @since   1.0.0
+     * @access  public
+     * @global  wpdb             $wpdb Wordpress database connection.
+     * @param   int|string       $id The curriculo id.
+     */
+    public static function delete( $id ) : void {
 
         global $wpdb;
 
@@ -158,15 +191,17 @@ class Hcco_Curriculo_Mapper {
     /**
      * Return all data.
      * 
-     * @param string $search Search query.
-     * @param string $order_by Name of column to roder data.
-     * @param string $order Order method ( ASC, DESC ).
-     * @param int $per_page Rows per page.
-     * @param int $page_number Current page number.
-     * 
-     * @return mixed
+     * @since   1.0.0
+     * @access  public
+     * @global  wpdb        $wpdb Wordpress database connection.
+     * @param   string      $search Search query.
+     * @param   string      $order_by Name of column to roder data.
+     * @param   string      $order Order method ( ASC, DESC ).
+     * @param   int         $per_page Rows per page.
+     * @param   int         $page_number Current page number.
+     * @return  array|null  The array with all data.
      */
-    public static function fetch_all_raw( $search = '', $order_by = '', $order = '', $per_page = 5, $page_number = 0 ) {
+    public static function fetch_all_raw( $search = '', $order_by = '', $order = '', $per_page = 5, $page_number = 0 ) : ?array {
 
         global $wpdb;
 
@@ -207,10 +242,11 @@ class Hcco_Curriculo_Mapper {
     }
 
     /**
-     * Get the curriculo's count for admin list
+     * Get the curriculo's count for admin list table.
      * 
      * @since   1.0.0
      * @access  public
+     * @global  wpdb    $wpdb Wordpress database connection.
      * @return  array   Count
      */
     public static function get_count() {
