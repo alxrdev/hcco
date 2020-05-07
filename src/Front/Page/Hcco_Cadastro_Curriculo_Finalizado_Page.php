@@ -22,7 +22,7 @@ class Hcco_Cadastro_Curriculo_Finalizado_Page extends Hcco_Front_Page {
         // checks if the ref_code param is empty
         if ( empty( $ref_code ) ) {
             wp_redirect( home_url( '/cadastro-de-curriculo' ) );
-		    exit;
+            exit;
         }
 
         // get the pedido and curriculo
@@ -30,11 +30,11 @@ class Hcco_Cadastro_Curriculo_Finalizado_Page extends Hcco_Front_Page {
         $curriculo = Hcco_Curriculo_Mapper::fetch( $pedido->get_curriculo_id() );
 
         // reset the cookie.
-		if ( ! $this->validate_pedido( $pedido ) ) {
+        if ( ! $this->validate_pedido( $pedido ) ) {
 
-			setcookie( 'user_id_hash', '', time() - 3600, '/' );
+            setcookie( 'user_id_hash', '', time() - 3600, '/' );
 
-		}
+        }
 
         $this->display_content( 
             $curriculo->get_nome(),
