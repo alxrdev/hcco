@@ -16,13 +16,15 @@ class Hcco_Pedido_Mapper {
     private static $table = 'hcco_pedidos';
 
     /**
-     * Get an object by id
+     * Returns a pedido by id.
      *
-     * @global wpdb $wpdb Wordpress database connection
-     *
-     * @param int $id The object id
+     * @since   1.0.0
+     * @access  public
+     * @global  wpdb            $wpdb Wordpress database connection.
+     * @param   string|int      $id The pedido's id.
+     * @return  Hcco_Pedido     The pedido from database.
      */
-    public static function fetch( $id ) {
+    public static function fetch( $id ) : Hcco_Pedido {
 
         global $wpdb;
 
@@ -34,13 +36,15 @@ class Hcco_Pedido_Mapper {
     }
 
     /**
-     * Get an object by curriculo id
+     * Returns a pedido by curriculo id.
      *
-     * @global wpdb $wpdb Wordpress database connection
-     *
-     * @param string $id The object id
+     * @since   1.0.0
+     * @access  public
+     * @global  wpdb            $wpdb Wordpress database connection.
+     * @param   string|int      $id The curriculo id.
+     * @return  Hcco_Pedido     The pedido from database.
      */
-    public static function get_by_curriculo_id( $id ) {
+    public static function get_by_curriculo_id( $id ) : Hcco_Pedido {
 
         global $wpdb;
         
@@ -52,13 +56,15 @@ class Hcco_Pedido_Mapper {
     }
 
     /**
-     * Get an object by usuario id
+     * Returns a pedido by usuraio id.
      *
-     * @global wpdb $wpdb Wordpress database connection
-     *
-     * @param string $id The object id
+     * @since   1.0.0
+     * @access  public
+     * @global  wpdb            $wpdb Wordpress database connection.
+     * @param   string          $id The usuario id.
+     * @return  Hcco_Pedido     The pedido from database.
      */
-    public static function get_by_usuario_id( $id ) {
+    public static function get_by_usuario_id( string $id ) : Hcco_Pedido {
 
         global $wpdb;
         
@@ -70,13 +76,15 @@ class Hcco_Pedido_Mapper {
     }
 
     /**
-     * Get an object by codigo referencia
+     * Returns a pedido by codigo de referencia.
      *
-     * @global wpdb $wpdb Wordpress database connection
-     *
-     * @param string $cod The object id
+     * @since   1.0.0
+     * @access  public
+     * @global  wpdb            $wpdb Wordpress database connection.
+     * @param   string          $cod The pedido's codigo de referencia.
+     * @return  Hcco_Pedido     The pedido from database.
      */
-    public static function get_by_codigo_referencia( $cod ) {
+    public static function get_by_codigo_referencia( string $cod ) : Hcco_Pedido {
 
         global $wpdb;
 
@@ -88,13 +96,15 @@ class Hcco_Pedido_Mapper {
     }
 
     /**
-     * Get an object by payment id
+     * Returns a pedido by peyment id.
      *
-     * @global wpdb $wpdb Wordpress database connection
-     *
-     * @param int $id The object id
+     * @since   1.0.0
+     * @access  public
+     * @global  wpdb            $wpdb Wordpress database connection.
+     * @param   string          $id The pedido payment id.
+     * @return  Hcco_Pedido     The pedido from database.
      */
-    public static function get_by_payment_id( $id ) {
+    public static function get_by_payment_id( string $id ) : Hcco_Pedido {
 
         global $wpdb;
 
@@ -105,8 +115,16 @@ class Hcco_Pedido_Mapper {
 
     }
 
-    //
-    public static function create( Hcco_Pedido $pedido ) {
+    /**
+     * Stores a pedido in the database.
+     *
+     * @since   1.0.0
+     * @access  public
+     * @global  wpdb            $wpdb Wordpress database connection.
+     * @param   Hcco_Pedido     $pedido The pedido entity.
+     * @return  Hcco_Pedido     The pedido from database.
+     */
+    public static function create( Hcco_Pedido $pedido ) : Hcco_Pedido {
 
         global $wpdb;
 
@@ -125,8 +143,16 @@ class Hcco_Pedido_Mapper {
 
     }
 
-    //
-    public static function update( Hcco_Pedido $pedido ) {
+    /**
+     * Update a pedido in the database.
+     *
+     * @since   1.0.0
+     * @access  public
+     * @global  wpdb             $wpdb Wordpress database connection.
+     * @param   Hcco_Pedido     $pedido The pedido entity.
+     * @return  Hcco_Pedido     The pedido from database.
+     */
+    public static function update( Hcco_Pedido $pedido ) : Hcco_Pedido {
 
         global $wpdb;
 
@@ -146,8 +172,15 @@ class Hcco_Pedido_Mapper {
 
     }
 
-    //
-    public static function delete( $id ) {
+    /**
+     * Delete a pedido by id.
+     *
+     * @since   1.0.0
+     * @access  public
+     * @global  wpdb             $wpdb Wordpress database connection.
+     * @param   int|string       $id The pedido id.
+     */
+    public static function delete( $id ) : void {
 
         global $wpdb;
 
