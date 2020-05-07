@@ -107,23 +107,26 @@ const hcco_set_address = data => {
 	document.querySelector("#estado").value = data.uf
 }
 
-document.querySelector('#cep').addEventListener('blur', (e) => {
-	const cep = e.target.value.replace(/[^0-9]/, '')
+const cep = document.querySelector('#cep')
+if (cep != null) {
+    cep.addEventListener('blur', (e) => {
+        const cep = e.target.value.replace(/[^0-9]/, '')
 
-	if (cep == '') return false
+        if (cep == '') return false
 
-	httpRequest = new XMLHttpRequest()
-	httpRequest.onreadystatechange = () => {
-		if (httpRequest.readyState === XMLHttpRequest.DONE && httpRequest.status === 200) {
-			const data = JSON.parse(httpRequest.responseText)
-			if (!data.erro) hcco_set_address(data)
-		}
-	}
+        httpRequest = new XMLHttpRequest()
+        httpRequest.onreadystatechange = () => {
+            if (httpRequest.readyState === XMLHttpRequest.DONE && httpRequest.status === 200) {
+                const data = JSON.parse(httpRequest.responseText)
+                if (!data.erro) hcco_set_address(data)
+            }
+        }
 
-	httpRequest.open('GET', `https://viacep.com.br/ws/${cep}/json/`)
-    httpRequest.setRequestHeader('Content-type', 'application/json')
-    httpRequest.send()
-})
+        httpRequest.open('GET', `https://viacep.com.br/ws/${cep}/json/`)
+        httpRequest.setRequestHeader('Content-type', 'application/json')
+        httpRequest.send()
+    })
+}
 
 /**
  * Checkout MP Form
