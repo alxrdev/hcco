@@ -5,9 +5,11 @@ namespace Holos\Hcco\Entity;
 abstract class Hcco_Entity {
 
     /**
-     * If an id is gived, get search the object
+     * Receives an array with all class properties.
      *
-     * @param int|null $id Id of object
+     * @since   1.0.0
+     * @access  public
+     * @param   array|null $props Entity props.
      */
     public function __construct( array $props = null ) {
 
@@ -23,9 +25,13 @@ abstract class Hcco_Entity {
 
 
     /**
-     * Return all no filled properties
+     * Return all no filled properties.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @return  array|null     No filled propertis.
      */
-    public function get_no_filled_properties_list() {
+    public function get_no_filled_properties_list() : ?array {
 
         $no_filled_props = [];
         
