@@ -17,31 +17,31 @@ use \WP_REST_Response;
 class Hcco_PicPay_Controller extends WP_REST_Controller {
 
     /**
-	 * Propertie that stores the plugin name.
-	 * 
-	 * @since 	1.0.0
-	 * @access 	private
-     * @var   string  The plugin name.
-	 */
+     * Propertie that stores the plugin name.
+     * 
+     * @since 	1.0.0
+     * @access 	private
+     * @var     string      The plugin name.
+     */
     private $plugin_name;
     
     /**
-	 * Propertie that stores the plugin version.
-	 * 
-	 * @since 	1.0.0
-	 * @access 	private
-     * @var   string  The plugin version.
-	 */ 
+     * Propertie that stores the plugin version.
+     * 
+     * @since 	1.0.0
+     * @access 	private
+     * @var     string      The plugin version.
+     */ 
     private $version;
 
     /**
-	 * The class constructor.
-	 * 
-	 * @since 	1.0.0
-	 * @access 	public
-	 * @param 	string	$plugin_name The plugin name.
-	 * @param	string 	$version The plugin version.
-	 */
+     * The class constructor.
+     * 
+     * @since 	1.0.0
+     * @access 	public
+     * @param 	string	$plugin_name The plugin name.
+     * @param	string 	$version The plugin version.
+     */
     public function __construct( string $plugin_name, string $version ) {
 
         $this->plugin_name = $plugin_name;
@@ -65,34 +65,11 @@ class Hcco_PicPay_Controller extends WP_REST_Controller {
 
         register_rest_route( $namespace, '/' . $resource, array(
             array(
-                'methods'             => 'GET',
-                'callback'            => array( $this, 'get' ),
-                'permission_callback' => array( $this, 'get_permissions_check' )
-            ),
-            array(
                 'methods'             => 'POST',
                 'callback'            => array( $this, 'post' ),
                 'permission_callback' => array( $this, 'post_permissions_check' )
             )
         ) );
-
-    }
-
-    /**
-     * 
-     */
-    public function get( $request ) {
-
-        return new WP_REST_Response( array( 'Ok' ), 200 );
-
-    }
-
-    /**
-     * 
-     */
-    public function get_permissions_check( $request ) {
-
-        return true;
 
     }
 
