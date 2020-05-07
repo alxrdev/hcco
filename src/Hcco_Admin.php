@@ -8,31 +8,31 @@ use Holos\Hcco\Admin\Menu\Hcco_Menu_Configuracoes;
 class Hcco_Admin {
 
     /**
-	 * Propertie that stores the plugin name.
-	 * 
-	 * @since 	1.0.0
-	 * @access 	private
+     * Propertie that stores the plugin name.
+     * 
+     * @since 	1.0.0
+     * @access 	private
      * @var     string The plugin name.
-	 */
+     */
     private $plugin_name;
     
     /**
-	 * Propertie that stores the plugin version.
-	 * 
-	 * @since 	1.0.0
-	 * @access 	private
+     * Propertie that stores the plugin version.
+     * 
+     * @since 	1.0.0
+     * @access 	private
      * @var     string The plugin version.
-	 */ 
+     */ 
     private $version;
 
     /**
-	 * The class constructor.
-	 * 
-	 * @since 	1.0.0
-	 * @access 	public
-	 * @param 	string	$plugin_name The plugin name.
-	 * @param	string 	$version The plugin version.
-	 */
+     * The class constructor.
+     * 
+     * @since 	1.0.0
+     * @access 	public
+     * @param 	string	$plugin_name The plugin name.
+     * @param	string 	$version The plugin version.
+     */
     public function __construct( $plugin_name, $version ) {
 
         $this->plugin_name = $plugin_name;
@@ -41,15 +41,15 @@ class Hcco_Admin {
     }
 
     /**
-	 * Register the JavaScript for the admin dashboard of the site.
-	 * 
-	 * @since 	1.0.0
-	 * @access	public
-	 */
-	public function enqueue_scripts() : void {
+     * Register the JavaScript for the admin dashboard of the site.
+     * 
+     * @since 	1.0.0
+     * @access	public
+     */
+    public function enqueue_scripts() : void {
 
-		wp_enqueue_script( $this->plugin_name, HCCO_URL . 'resources/admin/js/hcco-admin.js', array(), $this->version, false );
-		wp_localize_script( 
+        wp_enqueue_script( $this->plugin_name, HCCO_URL . 'resources/admin/js/hcco-admin.js', array(), $this->version, false );
+        wp_localize_script( 
             $this->plugin_name, 
             'hcco_ajax_object', 
             array( 
@@ -58,7 +58,7 @@ class Hcco_Admin {
             ) 
         );
 
-	}
+    }
 
     /**
      * Method that register all menu items.
@@ -68,23 +68,23 @@ class Hcco_Admin {
      */
     public function register_menus() : void {
 
-		add_menu_page(
-			__( 'Curriculos', 'hcco' ), 
-			__( 'Curriculos', 'hcco' ), 
-			'manage_options', 
-			'hcco', 
-			array( $this, 'menu_curriculo' ),
-			'dashicons-schedule', 
-			3
+        add_menu_page(
+            __( 'Curriculos', 'hcco' ), 
+            __( 'Curriculos', 'hcco' ), 
+            'manage_options', 
+            'hcco', 
+            array( $this, 'menu_curriculo' ),
+            'dashicons-schedule', 
+            3
         );
         
         add_submenu_page(
             'hcco',
-			__( 'Configurações', 'hcco' ), 
-			__( 'Configurações', 'hcco' ), 
-			'manage_options', 
-			'hcco_configuracoes', 
-			array( $this, 'menu_configuracoes' )
+            __( 'Configurações', 'hcco' ), 
+            __( 'Configurações', 'hcco' ), 
+            'manage_options', 
+            'hcco_configuracoes', 
+            array( $this, 'menu_configuracoes' )
         );
 
     }
