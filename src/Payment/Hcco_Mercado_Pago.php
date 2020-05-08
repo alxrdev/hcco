@@ -121,7 +121,7 @@ class Hcco_Mercado_Pago {
 
         $this->set_payment_id( $payment->id );
         $this->set_status( $payment->status );
-        $this->set_status_details( $payment->status_details );
+        $this->set_status_details( $payment->status_detail );
         $this->set_error( $payment->status );
         $this->set_messages( $payment->error );
 
@@ -227,7 +227,7 @@ class Hcco_Mercado_Pago {
      */
     private function set_status_details( $status ) : void {
 
-        $this->status_details = $status ?? 'error';
+        $this->status_details = ($status != null) ? $status : 'error';
 
     }
 
@@ -314,7 +314,20 @@ class Hcco_Mercado_Pago {
             '3029' => 'O mês de validade é inválido, tente novamente.',
             '3030' => 'O ano de validade é inválido, tente novamente.',
             '4001' => 'Formulario de pagamento inválido, tente novamente.',
-            '4050' => 'Você deve informar um email válido, tente novamente.'
+            '4050' => 'Você deve informar um email válido, tente novamente.',
+            'cc_rejected_bad_filled_card_number'    => 'Revise o número do cartão.',
+            'cc_rejected_bad_filled_date'           => 'Revise a data de vencimento.',
+            'cc_rejected_bad_filled_other'          => 'Revise os dados.',
+            'cc_rejected_bad_filled_security_code'  => 'Revise o código de segurança do cartão.',
+            'cc_rejected_blacklist'                 => 'Não pudemos processar seu pagamento.',
+            'cc_rejected_call_for_authorize'        => 'Você deve autorizar a su operadora o pagamento do valor ao Mercado Pago.',
+            'cc_rejected_card_error'                => 'Não conseguimos processar seu pagamento.',
+            'cc_rejected_duplicated_payment'        => 'Você já efetuou um pagamento com esse valor. Caso precise pagar novamente, utilize outro cartão ou outra forma de pagamento.',
+            'cc_rejected_high_risk'                 => 'Seu pagamento foi recusado pelo Mercado Pago por risco de fraude. Escolha outra forma de pagamento.',
+            'cc_rejected_insufficient_amount'       => 'Seu cartão não possui saldo suficiente',
+            'cc_rejected_invalid_installments'      => 'Seu cartão não processa pagamentos em parcelas.',
+            'cc_rejected_max_attempts'              => 'Você atingiu o limite de tentativas permitido. Escolha outro cartão ou outra forma de pagamento.',
+            'cc_rejected_other_reason'              => 'Não foi possível processar o pagamento.'
         );
 
         return $messages[$code] ?? 'Formulario de pagamento inválido, tente novamente.';
@@ -339,7 +352,7 @@ class Hcco_Mercado_Pago {
         } 
         
         if ( $errors == null || empty( $errors ) ) {
-            array_push( $messages, 'Ops! Verifique os dados do seu cartão, ou ligue para a sua operadora.' );
+            array_push( $messages, $this->get_message_pt( $this->get_status_details() ) );
         }
 
         $this->messages = $messages;
