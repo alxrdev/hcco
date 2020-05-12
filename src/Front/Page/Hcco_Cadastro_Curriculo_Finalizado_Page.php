@@ -113,15 +113,13 @@ class Hcco_Cadastro_Curriculo_Finalizado_Page extends Hcco_Front_Page {
         $this->display_header();
 
         ?>
-        <div class="page-content">
-            <div class="section">
-                <div class="container py-5">
-                    <div class="row">
-                        <div class="col-md-6 offset-md-3">
-                            <h2 class="text-center mb-5" style="font-size: 46px;">Pedido <?php echo $status; ?></h2>
-                            <p><span style="font-size: 25px;">Olá <strong><?php echo $nome; ?></strong>,</span></p>
-                            <?php echo $message; ?>
-                        </div>
+        <div class="holos-section">
+            <div class="container py-5">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <h2 class="text-center mb-5" style="font-size: 46px;">Pedido <?php echo $status; ?></h2>
+                        <p><span style="font-size: 25px;">Olá <strong><?php echo $nome; ?></strong>,</span></p>
+                        <?php echo $message; ?>
                     </div>
                 </div>
             </div>
@@ -129,7 +127,7 @@ class Hcco_Cadastro_Curriculo_Finalizado_Page extends Hcco_Front_Page {
         <?php
 
         $this->display_footer();
-
+        
     }
 
 }
