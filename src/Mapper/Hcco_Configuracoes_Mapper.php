@@ -44,7 +44,7 @@ class Hcco_Configuracoes_Mapper {
     public static function save_curriculo_preco( string $preco ) : array {
 
         $configuracoes = self::fetch();
-        $configuracoes = array( 'curriculo' => ['preco' => $preco] );
+        $configuracoes['curriculo'] = array( 'preco' => $preco );
         
         self::save( $configuracoes );
 
