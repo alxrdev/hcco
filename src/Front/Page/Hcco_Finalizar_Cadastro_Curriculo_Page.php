@@ -23,26 +23,27 @@ class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
         // control variables
         $error = false;
         $messages = [];
+        $user_id_hash = $_REQUEST['uih'] ?? $_COOKIE['user_id_hash'];
 
         // check if the cookie exists
-        if ( ! isset( $_COOKIE['user_id_hash'] ) ) {
+        if ( $user_id_hash == null || empty( $user_id_hash ) ) {
             wp_redirect( home_url( '/cadastro-de-curriculo' ) );
             exit;
         }
 
         // get pedido and curriculo
-        [$pedido, $curriculo] = $this->get_pedido_e_curriculo( $_COOKIE['user_id_hash'] );
+        [$pedido, $curriculo] = $this->get_pedido_e_curriculo( $user_id_hash );
 
         // check if the mercado pago payment form has been sent
-        if ( isset( $_POST['pagar_mercado_pago_api_nonce'] ) && wp_verify_nonce( $_POST['pagar_mercado_pago_api_nonce'], 'pagar_mercado_pago' ) ) {
-            
+        if ( isset( $_REQUEST['pagar_mercado_pago_api_nonce'] ) && wp_verify_nonce( $_REQUEST['pagar_mercado_pago_api_nonce'], 'pagar_mercado_pago_api' ) ) {
+
             $messages = $this->handle_mp_api_payment( $pedido, $curriculo );
             $error = true;
 
         }
 
         // check if the mercado pago payment form has been sent
-        if ( isset( $_POST['pagar_mercado_pago_tokenize_nonce'] ) && wp_verify_nonce( $_POST['pagar_mercado_pago_tokenize_nonce'], 'pagar_mercado_pago_tokenize' ) ) {
+        if ( isset( $_REQUEST['pagar_mercado_pago_tokenize_nonce'] ) && wp_verify_nonce( $_REQUEST['pagar_mercado_pago_tokenize_nonce'], 'pagar_mercado_pago_tokenize' ) ) {
             
             $messages = $this->handle_mp_tokenize_payment( $pedido, $curriculo );
             $error = true;

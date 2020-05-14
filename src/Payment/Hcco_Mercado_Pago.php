@@ -174,6 +174,11 @@ class Hcco_Mercado_Pago {
 
         $payment->payer = $payer;
         $payment->save();
+
+        echo '<pre>';
+        var_dump($payment);
+        echo '</pre>';
+        exit;
         
         $this->set_payment_id( $payment->id );
         $this->set_status( $payment->status );

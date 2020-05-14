@@ -123,21 +123,18 @@
                             <div class="tab-pane fade show active" id="hcco-payment-cc" role="tabpanel" aria-labelledby="hcco-payment-cc-tab">
                                 <div class="hcco-payment-method-content">
                                     <!-- MP Script -->
-                                    <script src="https://www.mercadopago.com/v2/security.js" view="checkout"></script>
+                                    <!-- <script src="https://www.mercadopago.com/v2/security.js" view="checkout"></script> -->
                                     <img src="<?php echo HCCO_URL . '/resources/public/img/banner-mp.jpg' ?>" alt="Mercado Pago - Meios de pagamento" title="Mercado Pago - Meios de pagamento" class="img-fluid w-100 mb-3" />
-                                    <h4 class="mt-3">Pague com seu cartão de crédito.</h4>
-                                    <p class="mb-5">Ao clicar em pagar, será aberto o formulário de pagamento do Mercado Pago. Para pagar, basta preencher os dados corretamente.</p>
-                                    
-                                    <form action="https://holoscdh.com.br/finalizar-o-cadastro-do-curriculo/" method="POST">
-                                        <?php wp_nonce_field( 'pagar_mercado_pago_tokenize', 'pagar_mercado_pago_tokenize_nonce' ); ?>
-                                        <script
-                                            src="https://www.mercadopago.com.br/integrations/v1/web-tokenize-checkout.js"
-                                            data-public-key="<?php echo Holos\Hcco\Mapper\Hcco_Configuracoes_Mapper::get_mercado_pago_access_tokens()['public_token']; ?>"
-                                            data-transaction-amount="<?php echo $pedido->get_preco(); ?>"
-                                            data-button-label="Pagar R$ <?php echo $pedido->get_preco(); ?>"
-                                            data-summary-product-label="HOLOS Cadastro de Curriculo"
-                                            >
-                                        </script>
+                                    <h4>Pague com cartão de crédito.</h4>
+                                    <p>Ao clicar em pagar, você será redirecionado para a página do Mercado Pago. Para pagar, basta preencher os dados corretamente.</p>
+
+                                    <form action="<?php echo esc_url( '/finalizar-o-cadastro-do-curriculo/?uih=' . $_COOKIE['user_id_hash'] . '&pagar_mercado_pago_api_nonce=' . wp_create_nonce( 'pagar_mercado_pago_api' ) ); ?>" method="POST">
+                                    <script
+                                        src="https://www.mercadopago.com.br/integrations/v1/web-tokenize-checkout.js"
+                                        data-public-key="<?php echo \Holos\Hcco\Mapper\Hcco_Configuracoes_Mapper::get_mercado_pago_access_tokens()['public_token']; ?>"
+                                        data-transaction-amount="<?php echo $pedido->get_preco(); ?>"
+                                        data-button-label="Pagar R$ <?php echo $pedido->get_preco(); ?>">
+                                    </script>
                                     </form>
                                 </div>
                             </div>
