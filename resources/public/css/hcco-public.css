@@ -364,6 +364,21 @@
     max-width: 30px;
 }
 
+#hcco-payment-cc button.mercadopago-button {
+    background-color: var(--first-color);
+    color: #fff;
+    display: block;
+    width: 100%;
+    font-weight: 400;
+    border-radius: 0;
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    text-align: center;
+    vertical-align: middle;
+    font-family: 'Montserrat', 'sans-serif';
+}
+
 #hcco-payment-picpay img {
     width: 200px;
     height: auto;
