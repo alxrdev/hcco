@@ -131,103 +131,103 @@ if (cep != null) {
 /**
  * Checkout MP Form
  */
-jQuery('#cardNumber').mask('0000 0000 0000 0000 000')
-jQuery('#docNumber').mask('000 000 000 00')
-jQuery('#cardExpirationMonth').mask('AA')
-jQuery('#cardExpirationYear').mask('AAAA')
-jQuery('#securityCode').mask('0000')
+// jQuery('#cardNumber').mask('0000 0000 0000 0000 000')
+// jQuery('#docNumber').mask('000 000 000 00')
+// jQuery('#cardExpirationMonth').mask('AA')
+// jQuery('#cardExpirationYear').mask('AAAA')
+// jQuery('#securityCode').mask('0000')
 
-window.Mercadopago.setPublishableKey(hcco_ajax_object.mp_public_key)
+// window.Mercadopago.setPublishableKey(hcco_ajax_object.mp_public_key)
 
-document.querySelector('#creditCardPaymentForm').addEventListener('submit', (e) => {
-	e.preventDefault()
+// document.querySelector('#creditCardPaymentForm').addEventListener('submit', (e) => {
+// 	e.preventDefault()
 
-	window.Mercadopago.createToken(
-		e.target,
-		sdkResponseHandler
-	)
-})
+// 	window.Mercadopago.createToken(
+// 		e.target,
+// 		sdkResponseHandler
+// 	)
+// })
 
-document.querySelector('#cardNumber').addEventListener('keyup', guessingPaymentMethod)
-document.querySelector('#cardNumber').addEventListener('change', guessingPaymentMethod)
+// document.querySelector('#cardNumber').addEventListener('keyup', guessingPaymentMethod)
+// document.querySelector('#cardNumber').addEventListener('change', guessingPaymentMethod)
 
-function getBin() {
-	const cardnumber = document.querySelector("#cardNumber").value
-	return cardnumber.replace(/[ .-]/g, '').slice(0, 6)
-}
+// function getBin() {
+// 	const cardnumber = document.querySelector("#cardNumber").value
+// 	return cardnumber.replace(/[ .-]/g, '').slice(0, 6)
+// }
 
-function guessingPaymentMethod(event) {
-    let bin = getBin()
+// function guessingPaymentMethod(event) {
+//     let bin = getBin()
 
-    if (event.type == "keyup") {
-        if (bin.length >= 6) {
-            window.Mercadopago.getPaymentMethod({
-                "bin": bin
-            }, setPaymentMethodInfo)
-        }
-    } else {
-        setTimeout(function() {
-            if (bin.length >= 6) {
-                window.Mercadopago.getPaymentMethod({
-                    "bin": bin
-                }, setPaymentMethodInfo)
-            }
-        }, 100)
-    }
-}
+//     if (event.type == "keyup") {
+//         if (bin.length >= 6) {
+//             window.Mercadopago.getPaymentMethod({
+//                 "bin": bin
+//             }, setPaymentMethodInfo)
+//         }
+//     } else {
+//         setTimeout(function() {
+//             if (bin.length >= 6) {
+//                 window.Mercadopago.getPaymentMethod({
+//                     "bin": bin
+//                 }, setPaymentMethodInfo)
+//             }
+//         }, 100)
+//     }
+// }
 
-function setPaymentMethodInfo(status, response) {
+// function setPaymentMethodInfo(status, response) {
 
-	// get carNumber error label
-	const label = document.querySelector('#cardNumberError')
+// 	// get carNumber error label
+// 	const label = document.querySelector('#cardNumberError')
 
-    if (status == 200) {
-		// remove error message
-		label.innerText = ''
+//     if (status == 200) {
+// 		// remove error message
+// 		label.innerText = ''
 
-    	// pega o input
-        let paymentMethodElement = document.querySelector('input[name=paymentMethodId]')
+//     	// pega o input
+//         let paymentMethodElement = document.querySelector('input[name=paymentMethodId]')
 
-        // verifica se input existe e insere o id nele
-        if (paymentMethodElement) {
-            paymentMethodElement.value = response[0].id
-        } else {
-			// cria o input e insere no form
-			let input = document.createElement("input")
-			input.setAttribute("type", "hidden")
-			input.setAttribute("name", "paymentMethodId")
-			input.setAttribute("value", response[0].id)
-            document.querySelector('#creditCardPaymentForm').append(input)
-        }
+//         // verifica se input existe e insere o id nele
+//         if (paymentMethodElement) {
+//             paymentMethodElement.value = response[0].id
+//         } else {
+// 			// cria o input e insere no form
+// 			let input = document.createElement("input")
+// 			input.setAttribute("type", "hidden")
+// 			input.setAttribute("name", "paymentMethodId")
+// 			input.setAttribute("value", response[0].id)
+//             document.querySelector('#creditCardPaymentForm').append(input)
+//         }
 
-        // insere a bandeira do cartao no input
-        document.querySelector("#creditCardPaymentInputIcon").setAttribute('src', response[0].secure_thumbnail)
-	}
+//         // insere a bandeira do cartao no input
+//         document.querySelector("#creditCardPaymentInputIcon").setAttribute('src', response[0].secure_thumbnail)
+// 	}
 
-	if (status == 400) {
-		// insert error message
-		label.innerText = 'Cartão inválido'
-	}
-}
+// 	if (status == 400) {
+// 		// insert error message
+// 		label.innerText = 'Cartão inválido'
+// 	}
+// }
 
-function sdkResponseHandler(status, response) {
-	if (status == 200 || status == 201) {
-    	// cria o input para o token do cartão gerado
-		let token = document.createElement("input")
-		token.setAttribute("type", "hidden")
-		token.setAttribute("name", "token")
-        token.setAttribute("value", response.id)
+// function sdkResponseHandler(status, response) {
+// 	if (status == 200 || status == 201) {
+//     	// cria o input para o token do cartão gerado
+// 		let token = document.createElement("input")
+// 		token.setAttribute("type", "hidden")
+// 		token.setAttribute("name", "token")
+//         token.setAttribute("value", response.id)
 
-        // insere o input no form
-		let form = document.querySelector('#creditCardPaymentForm')
-		form.append(token)
+//         // insere o input no form
+// 		let form = document.querySelector('#creditCardPaymentForm')
+// 		form.append(token)
 
-		// envia o formulario
-        form.submit()
-	} else {
-		alert('Ops! Verifique os dados do seu cartão e tente novamente.')
-	}
-}
+// 		// envia o formulario
+//         form.submit()
+// 	} else {
+// 		alert('Ops! Verifique os dados do seu cartão e tente novamente.')
+// 	}
+// }
 
 /**
  * Checkout PicPay form
