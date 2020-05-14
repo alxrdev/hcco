@@ -299,6 +299,7 @@
     text-transform: uppercase;
     color: #737278;
     border: 1px solid #737278;
+    border-radius: 0!important;
 }
 
 .hcco-payment-tabs .nav-link svg,
@@ -356,8 +357,6 @@
 #hcco-payment-cc #creditCardPaymentForm .input-group-append {
     align-items: center;
     border: 1px solid #ced4da;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
     padding: 0 5px;
 }
 
