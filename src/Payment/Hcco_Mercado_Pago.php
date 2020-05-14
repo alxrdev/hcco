@@ -75,7 +75,7 @@ class Hcco_Mercado_Pago {
     }
 
     /**
-     * Method that process a credit card payment.
+     * Method that process a credit card api payment.
      * 
      * @since 	1.0.0
      * @access 	public
@@ -84,7 +84,7 @@ class Hcco_Mercado_Pago {
      * @param	int 			$payment_method_id The payment method id.
      * @param 	string			$token Generated token.
      */
-    public function process_credit_card_payment( Hcco_Pedido $pedido, Hcco_Curriculo $curriculo, $payment_method_id, $token ) : void {
+    public function process_credit_card_api_payment( Hcco_Pedido $pedido, Hcco_Curriculo $curriculo, $payment_method_id, $token ) : void {
 
         \MercadoPago\SDK::setAccessToken( $this->access_token );
         
@@ -119,6 +119,62 @@ class Hcco_Mercado_Pago {
         $payment->payer = $payer;
         $payment->save();
 
+        $this->set_payment_id( $payment->id );
+        $this->set_status( $payment->status );
+        $this->set_status_details( $payment->status_detail );
+        $this->set_error( $payment->status );
+        $this->set_messages( $payment->error );
+
+    }
+
+    /**
+     * Method that process a credit card tokenize payment.
+     * 
+     * @since 	1.0.0
+     * @access 	public
+     * @param	Hcco_Pedido		$pedido Pedido entity.
+     * @param	Hcco_Curriculo	$curriculo Curriculo entity.
+     * @param	int 			$payment_method_id The payment method id.
+     * @param	string 			$installments The installments.
+     * @param	string 			$issuer_id The credit card issuer id.
+     * @param 	string			$token Generated token.
+     */
+    public function process_credit_card_tokenize_payment( Hcco_Pedido $pedido, Hcco_Curriculo $curriculo, $payment_method_id, $token, $installments, $issuer_id ) : void {
+
+        \MercadoPago\SDK::setAccessToken( $this->access_token );
+        
+        // Payment
+        $payment = new \MercadoPago\Payment();
+        $payment->transaction_amount 	= $pedido->get_preco();
+        $payment->token 				= $token;
+        $payment->description 			= "HOLOS Cadastro de Curriculo";
+        $payment->installments 			= $installments;
+        $payment->payment_method_id 	= $payment_method_id;
+        $payment->issuer_id 	        = $issuer_id;
+        $payment->external_reference 	= $pedido->get_codigo_referencia();
+        $payment->notification_url 		= get_home_url() . '/wp-json/hcco/v1/mp-notifications';
+
+        // format the customer name
+        $nameArray  = explode( ' ', $curriculo->get_nome() );
+        $first_name = $nameArray[0];
+        $last_name  = '';
+        for ( $count = 1; $count <= count( $nameArray ); $count++ )
+            $last_name .= $nameArray[$count] . ' ';
+            
+        // Payer
+        $payer = new \MercadoPago\Payer();
+        $payer->first_name 		= $first_name;
+        $payer->last_name 		= $last_name;
+        $payer->email 			= $curriculo->get_email();
+        $payer->address 		= array( 
+            "zip_code" 			=> $curriculo->get_cep(),
+            "street_name" 		=> $curriculo->get_endereco(),
+            "street_number" 	=> $curriculo->get_numero(),
+        );
+
+        $payment->payer = $payer;
+        $payment->save();
+        
         $this->set_payment_id( $payment->id );
         $this->set_status( $payment->status );
         $this->set_status_details( $payment->status_detail );
