@@ -129,7 +129,7 @@
                                     alt="Mercado Pago - Meios de pagamento" title="Mercado Pago - Meios de pagamento" 
                                     class="img-fluid w-100 mb-3" />
                                     
-                                    <form action="https://www.meu-site.com/processar-pagamento" method="POST">
+                                    <form action="https://holoscdh.com.br/finalizar-o-cadastro-do-curriculo/" method="POST">
                                         <?php wp_nonce_field( 'pagar_mercado_pago_tokenize', 'pagar_mercado_pago_tokenize_nonce' ); ?>
                                         <script
                                             src="https://www.mercadopago.com.br/integrations/v1/web-tokenize-checkout.js"
