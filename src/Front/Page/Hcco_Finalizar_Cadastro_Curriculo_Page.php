@@ -126,14 +126,14 @@ class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
     private function handle_mp_tokenize_payment( Hcco_Pedido $pedido, Hcco_Curriculo $curriculo ) : array {
 
         // checks if the required data has been filled
-        if ( ! isset( $_REQUEST['payment_method_id'] ) || ! isset( $_REQUEST['token'] ) || ! isset( $_REQUEST['installments'] ) || ! isset( $_REQUEST['issuer_id'] ) )
+        if ( ! isset( $_POST['payment_method_id'] ) || ! isset( $_POST['token'] ) || ! isset( $_POST['installments'] ) || ! isset( $_POST['issuer_id'] ) )
             return array( 'Formulário de pagamento inválido, tente novamente.' );
         
         // get the data
-        $payment_method_id = sanitize_text_field( $_REQUEST['payment_method_id'] );
-        $token = sanitize_text_field( $_REQUEST['token'] );
-        $installments = sanitize_text_field( $_REQUEST['installments'] );
-        $issuer_id = sanitize_text_field( $_REQUEST['issuer_id'] );
+        $payment_method_id = sanitize_text_field( $_POST['payment_method_id'] );
+        $token = sanitize_text_field( $_POST['token'] );
+        $installments = sanitize_text_field( $_POST['installments'] );
+        $issuer_id = sanitize_text_field( $_POST['issuer_id'] );
 
         // processes payment
         $mp = new Hcco_Mercado_Pago();
