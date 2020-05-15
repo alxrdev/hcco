@@ -4,15 +4,15 @@ namespace Holos\Hcco\Admin\Menu;
 
 use Holos\Hcco\Mapper\Hcco_Configuracoes_Mapper;
 
-class Hcco_Menu_Configuracoes {
+class Hcco_Menu_Configuracoes implements Hcco_Menu_Interface {
 
     /**
-     * Display Home Page.
+     * Display front page.
      * 
      * @since   1.0.0
      * @access  public
      */
-    public function home() : void {
+    public function index() : void {
 
         $active_tab = ( ! empty( $_GET['active_tab'] ) ? sanitize_text_field( $_GET['active_tab'] ) : 'curriculo' );
         $method_to_call = $active_tab . '_tab';

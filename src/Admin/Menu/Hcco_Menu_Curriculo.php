@@ -6,15 +6,15 @@ use Holos\Hcco\Admin\ListTable\Hcco_Curriculo_List_Table;
 use Holos\Hcco\Mapper\Hcco_Curriculo_Mapper;
 use Holos\Hcco\Mapper\Hcco_Pedido_Mapper;
 
-class Hcco_Menu_Curriculo {
+class Hcco_Menu_Curriculo implements Hcco_Menu_Interface {
 
     /**
-     * Display Home Page
+     * Display front page
      * 
      * @since   1.0.0
      * @access  public
      */
-    public function home() {
+    public function index() : void {
 
         $curriculo_list_table = new Hcco_Curriculo_List_Table();
         $curriculo_list_table->prepare_items();
