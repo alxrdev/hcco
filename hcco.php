@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       Holos Cadastro de Currículo Online
  * Plugin URI:        rodriguesalex793@gmail.com
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Plguin que permite o cadastro de curriculos e pagamento via Mercado Pago e PicPay.
  * Version:           1.0.0
  * Author:            Alex Rodrigues Moreira
  * Author URI:        rodriguesalex793@gmail.com

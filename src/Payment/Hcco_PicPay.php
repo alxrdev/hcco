@@ -96,10 +96,10 @@ class Hcco_PicPay {
             $last_name .= $nameArray[$count] . ' ';
 
         // callback url
-        $callbackUrl = get_home_url() . '/wp-json/hcco/v1/picpay-notifications';
+        $callbackUrl = home_url( '/' ) . 'wp-json/hcco/v1/picpay-notifications';
 
         // return url
-        $returnUrl = home_url( '/cadastro-do-curriculo-finalizado?ref_code=' . $pedido->get_codigo_referencia() );
+        $returnUrl = home_url( '/' ) . 'cadastro-do-curriculo-finalizado?ref_code=' . $pedido->get_codigo_referencia();
         
         // store infos
         $seller = new Seller( $this->x_picpay_token, $this->x_seller_token );
