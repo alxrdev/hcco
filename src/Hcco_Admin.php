@@ -2,9 +2,6 @@
 
 namespace Holos\Hcco;
 
-use Holos\Hcco\Admin\Menu\Hcco_Menu_Curriculo;
-use Holos\Hcco\Admin\Menu\Hcco_Menu_Configuracoes;
-
 class Hcco_Admin {
 
     /**
@@ -73,7 +70,7 @@ class Hcco_Admin {
             __( 'Curriculos', 'hcco' ), 
             'manage_options', 
             'hcco', 
-            array( $this, 'menu_curriculo' ),
+            array( $this, 'run_menu' ),
             'dashicons-schedule', 
             3
         );
@@ -84,32 +81,27 @@ class Hcco_Admin {
             __( 'Configurações', 'hcco' ), 
             'manage_options', 
             'hcco_configuracoes', 
-            array( $this, 'menu_configuracoes' )
+            array( $this, 'run_menu' )
         );
 
     }
-    
-    /**
-     * Method that define what class shoud be executed for curriculo menu.
-     * 
-     * @since   1.0.0
-     * @access  public
-     */
-    public function menu_curriculo() : void {
-
-        $this->run_menu( new Hcco_Menu_Curriculo() );
-
-    }
 
     /**
-     * Method that define what class shoud be executed for configuracoes menu.
+     *  Method that determine what menu class to call.
      * 
      * @since   1.0.0
-     * @access  public
+     * @access  private
+     * @param   string  $menu Menu object
+     * @return  string  The menu class.
      */
-    public function menu_configuracoes() : void {
+    private function get_menu( string $slug ) : string {
 
-        $this->run_menu( new Hcco_Menu_Configuracoes() );
+        $menus = array(
+            'hcco'                  => 'Hcco_Menu_Curriculo',
+            'hcco_configuracoes'    => 'Hcco_Menu_Configuracoes'
+        );
+
+        return 'Holos\Hcco\Admin\Menu\\' . $menus[$slug];
 
     }
 
@@ -117,14 +109,17 @@ class Hcco_Admin {
      *  Method that executes a menu class.
      * 
      * @since   1.0.0
-     * @param   object  $menu Menu object
+     * @access  public
      */
-    private function run_menu( $menu ) {
+    public function run_menu() {
 
+        $page   = $_REQUEST['page'];
         $method = ( isset( $_REQUEST['action'] ) ) ? sanitize_text_field( $_REQUEST['action'] ) : 'index';
+        
+        $menu = $this->get_menu( $page );
 
         if ( method_exists( $menu, $method ) )
-            call_user_func( [$menu, $method] );
+            call_user_func( [new $menu, $method] );
 
     }
 
