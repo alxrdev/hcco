@@ -121,7 +121,7 @@ class Hcco_Admin {
      */
     private function run_menu( $menu ) {
 
-        $method = ( isset( $_REQUEST['action'] ) ) ? sanitize_text_field( $_REQUEST['action'] ) : 'home';
+        $method = ( isset( $_REQUEST['action'] ) ) ? sanitize_text_field( $_REQUEST['action'] ) : 'index';
 
         if ( method_exists( $menu, $method ) )
             call_user_func( [$menu, $method] );
