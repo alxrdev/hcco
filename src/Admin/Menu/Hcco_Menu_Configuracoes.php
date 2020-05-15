@@ -17,43 +17,7 @@ class Hcco_Menu_Configuracoes {
         $active_tab = ( ! empty( $_GET['active_tab'] ) ? sanitize_text_field( $_GET['active_tab'] ) : 'curriculo' );
         $method_to_call = $active_tab . '_tab';
 
-        ?>
-        <div class="wrap">
-            <h1>Configurações</h1>
-
-            <div class="nav-tab-wrapper">
-                <a 
-                    class="nav-tab 
-                    <?php echo $active_tab === 'curriculo' ? 'nav-tab-active' : ''; ?>" 
-                    href="<?php echo esc_url( '?page=hcco_configuracoes&active_tab=curriculo' ); ?>"
-                >
-                    <?php _e( 'Currículo', 'hcco' ); ?>
-                </a>
-                <a 
-                    class="nav-tab 
-                    <?php echo $active_tab === 'mercado_pago' ? 'nav-tab-active' : ''; ?>" 
-                    href="<?php echo esc_url( '?page=hcco_configuracoes&active_tab=mercado_pago' ); ?>"
-                >
-                    <?php _e( 'Mercado Pago', 'hcco' ); ?>
-                </a>
-                <a 
-                    class="nav-tab 
-                    <?php echo $active_tab === 'picpay' ? 'nav-tab-active' : ''; ?>" 
-                    href="<?php echo esc_url( '?page=hcco_configuracoes&active_tab=picpay' ); ?>"
-                >
-                    <?php _e( 'PicPay', 'hcco' ); ?>
-                </a>
-            </div>
-            <div class="tabs-content">
-                <?php
-                    if ( method_exists( $this, $method_to_call ) )
-                        call_user_func( array( $this, $method_to_call ) );
-                    else
-                        echo '<h1>' . __( 'Página não encontrada.', 'hfio' ) . '</h1>';
-                ?>
-            </div>
-        </div>
-        <?php
+        require HCCO_PATH . 'resources/admin/templates/menu-configuracoes/tabs.php';
 
     }
 
@@ -74,24 +38,7 @@ class Hcco_Menu_Configuracoes {
 
         }
 
-        ?>
-        <form action="" method="POST">
-            <?php wp_nonce_field( 'hcco_configuracoes', 'hcco_configuracoes_nonce' ); ?>
-
-            <table class="form-table">
-                <tr>
-                    <th scope="row">Preço do currículo</th>
-                    <td>
-                        <input type="text" name="preco" id="preco" class="regular-text" placeholder="Ex: 0.00" value="<?php echo $configuracoes['curriculo']['preco']; ?>">
-                        <p class="description">Use '.' ao invés de ','</p>
-                    </td>
-                </tr>
-            </table>
-
-            <br><br>                
-            <button type="submit" class="button button-primary">Salvar Configurações</button>
-        </form>
-        <?php
+        require HCCO_PATH . 'resources/admin/templates/menu-configuracoes/curriculo-tab.php';
 
     }
 
@@ -112,58 +59,7 @@ class Hcco_Menu_Configuracoes {
 
         }
 
-        ?>
-        <form action="" method="POST">
-        <?php wp_nonce_field( 'hcco_configuracoes', 'hcco_configuracoes_nonce' ); ?>
-        <div>
-            <h3>Modo SandBox</h3>
-            <table class="form-table">
-                <tr>
-                    <th scope="row">Token publico</th>
-                    <td>
-                        <input type="text" name="mercado_pago_sandbox_public_token" id="mercado_pago_sandbox_public_token" class="regular-text" value="<?php echo $configuracoes['mercado_pago']['sandbox']['public_token']; ?>">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">Token de privado</th>
-                    <td>
-                        <input type="text" name="mercado_pago_sandbox_private_token" id="mercado_pago_sandbox_private_token" class="regular-text" value="<?php echo $configuracoes['mercado_pago']['sandbox']['private_token']; ?>">
-                    </td>
-                </tr>
-            </table>
-            <br>
-            <h3>Modo Produção</h3>
-            <table class="form-table">
-                <tr>
-                    <th scope="row">Token publico</th>
-                    <td>
-                        <input type="text" name="mercado_pago_production_public_token" id="mercado_pago_production_public_token" class="regular-text" value="<?php echo $configuracoes['mercado_pago']['production']['public_token']; ?>">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">Token privado</th>
-                    <td>
-                        <input type="text" name="mercado_pago_production_private_token" id="mercado_pago_production_private_token" class="regular-text" value="<?php echo $configuracoes['mercado_pago']['production']['private_token']; ?>">
-                    </td>
-                </tr>
-            </table>
-            <br>
-            <table class="form-table">
-                <tr>
-                    <th scope="row">Ambiente</th>
-                    <td>
-                        <select name="mercado_pago_ambiente" id="mercado_pago_ambiente">
-                            <option value="sandbox" <?php echo ($configuracoes['mercado_pago']['ambiente'] == 'sandbox') ? 'selected' : ''; ?>>Sandbox</option>
-                            <option value="production" <?php echo ($configuracoes['mercado_pago']['ambiente'] == 'production') ? 'selected' : ''; ?>>Production</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-
-            <br><br>                
-            <button type="submit" class="button button-primary">Salvar Configurações</button>
-        </form>
-        <?php
+        require HCCO_PATH . 'resources/admin/templates/menu-configuracoes/mercado-pago-tab.php';
 
     }
 
@@ -184,30 +80,7 @@ class Hcco_Menu_Configuracoes {
 
         }
 
-        ?>
-        <form action="" method="POST">
-        <?php wp_nonce_field( 'hcco_configuracoes', 'hcco_configuracoes_nonce' ); ?>
-        <div>
-            <h3>Tokens do PicPay</h3>
-            <table class="form-table">
-                <tr>
-                    <th scope="row">x-picpay-token</th>
-                    <td>
-                        <input type="text" name="picpay_x_picpay_token" id="picpay_x_picpay_token" class="regular-text" value="<?php echo $configuracoes['picpay']['x_picpay_token']; ?>">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">x-seller-token</th>
-                    <td>
-                        <input type="text" name="picpay_x_seller_token" id="picpay_x_seller_token" class="regular-text" value="<?php echo $configuracoes['picpay']['x_seller_token']; ?>">
-                    </td>
-                </tr>
-            </table>
-
-            <br><br>                
-            <button type="submit" class="button button-primary">Salvar Configurações</button>
-        </form>
-        <?php
+        require HCCO_PATH . 'resources/admin/templates/menu-configuracoes/picpay-tab.php';
 
     }
 
