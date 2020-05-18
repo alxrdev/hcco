@@ -68,7 +68,7 @@ class Hcco_Admin {
         add_menu_page(
             __( 'Curriculos', 'hcco' ), 
             __( 'Curriculos', 'hcco' ), 
-            'manage_options', 
+            'contributor', 
             'hcco', 
             array( $this, 'run_menu' ),
             'dashicons-schedule', 
@@ -79,7 +79,7 @@ class Hcco_Admin {
             'hcco',
             __( 'Configurações', 'hcco' ), 
             __( 'Configurações', 'hcco' ), 
-            'manage_options', 
+            'contributor', 
             'hcco_configuracoes', 
             array( $this, 'run_menu' )
         );
