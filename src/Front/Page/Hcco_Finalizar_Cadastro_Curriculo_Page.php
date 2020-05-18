@@ -23,7 +23,7 @@ class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
         // control variables
         $error = false;
         $messages = [];
-        $user_id_hash = $_REQUEST['uih'] ?? $_COOKIE['user_id_hash'];
+        $user_id_hash = $_COOKIE['user_id_hash'] ?? $_REQUEST['uih'];
 
         // check if the cookie exists
         if ( $user_id_hash == null || empty( $user_id_hash ) ) {
@@ -51,7 +51,7 @@ class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
         }
 
         // check if the picpay payment form has been sent
-        if ( isset( $_POST['pagar_picpay_nonce'] ) && wp_verify_nonce( $_POST['pagar_picpay_nonce'], 'pagar_picpay' ) ) {
+        if ( isset( $_REQUEST['pagar_picpay_nonce'] ) && wp_verify_nonce( $_REQUEST['pagar_picpay_nonce'], 'pagar_picpay' ) ) {
             
             $messages = $this->handle_picpay_payment( $pedido, $curriculo );
             $error = true;
