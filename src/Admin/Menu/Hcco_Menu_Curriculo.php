@@ -16,10 +16,12 @@ class Hcco_Menu_Curriculo implements Hcco_Menu_Interface {
      */
     public function index() : void {
 
+        $active_tab = ( ! empty( $_GET['active_tab'] ) ? sanitize_text_field( $_GET['active_tab'] ) : 'aprovado' );
+
         $curriculo_list_table = new Hcco_Curriculo_List_Table();
         $curriculo_list_table->prepare_items();
-
-        require HCCO_PATH . 'resources/admin/templates/menu-curriculo/curriculos.php';
+        
+        require HCCO_PATH . 'resources/admin/templates/menu-curriculo/tabs.php';
 
     }
 
