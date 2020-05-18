@@ -199,9 +199,10 @@ class Hcco_Curriculo_Mapper {
      * @param   string      $order Order method ( ASC, DESC ).
      * @param   int         $per_page Rows per page.
      * @param   int         $page_number Current page number.
+     * @param   string      $payment_status The curriculo payment status.
      * @return  array|null  The array with all data.
      */
-    public static function fetch_all_raw( $search = '', $order_by = '', $order = '', $per_page = 5, $page_number = 0 ) : ?array {
+    public static function fetch_all_raw( $search = '', $order_by = '', $order = '', $per_page = 5, $page_number = 0, $payment_status = 'aprovado' ) : ?array {
 
         global $wpdb;
 
@@ -219,10 +220,10 @@ class Hcco_Curriculo_Mapper {
 
         // verifica se está pesquisando
         if ( $search ) {
-            $sql .= " WHERE concat(nome, cargos_profissoes, curso_formacao) LIKE '%{$search}%' AND status_pagamento = 'aprovado'";
+            $sql .= " WHERE concat(nome, cargos_profissoes, curso_formacao) LIKE '%{$search}%' AND status_pagamento = '{$payment_status}'";
         } 
         else {
-            $sql .= " WHERE status_pagamento = 'aprovado'";
+            $sql .= " WHERE status_pagamento = '{$payment_status}'";
         }
 
         // se estiver filtrando
