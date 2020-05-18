@@ -122,9 +122,10 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
         // se estiver filtrando
         $order_by = ( ! empty( $_REQUEST['orderby'] ) ) ? esc_sql( $_REQUEST['orderby'] ) : '';
         $order = ( ! empty( $_REQUEST['order'] ) ) ? esc_sql( $_REQUEST['order'] ) : ' ASC';
+        $payment_status = ( ! empty( $_REQUEST['active_tab'] ) ) ? esc_sql( $_REQUEST['active_tab'] ) : 'aprovado';
 
         // busca os dados
-        $result = Hcco_Curriculo_Mapper::fetch_all_raw( $search, $order_by, $order, $per_page, $page_number );
+        $result = Hcco_Curriculo_Mapper::fetch_all_raw( $search, $order_by, $order, $per_page, $page_number, $payment_status );
 
         return $result;
 
