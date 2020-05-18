@@ -1,6 +1,4 @@
 <div class="wrap">
-    <h1>Todos os currículos</h1>
-
     <div class="hcco-list-table">
         <form action="" method="GET">
             <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />

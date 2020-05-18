@@ -123,7 +123,7 @@
                             <div class="tab-pane fade show active" id="hcco-payment-cc" role="tabpanel" aria-labelledby="hcco-payment-cc-tab">
                                 <div class="hcco-payment-method-content">
                                     <!-- MP Script -->
-                                    <script src="https://www.mercadopago.com/v2/security.js" view="checkout"></script>
+                                    <script src="https://www.mercadopago.com/v2/security.js" view="<?php echo esc_url( home_url() . '/finalizar-o-cadastro-do-curriculo' ); ?>"></script>
                                     <img src="<?php echo HCCO_URL . '/resources/public/img/banner-mp.jpg' ?>" alt="Mercado Pago - Meios de pagamento" title="Mercado Pago - Meios de pagamento" class="img-fluid w-100 mb-3" />
                                     <h4>Pague com cartão de crédito.</h4>
                                     <p>Ao clicar em pagar, você será redirecionado para a página do Mercado Pago. Para pagar, basta preencher os dados corretamente.</p>
@@ -147,8 +147,7 @@
                                     <h4>Pague com PicPay, direto do seu celular.</h4>
                                     <p>Ao clicar em pagar, você será redirecionado para a página do PicPay e um código será exibido. Para pagar, basta escanear o código com seu PicPay.</p>
                                     
-                                    <form action="<?php echo esc_url( '/finalizar-o-cadastro-do-curriculo' ); ?>" method="POST" id="picPayPaymentForm">
-                                        <?php wp_nonce_field( 'pagar_picpay', 'pagar_picpay_nonce' ); ?>
+                                    <form action="<?php echo esc_url( '/finalizar-o-cadastro-do-curriculo/?=pagar_picpay_nonce=' . wp_create_nonce( 'pagar_picpay' ) ); ?>" method="POST" id="picPayPaymentForm">
                                         <div class="form-group">
                                             <label for="picPayCpf">CPF</label>
                                             <input type="text" name="picPayCpf" id="picPayCpf" class="form-control" placeholder="000.000.000-00" maxlength="14" required="true">
