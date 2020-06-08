@@ -147,7 +147,7 @@
                                     <h4>Pague com PicPay, direto do seu celular.</h4>
                                     <p>Ao clicar em pagar, você será redirecionado para a página do PicPay e um código será exibido. Para pagar, basta escanear o código com seu PicPay.</p>
                                     
-                                    <form action="<?php echo esc_url( '/finalizar-o-cadastro-do-curriculo/?=pagar_picpay_nonce=' . wp_create_nonce( 'pagar_picpay' ) ); ?>" method="POST" id="picPayPaymentForm">
+                                    <form action="<?php echo esc_url( home_url( '/finalizar-o-cadastro-do-curriculo/' ) . '?pagar_picpay_nonce=' . wp_create_nonce( 'pagar_picpay' ) ); ?>" method="POST" id="picPayPaymentForm">
                                         <div class="form-group">
                                             <label for="picPayCpf">CPF</label>
                                             <input type="text" name="picPayCpf" id="picPayCpf" class="form-control" placeholder="000.000.000-00" maxlength="14" required="true">
