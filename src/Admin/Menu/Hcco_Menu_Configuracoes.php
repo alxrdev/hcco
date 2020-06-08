@@ -64,6 +64,27 @@ class Hcco_Menu_Configuracoes implements Hcco_Menu_Interface {
     }
 
     /**
+     * Display pagseguro tab.
+     * 
+     * @since   1.0.0
+     * @access  public
+     */
+    public function pagseguro_tab() : void {
+
+        $configuracoes = Hcco_Configuracoes_Mapper::fetch();
+
+        // verifica se o formulario foi enviado
+        if ( isset( $_POST['hcco_configuracoes_nonce'] ) && wp_verify_nonce( $_POST['hcco_configuracoes_nonce'], 'hcco_configuracoes' ) ) {
+
+            $configuracoes = $this->handle_pagseguro_form();
+
+        }
+
+        require HCCO_PATH . 'resources/admin/templates/menu-configuracoes/pagseguro-tab.php';
+
+    }
+
+    /**
      * Display PicPay tab.
      * 
      * @since   1.0.0
@@ -121,6 +142,29 @@ class Hcco_Menu_Configuracoes implements Hcco_Menu_Interface {
 
         // salva no banco
         $configuracoes = Hcco_Configuracoes_Mapper::save_mercado_pago( $mercado_pago );
+
+        return $configuracoes;
+
+    }
+
+    /**
+     * Handle the pagseguro config form.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @return  array|null  The array with all configs
+     */
+    private function handle_pagseguro_form() :?array {
+
+        // pega os parametros
+        $pagseguro['pagseguro_sandbox_email'] = sanitize_text_field( $_POST['pagseguro_sandbox_email'] );
+        $pagseguro['pagseguro_sandbox_token'] = sanitize_text_field( $_POST['pagseguro_sandbox_token'] );
+        $pagseguro['pagseguro_production_email'] = sanitize_text_field( $_POST['pagseguro_production_email'] );
+        $pagseguro['pagseguro_production_token'] = sanitize_text_field( $_POST['pagseguro_production_token'] );
+        $pagseguro['pagseguro_ambiente'] = sanitize_text_field( $_POST['pagseguro_ambiente'] );
+
+        // salva no banco
+        $configuracoes = Hcco_Configuracoes_Mapper::save_pagseguro( $pagseguro );
 
         return $configuracoes;
 

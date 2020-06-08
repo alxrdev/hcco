@@ -18,6 +18,13 @@
         </a>
         <a 
             class="nav-tab 
+            <?php echo $active_tab === 'pagseguro' ? 'nav-tab-active' : ''; ?>" 
+            href="<?php echo esc_url( '?page=hcco_configuracoes&active_tab=pagseguro' ); ?>"
+        >
+            <?php _e( 'PagSeguro', 'hcco' ); ?>
+        </a>
+        <a 
+            class="nav-tab 
             <?php echo $active_tab === 'picpay' ? 'nav-tab-active' : ''; ?>" 
             href="<?php echo esc_url( '?page=hcco_configuracoes&active_tab=picpay' ); ?>"
         >
