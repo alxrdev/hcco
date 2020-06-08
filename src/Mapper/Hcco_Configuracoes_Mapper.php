@@ -140,7 +140,7 @@ class Hcco_Configuracoes_Mapper {
      * @access  public
      * @return  array       Array with pagseguro credentials.
      */
-    public static function get_pagseguro_access_tokens() : array {
+    public static function get_pagseguro_credentials() : array {
 
         $configuracoes = self::fetch();
         
