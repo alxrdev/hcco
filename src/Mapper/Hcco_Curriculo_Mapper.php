@@ -247,10 +247,11 @@ class Hcco_Curriculo_Mapper {
      * 
      * @since   1.0.0
      * @access  public
-     * @global  wpdb    $wpdb Wordpress database connection.
+     * @global  wpdb    $wpdb               Wordpress database connection.
+     * @param   string  $payment_status     The payment status
      * @return  array   Count
      */
-    public static function get_count() {
+    public static function get_count( string $payment_status = 'aprovado' ) {
 
         global $wpdb;
 
@@ -264,7 +265,7 @@ class Hcco_Curriculo_Mapper {
             ON
                 c.id = p.curriculo_id
             WHERE 
-                p.status_pagamento = 'aprovado'
+                p.status_pagamento = '{$payment_status}'
         ";
 
         return $wpdb->get_var( $sql );

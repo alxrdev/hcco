@@ -36,9 +36,10 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
         // $this->process_bulk_action();
 
         // code to handle data operations like sorting and filtering
-        $per_page       = $this->get_items_per_page( 'curriculos_per_page', 5 );
+        $payment_status = ( ! empty( $_REQUEST['active_tab'] ) ) ? esc_sql( $_REQUEST['active_tab'] ) : 'aprovado';
+        $per_page       = $this->get_items_per_page( 'curriculos_per_page', 20 );
         $current_page   = $this->get_pagenum();
-        $total_items    = self::record_count();
+        $total_items    = self::record_count( $payment_status );
 
         // code to handle pagination
         $this->set_pagination_args([
@@ -136,11 +137,12 @@ class Hcco_Curriculo_List_Table extends Hcco_List_Table {
      *
      * @since   1.0.0
      * @access  public
+     * @param   string  $payment_status     The payment status
      * @return  string|null
      */
-    public static function record_count() {
+    public static function record_count( string $payment_status = 'apovado' ) {
     
-        return Hcco_Curriculo_Mapper::get_count();
+        return Hcco_Curriculo_Mapper::get_count( $payment_status );
 
     }
 
