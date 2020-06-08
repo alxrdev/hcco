@@ -76,6 +76,29 @@ class Hcco_Configuracoes_Mapper {
     }
 
     /**
+     * Stores the pagseguro settings
+     *
+     * @since   1.0.0
+     * @access  public
+     * @param   array       $pagseguro The pagseguro settings.
+     * @return  array       Plugin settings.
+     */
+    public static function save_pagseguro( $pagseguro ) : array {
+
+        $configuracoes = self::fetch();
+        $configuracoes['pagseguro']['sandbox']['email']      = $pagseguro['pagseguro_sandbox_email'];
+        $configuracoes['pagseguro']['sandbox']['token']      = $pagseguro['pagseguro_sandbox_token'];
+        $configuracoes['pagseguro']['production']['email']   = $pagseguro['pagseguro_production_email'];
+        $configuracoes['pagseguro']['production']['token']   = $pagseguro['pagseguro_production_token'];
+        $configuracoes['pagseguro']['ambiente']              = $pagseguro['pagseguro_ambiente'];
+        
+        self::save( $configuracoes );
+
+        return $configuracoes;
+
+    }
+
+    /**
      * Stores the picpay settings.
      *
      * @since   1.0.0
@@ -107,6 +130,21 @@ class Hcco_Configuracoes_Mapper {
         $configuracoes = self::fetch();
         
         return $configuracoes['mercado_pago'][$configuracoes['mercado_pago']['ambiente']];
+
+    }
+
+    /**
+     * Returns the pagseguro credentials based in the environment, sandbox or production.
+     * 
+     * @since   1.0.0
+     * @access  public
+     * @return  array       Array with pagseguro credentials.
+     */
+    public static function get_pagseguro_access_tokens() : array {
+
+        $configuracoes = self::fetch();
+        
+        return $configuracoes['pagseguro'][$configuracoes['pagseguro']['ambiente']];
 
     }
 
