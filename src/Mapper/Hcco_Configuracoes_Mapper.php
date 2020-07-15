@@ -144,7 +144,10 @@ class Hcco_Configuracoes_Mapper {
 
         $configuracoes = self::fetch();
         
-        return $configuracoes['pagseguro'][$configuracoes['pagseguro']['ambiente']];
+        $pagseguro = $configuracoes['pagseguro'][$configuracoes['pagseguro']['ambiente']];
+        $pagseguro['ambiente'] = $configuracoes['pagseguro']['ambiente'];
+
+        return $pagseguro;
 
     }
 

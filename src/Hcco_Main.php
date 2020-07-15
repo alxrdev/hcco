@@ -7,6 +7,7 @@ use Holos\Hcco\Hcco_Loader;
 use Holos\Hcco\Hcco_Front;
 use Holos\Hcco\Hcco_Admin;
 use Holos\Hcco\Hcco_Api;
+use Holos\Hcco\Payment\Hcco_PagSeguro;
 
 class Hcco_Main {
 
@@ -66,6 +67,10 @@ class Hcco_Main {
         // Stylesheets and Scripts
         $this->loader->add_action( $front, 'wp_enqueue_scripts', 'enqueue_styles' );
         $this->loader->add_action( $front, 'wp_footer', 'enqueue_scripts' );
+
+        // Ajax
+        $this->loader->add_action( new Hcco_PagSeguro(), 'wp_ajax_create_pagseguro_session', 'create_pagseguro_session' );
+        $this->loader->add_action( $front, 'wp_ajax_handle_pagseguro_payment', 'handle_pagseguro_payment' );
 
         // Actions
         $this->loader->add_action( $front, 'hcco_content', 'hcco_content' );

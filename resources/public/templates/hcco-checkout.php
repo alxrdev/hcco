@@ -121,7 +121,89 @@
 
                             <!-- Crédit Card -->
                             <div class="tab-pane fade show active" id="hcco-payment-cc" role="tabpanel" aria-labelledby="hcco-payment-cc-tab">
-                                <div class="hcco-payment-method-content"></div>
+                                <div class="hcco-payment-method-content">
+                                    <img src="<?php echo HCCO_URL . '/resources/public/img/banner-mp.jpg' ?>" alt="Mercado Pago - Meios de pagamento" title="Mercado Pago - Meios de pagamento" class="img-fluid w-100 mb-3" />
+                                    <h4>Pague com cartão de crédito.</h4>
+                                    <p>Ao clicar em pagar, você será redirecionado para a página do Mercado Pago. Para pagar, basta preencher os dados corretamente.</p>
+                                    <button id="pagarPSButton" class="btn btn-lg d-block w-100 mercadopago-button"><i class="fas fa-lock"></i> Pagar R$ <?php echo $pedido->get_preco(); ?></button>
+                                    
+                                    <input type="hidden" id="pagSeguroSessionNonce" value="<?php echo wp_create_nonce( 'pagseguro_session' ); ?>">
+                                    <input type="hidden" id="curriculoId" value="<?php echo $curriculo->get_id(); ?>">
+                                    <input type="hidden" id="pedidoId" value="<?php echo $pedido->get_id(); ?>">
+                                    <input type="hidden" id="pedidoRef" value="<?php echo $pedido->get_codigo_referencia(); ?>">
+                                    <input type="hidden" id="clienteEmail" value="<?php echo $curriculo->get_email(); ?>">
+                                    
+                                    <!-- PagSeguro Script -->
+                                    <script type="text/javascript" src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js"></script>
+                                    <script type="text/javascript">
+
+                                        const pagarPSButton = document.getElementById('pagarPSButton');
+                                        const pagSeguroSessionNonce = document.getElementById('pagSeguroSessionNonce');
+                                        const curriculoId = document.getElementById('curriculoId');
+                                        const pedidoId = document.getElementById('pedidoId');
+                                        const pedidoRef = document.getElementById('pedidoRef');
+                                        const clienteEmail = document.getElementById('clienteEmail');
+
+                                        pagarPSButton.addEventListener('click', () => {
+                                            getAuthorizationId()
+                                            runPagSeguroLightbox(sessionId)
+                                        })
+
+                                        // Obter Autorização
+                                        function getAuthorizationId() {
+                                            httpRequest = new XMLHttpRequest()
+                                            httpRequest.onreadystatechange = () => {
+                                                if (httpRequest.readyState === XMLHttpRequest.DONE && httpRequest.status === 200) {
+                                                    const response = JSON.parse(httpRequest.responseText)
+                                                    const data = JSON.parse(response.data)
+                                                    return data.code
+                                                }
+                                            }
+
+                                            httpRequest.open('POST', `${hcco_ajax_object.ajax_url}`)
+                                            httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+                                            httpRequest.send(`_wpnonce=${pagSeguroSessionNonce.value}&action=${hcco_ajax_object.create_pagseguro_session}&curriculoId=${curriculoId.value}&pedidoId=${pedidoId.value}&clienteEmail=${clienteEmail.value}`)
+                                        }
+
+                                        // Atualizar o pedido
+                                        function updatePayment(transactionCode) {
+                                            httpRequest = new XMLHttpRequest()
+                                            httpRequest.onreadystatechange = () => {
+                                                if (httpRequest.readyState === XMLHttpRequest.DONE && httpRequest.status === 200) {
+                                                    const response = JSON.parse(httpRequest.responseText)
+                                                    return response.data
+                                                }
+                                            }
+
+                                            httpRequest.open('POST', `${hcco_ajax_object.ajax_url}`)
+                                            httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+                                            httpRequest.send(`_wpnonce=${pagSeguroSessionNonce.value}&action=${hcco_ajax_object.handle_pagseguro_payment}&curriculoId=${curriculoId.value}&pedidoId=${pedidoId.value}&transactionCode=${transactionCode}`)
+                                        }
+
+                                        function runPagSeguroLightbox(code) {
+                                            const callback = {
+                                                success : function(transactionCode) {
+                                                    console.log("Compra feita com sucesso");
+                                                    const status = updatePayment(transactionCode)
+                                                    if (status) {
+                                                        location.href=`https://holoscdh.com.br/cadastro-do-curriculo-finalizado?ref_code=${pedidoRef}`
+                                                    }
+                                                },
+                                                abort : function() {
+                                                    console.log("abortado");
+                                                }
+                                            };
+                                            //Chamada do lightbox passando o código de checkout e os comandos para o callback
+                                            const isOpenLightbox = PagSeguroLightbox(code, callback);
+                                            // Redireciona o comprador, caso o navegador não tenha suporte ao Lightbox
+                                            if (!isOpenLightbox){
+                                                location.href=`${hcco_ajax_object.pagseguro_api_address}/checkout/payment.html?code=${code}`;
+                                                console.log("Redirecionamento")
+                                            }
+                                        }
+
+                                    </script>
+                                </div>
                             </div>
                             <!-- Crédit Card -->
 
