@@ -3,6 +3,7 @@
 namespace Holos\Hcco;
 
 use Holos\Hcco\Admin\Menu\Hcco_Menu_Curriculo;
+use Holos\Hcco\Front\Page\Hcco_Finalizar_Cadastro_Curriculo_Page;
 use Holos\Hcco\Hcco_Loader;
 use Holos\Hcco\Hcco_Front;
 use Holos\Hcco\Hcco_Admin;
@@ -63,6 +64,7 @@ class Hcco_Main {
     private function define_front_hooks() : void {
 
         $front = new Hcco_Front( $this->plugin_name, $this->version );
+        $finalizar_cadastro_page = new Hcco_Finalizar_Cadastro_Curriculo_Page();
 
         // Stylesheets and Scripts
         $this->loader->add_action( $front, 'wp_enqueue_scripts', 'enqueue_styles' );
@@ -70,7 +72,8 @@ class Hcco_Main {
 
         // Ajax
         $this->loader->add_action( new Hcco_PagSeguro(), 'wp_ajax_create_pagseguro_session', 'create_pagseguro_session' );
-        $this->loader->add_action( $front, 'wp_ajax_handle_pagseguro_payment', 'handle_pagseguro_payment' );
+        $this->loader->add_action( $finalizar_cadastro_page, 'wp_ajax_generate_pagseguro_checkout_code', 'generate_pagseguro_checkout_code' );
+        $this->loader->add_action( $finalizar_cadastro_page, 'wp_ajax_nopriv_generate_pagseguro_checkout_code', 'generate_pagseguro_checkout_code' );
 
         // Actions
         $this->loader->add_action( $front, 'hcco_content', 'hcco_content' );
@@ -110,6 +113,9 @@ class Hcco_Main {
 
         // mercado pago controller
         $this->loader->add_action( $api, 'rest_api_init', 'register_mercado_pago_controller' );
+
+        // pagseguro controller
+        $this->loader->add_action( $api, 'rest_api_init', 'register_pagseguro_controller' );
 
         // picpay controller
         $this->loader->add_action( $api, 'rest_api_init', 'register_picpay_controller' );

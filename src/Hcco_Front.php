@@ -63,18 +63,15 @@ class Hcco_Front {
         wp_enqueue_script( 'jquery-validate', 'https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js', array( 'jquery' ), '1.19.1', false );
         wp_enqueue_script( 'jquery-mask', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js', array( 'jquery' ), '1.14.16', false );
         wp_enqueue_script( $this->plugin_name, HCCO_URL . 'resources/public/js/hcco-public.js', array( 'jquery' ), $this->version, false );
-        
-        $pagseguro_credentials = Hcco_Configuracoes_Mapper::get_pagseguro_credentials();
-        $pagseguro_api_address = ( $pagseguro_credentials['ambiente'] == 'production' ) ? 'https://pagseguro.uol.com.br/v2' : 'https://sandbox.pagseguro.uol.com.br/v2';
-        
-        wp_localize_script( $this->plugin_name, 'hcco_ajax_object', array(
-            'ajax_url' => admin_url( 'admin-ajax.php' ),
-            'pagseguro_email' => $pagseguro_credentials['email'],
-            'pagseguro_token' => $pagseguro_credentials['token'],
-            'pagseguro_api_address' => $pagseguro_api_address,
-            'create_pagseguro_session' => 'create_pagseguro_session',
-            'handle_pagseguro_payment' => 'handle_pagseguro_payment'
-        ) );
+
+        wp_localize_script(
+            $this->plugin_name,
+            'hcco_ajax_object',
+            array(
+                'ajax_url'                          => admin_url( 'admin-ajax.php' ),
+                'generate_pagseguro_checkout_code'  => 'generate_pagseguro_checkout_code'
+            )
+        );
 
     }
 

@@ -19,15 +19,21 @@ class Hcco_Cadastro_Curriculo_Finalizado_Page extends Hcco_Front_Page {
         // get the ref_code param
         $ref_code = sanitize_text_field( $_GET['ref_code'] ?? '' );
 
+        $pedido = null;
+        $curriculo = null;
+
         // checks if the ref_code param is empty
-        if ( empty( $ref_code ) ) {
+        if ( ! empty( $ref_code ) ) {
+            $pedido = Hcco_Pedido_Mapper::get_by_codigo_referencia( $ref_code );
+            $curriculo = Hcco_Curriculo_Mapper::fetch( $pedido->get_curriculo_id() );
+        } else {
+            [$pedido, $curriculo] = $this->get_pedido_e_curriculo( $_COOKIE['user_id_hash'] );
+        }
+
+        if ( $pedido == null || $curriculo == null ) {
             wp_redirect( home_url( '/cadastro-de-curriculo' ) );
             exit;
         }
-
-        // get the pedido and curriculo
-        $pedido = Hcco_Pedido_Mapper::get_by_codigo_referencia( $ref_code );
-        $curriculo = Hcco_Curriculo_Mapper::fetch( $pedido->get_curriculo_id() );
 
         // checks if the pedido exists
         if ( empty( $pedido->get_id() ) ) {

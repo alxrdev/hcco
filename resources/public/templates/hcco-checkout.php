@@ -103,7 +103,7 @@
                         <ul class="nav nav-pills" id="hcco-payment-tabs-list" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="hcco-payment-cc-tab" data-toggle="pill" href="#hcco-payment-cc" role="tab" aria-controls="hcco-payment-cc" aria-selected="true">
-                                    <img src="<?php echo HCCO_URL ?>/resources/public/img/credit-card.svg" alt="icon credit card"> <span>Cartão de crédito</span>
+                                    <img src="<?php echo HCCO_URL ?>/resources/public/img/credit-card.svg" alt="icon credit card"> <span>Cartão de crédito ou Boleto</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -122,15 +122,14 @@
                             <!-- Crédit Card -->
                             <div class="tab-pane fade show active" id="hcco-payment-cc" role="tabpanel" aria-labelledby="hcco-payment-cc-tab">
                                 <div class="hcco-payment-method-content">
-                                    <img src="<?php echo HCCO_URL . '/resources/public/img/banner-mp.jpg' ?>" alt="Mercado Pago - Meios de pagamento" title="Mercado Pago - Meios de pagamento" class="img-fluid w-100 mb-3" />
-                                    <h4>Pague com cartão de crédito.</h4>
-                                    <p>Ao clicar em pagar, você será redirecionado para a página do Mercado Pago. Para pagar, basta preencher os dados corretamente.</p>
+                                    <img class="payment-banner" src="//assets.pagseguro.com.br/ps-integration-assets/banners/divulgacao/468X60_10X_pagseguro.gif" alt="Banner PagSeguro" title="Parcele suas compras em até 18x">
+                                    <h4 class="payment-title">Pague com cartão de crédito ou boleto.</h4>
+                                    <p>Ao clicar em pagar, você será redirecionado para a página do <b>PagSeguro</b>. Para pagar, basta preencher os dados corretamente.</p>
+                                    <p>Assim que o pagamento for confirmado, você receberar uma mensagem no email cadastrado, notificando a realização do pagamento.</p>
                                     <button id="pagarPSButton" class="btn btn-lg d-block w-100 mercadopago-button"><i class="fas fa-lock"></i> Pagar R$ <?php echo $pedido->get_preco(); ?></button>
                                     
-                                    <input type="hidden" id="pagSeguroSessionNonce" value="<?php echo wp_create_nonce( 'pagseguro_session' ); ?>">
-                                    <input type="hidden" id="curriculoId" value="<?php echo $curriculo->get_id(); ?>">
+                                    <input type="hidden" id="pagSeguroCheckoutNonce" value="<?php echo wp_create_nonce( 'pagseguro_checkout' ); ?>">
                                     <input type="hidden" id="pedidoId" value="<?php echo $pedido->get_id(); ?>">
-                                    <input type="hidden" id="pedidoRef" value="<?php echo $pedido->get_codigo_referencia(); ?>">
                                     <input type="hidden" id="clienteEmail" value="<?php echo $curriculo->get_email(); ?>">
                                     
                                     <!-- PagSeguro Script -->
@@ -138,70 +137,55 @@
                                     <script type="text/javascript">
 
                                         const pagarPSButton = document.getElementById('pagarPSButton');
-                                        const pagSeguroSessionNonce = document.getElementById('pagSeguroSessionNonce');
-                                        const curriculoId = document.getElementById('curriculoId');
+                                        const pagSeguroCheckoutNonce = document.getElementById('pagSeguroCheckoutNonce');
                                         const pedidoId = document.getElementById('pedidoId');
-                                        const pedidoRef = document.getElementById('pedidoRef');
                                         const clienteEmail = document.getElementById('clienteEmail');
 
                                         pagarPSButton.addEventListener('click', () => {
                                             getAuthorizationId()
-                                            runPagSeguroLightbox(sessionId)
+                                                .then(response => {
+                                                    if (response.success) {
+                                                        location.href = 'https://pagseguro.uol.com.br/v2/checkout/payment.html?code=' + response.data
+                                                        // openLightbox(response.data)
+                                                    }
+                                                })                                            
                                         })
 
                                         // Obter Autorização
                                         function getAuthorizationId() {
-                                            httpRequest = new XMLHttpRequest()
-                                            httpRequest.onreadystatechange = () => {
-                                                if (httpRequest.readyState === XMLHttpRequest.DONE && httpRequest.status === 200) {
-                                                    const response = JSON.parse(httpRequest.responseText)
-                                                    const data = JSON.parse(response.data)
-                                                    return data.code
+                                            return new Promise((resolve, reject) => {
+                                                httpRequest = new XMLHttpRequest()
+                                                httpRequest.onreadystatechange = () => {
+                                                    if (httpRequest.readyState === XMLHttpRequest.DONE && httpRequest.status === 200) {
+                                                        resolve(JSON.parse(httpRequest.responseText))
+                                                    }
                                                 }
-                                            }
 
-                                            httpRequest.open('POST', `${hcco_ajax_object.ajax_url}`)
-                                            httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-                                            httpRequest.send(`_wpnonce=${pagSeguroSessionNonce.value}&action=${hcco_ajax_object.create_pagseguro_session}&curriculoId=${curriculoId.value}&pedidoId=${pedidoId.value}&clienteEmail=${clienteEmail.value}`)
+                                                httpRequest.open('POST', `${hcco_ajax_object.ajax_url}`)
+                                                httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+                                                httpRequest.send(`action=${hcco_ajax_object.generate_pagseguro_checkout_code}&pagseguro_checkout_nonce=${pagSeguroCheckoutNonce.value}&pedidoId=${pedidoId.value}&clienteEmail=${clienteEmail.value}`)
+                                            })
                                         }
 
-                                        // Atualizar o pedido
-                                        function updatePayment(transactionCode) {
-                                            httpRequest = new XMLHttpRequest()
-                                            httpRequest.onreadystatechange = () => {
-                                                if (httpRequest.readyState === XMLHttpRequest.DONE && httpRequest.status === 200) {
-                                                    const response = JSON.parse(httpRequest.responseText)
-                                                    return response.data
-                                                }
-                                            }
-
-                                            httpRequest.open('POST', `${hcco_ajax_object.ajax_url}`)
-                                            httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-                                            httpRequest.send(`_wpnonce=${pagSeguroSessionNonce.value}&action=${hcco_ajax_object.handle_pagseguro_payment}&curriculoId=${curriculoId.value}&pedidoId=${pedidoId.value}&transactionCode=${transactionCode}`)
-                                        }
-
-                                        function runPagSeguroLightbox(code) {
+                                        // Open lightbox
+                                        function openLightbox(code) {
                                             const callback = {
                                                 success : function(transactionCode) {
-                                                    console.log("Compra feita com sucesso");
-                                                    const status = updatePayment(transactionCode)
-                                                    if (status) {
-                                                        location.href=`https://holoscdh.com.br/cadastro-do-curriculo-finalizado?ref_code=${pedidoRef}`
-                                                    }
+                                                    setTimeout(() => {
+                                                        location.href = `https://holoscdh.com.br/cadastro-do-curriculo-finalizado`
+                                                    }, 1500)
                                                 },
                                                 abort : function() {
-                                                    console.log("abortado");
+                                                    console.log("abortado")
                                                 }
-                                            };
-                                            //Chamada do lightbox passando o código de checkout e os comandos para o callback
+                                            }
+                                            
                                             const isOpenLightbox = PagSeguroLightbox(code, callback);
-                                            // Redireciona o comprador, caso o navegador não tenha suporte ao Lightbox
+
                                             if (!isOpenLightbox){
-                                                location.href=`${hcco_ajax_object.pagseguro_api_address}/checkout/payment.html?code=${code}`;
-                                                console.log("Redirecionamento")
+                                                location.href = `https://pagseguro.uol.com.br/v2/checkout/payment.html?code=${code}`
                                             }
                                         }
-
                                     </script>
                                 </div>
                             </div>
@@ -210,8 +194,8 @@
                             <!-- PicPay -->
                             <div class="tab-pane fade" id="hcco-payment-picpay" role="tabpanel" aria-labelledby="hcco-payment-picpay-tab">
                                 <div class="hcco-payment-method-content">
-                                    <img src="<?php echo HCCO_URL; ?>/resources/public/img/banner-picpay.svg" alt="Banner PicPay">
-                                    <h4>Pague com PicPay, direto do seu celular.</h4>
+                                    <img class="payment-banner" src="<?php echo HCCO_URL; ?>/resources/public/img/banner-picpay.svg" alt="Banner PicPay">
+                                    <h4 class="payment-title">Pague com PicPay, direto do seu celular.</h4>
                                     <p>Ao clicar em pagar, você será redirecionado para a página do PicPay e um código será exibido. Para pagar, basta escanear o código com seu PicPay.</p>
                                     
                                     <form action="<?php echo esc_url( home_url( '/finalizar-o-cadastro-do-curriculo/' ) . '?pagar_picpay_nonce=' . wp_create_nonce( 'pagar_picpay' ) ); ?>" method="POST" id="picPayPaymentForm">
