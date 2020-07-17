@@ -5,6 +5,7 @@ namespace Holos\Hcco\Front\Page;
 use Holos\Hcco\Front\Page\Hcco_Front_Page;
 use Holos\Hcco\Entity\Hcco_Curriculo;
 use Holos\Hcco\Entity\Hcco_Pedido;
+use Holos\Hcco\Mapper\Hcco_Curriculo_Mapper;
 use Holos\Hcco\Mapper\Hcco_Pedido_Mapper;
 use Holos\Hcco\Payment\Hcco_PagSeguro;
 use Holos\Hcco\Payment\Hcco_PicPay;
@@ -56,10 +57,9 @@ class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
         // get the parameters
         $checkout_nonce = $_POST['pagseguro_checkout_nonce'] ?? '';
         $pedido_id      = $_POST['pedidoId'] ?? '';
-        $cliente_email  = $_POST['clienteEmail'] ?? '';
 
         // check infos
-        if ( empty( $pedido_id ) || empty( $cliente_email ) ) {
+        if ( empty( $pedido_id ) ) {
             wp_send_json_error( 'Bad Request' );
             wp_die();
         }
@@ -77,14 +77,26 @@ class Hcco_Finalizar_Cadastro_Curriculo_Page extends Hcco_Front_Page {
             wp_die();
         }
 
+        $curriculo = Hcco_Curriculo_Mapper::fetch( $pedido->get_curriculo_id() );
+
 		$params = array(
-            'senderEmail'               => $cliente_email,
             'currency'                  => 'BRL',
             'itemId1'                   => $pedido->get_id(),
             'itemDescription1'          => 'Cadastro de Curriculo',
-            'reference'                 => $pedido->get_codigo_referencia(),
             'itemAmount1'               => $pedido->get_preco(),
             'itemQuantity1'             => 1,
+            'itemWeight1'               => 0,
+            'reference'                 => $pedido->get_codigo_referencia(),
+            'senderEmail'               => $curriculo->get_email(),
+            'senderName'                => $curriculo->get_nome(),
+            'shippingType'              => 1,
+            'shippingAddressStreet'     => $curriculo->get_endereco(),
+            'shippingAddressNumber'     => $curriculo->get_numero(),
+            'shippingAddressPostalCode' => str_replace( '-', '', $curriculo->get_cep() ),
+            'shippingAddressCity'       => $curriculo->get_cidade(),
+            'shippingAddressState'      => $curriculo->get_estado(),
+            'shippingAddressCountry'    => 'BRA',
+            'excludePaymentMethodGroup' => 'BOLETO,DEPOSIT',
             'redirectURL'               => home_url( '/' ) . 'cadastro-do-curriculo-finalizado',
             'notificationURL'           => home_url( '/' ) . 'wp-json/hcco/v1/pagseguro-notifications'
         );
