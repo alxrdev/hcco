@@ -130,25 +130,23 @@
                                     
                                     <input type="hidden" id="pagSeguroCheckoutNonce" value="<?php echo wp_create_nonce( 'pagseguro_checkout' ); ?>">
                                     <input type="hidden" id="pedidoId" value="<?php echo $pedido->get_id(); ?>">
-                                    <input type="hidden" id="clienteEmail" value="<?php echo $curriculo->get_email(); ?>">
                                     
                                     <!-- PagSeguro Script -->
-                                    <script type="text/javascript" src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js"></script>
+                                    <script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js"></script>
                                     <script type="text/javascript">
-
+                            
                                         const pagarPSButton = document.getElementById('pagarPSButton');
                                         const pagSeguroCheckoutNonce = document.getElementById('pagSeguroCheckoutNonce');
                                         const pedidoId = document.getElementById('pedidoId');
-                                        const clienteEmail = document.getElementById('clienteEmail');
 
                                         pagarPSButton.addEventListener('click', () => {
                                             getAuthorizationId()
                                                 .then(response => {
                                                     if (response.success) {
-                                                        location.href = 'https://pagseguro.uol.com.br/v2/checkout/payment.html?code=' + response.data
-                                                        // openLightbox(response.data)
+                                                        // location.href = `https://pagseguro.uol.com.br/v2/checkout/payment.html?code=${response.data}`
+                                                        openLightbox(response.data)
                                                     }
-                                                })                                            
+                                                })
                                         })
 
                                         // Obter Autorização
@@ -163,7 +161,7 @@
 
                                                 httpRequest.open('POST', `${hcco_ajax_object.ajax_url}`)
                                                 httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-                                                httpRequest.send(`action=${hcco_ajax_object.generate_pagseguro_checkout_code}&pagseguro_checkout_nonce=${pagSeguroCheckoutNonce.value}&pedidoId=${pedidoId.value}&clienteEmail=${clienteEmail.value}`)
+                                                httpRequest.send(`action=${hcco_ajax_object.generate_pagseguro_checkout_code}&pagseguro_checkout_nonce=${pagSeguroCheckoutNonce.value}&pedidoId=${pedidoId.value}`)
                                             })
                                         }
 
