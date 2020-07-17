@@ -403,3 +403,7 @@
     color: #fff;
     margin-top: 15px;
 }
+
+#hcco-payment-cc p, #hcco-payment-picpay p {
+    font-size: 0.85rem;
+}
