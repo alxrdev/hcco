@@ -11,17 +11,17 @@
 <p align="center">
   <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/alxrdev/hcco?color=%23f58635">
 
-  <a href="https://www.linkedin.com/in/eliasgcf/" target="_blank" rel="noopener noreferrer">
+  <a href="https://www.linkedin.com/in/alxrdev/" target="_blank" rel="noopener noreferrer">
     <img alt="Made by" src="https://img.shields.io/badge/made%20by-alex%20rodrigues%20moreira-%23f58635">
   </a>
 
   <img alt="Repository size" src="https://img.shields.io/github/repo-size/alxrdev/hcco?color=%23f58635">
 
-  <a href="https://github.com/EliasGcf/gobarber-web/commits/master">
+  <a href="https://github.com/alxrdev/hcco/commits/master">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/alxrdev/hcco?color=%23f58635">
   </a>
 
-  <a href="https://github.com/EliasGcf/gobarber-web/issues">
+  <a href="https://github.com/alxrdev/hcco/issues">
     <img alt="Repository issues" src="https://img.shields.io/github/issues/alxrdev/hcco?color=%23f58635">
   </a>
 
@@ -29,11 +29,10 @@
 </p>
 
 <p align="center">
-  <a href="#%EF%B8%8F-about-the-project">Sobre o projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-technologies">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-getting-started">Iniciando</a>
+  <a href="#%EF%B8%8F-sobre-o-projeto">Sobre o projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-iniciando">Iniciando</a>
 </p>
-
 </br>
 
 <p align="center">
@@ -62,7 +61,7 @@ Tecnologias utilizadas para desenvolver este plugin
 **Clone o repositório e mova para a pasta de plugins do seu WordPress**
 
 ```bash
-$ git clone https://github.com/EliasGcf/gobarber-web.git
+$ git clone https://github.com/alxrdev/hcco.git
 ```
 
 **Ative o plugin no painel WordPress**
