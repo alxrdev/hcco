@@ -44,6 +44,8 @@
 
 Este é  um plugin **WordPress** que permite o cadastro e o pagamento de currículos online, utilizando as plataformas **PagSeguro** e **PicPay**.
 
+Link da página: [https://holoscdh.com.br/cadastro-de-curriculo/](https://holoscdh.com.br/cadastro-de-curriculo/)
+
 ## 🚀 Tecnologias
 
 Tecnologias utilizadas para desenvolver este plugin
